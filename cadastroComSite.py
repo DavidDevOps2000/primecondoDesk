@@ -1,43 +1,43 @@
 from conectabanco import ConectaBanco
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-def funcSalvarMorador(self):
-    vlrNomeCompletoMorador  = inputNomeCompleto.toPlainText()
-    vlrCpfMorador           = inputCpf.toPlainText()
-    vlrSenha                = inputSenha.toPlainText()
-    vlrApelido              = inputNomeApelido.toPlainText()
-    vlrTipo                 = comboBoxTipoMorador.get()
-    sets = ("'%s','%s','%s','%s','%s'" % (vlrCpfMorador, vlrNomeCompletoMorador, vlrSenha, vlrApelido, vlrTipo))
-
-    print(sets)
-    insertar = ConectaBanco
-
-   
-    try:
-        insertar.insertMorador(sets)
-
-        if not insertar:
-            print("Deu errado")
-        else: 
-            print("Funcionou")
-         
-
-    except:
-        print('Erro de Conexao')
-
-
-
-
-
+                                            #Obs IMPORTANTE, sempre use ".self" no começo nos parametros das funcoes ->(self), e no começo de toda Variavel self.nomeVariavel dentro das Classes 
 
 class Ui_janelaCadastroMorador(object):
+
+    def funcSalvarMorador(self):
+        self.vlrNomeCompletoMorador  = self.inputNomeCompleto.toPlainText()
+        self.vlrCpfMorador           = self.inputCpf.toPlainText()
+        self.vlrSenha                = self.inputSenha.toPlainText()
+        self.vlrApelido              = self.inputNomeApelido.toPlainText()
+        self.vlrTipo                 = self.comboBoxTipoMorador.get()
+
+        self.sets = ("'%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeCompletoMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo))
+
+        self.insertar = ConectaBanco()
+        
+        try:
+            self.insertar.insertMorador(self.sets)
+            print(self.sets)
+            if not self.insertar:
+                print("Deu errado")
+            else: 
+                print("Funcionou")
+        except:
+              print('Erro de Conexao')
+
+
+
+
+
     def setupUi(self, janelaCadastroMorador):
-        janelaCadastroMorador.setObjectName("janelaCadastroMorador")#Abrindo Janela
+#                                                                                           Aqui é as configurações de Janela
+        janelaCadastroMorador.setObjectName("janelaCadastroMorador")
         janelaCadastroMorador.resize(725, 610)
         janelaCadastroMorador.setMinimumSize(QtCore.QSize(725, 610))
         janelaCadastroMorador.setMaximumSize(QtCore.QSize(725, 610))
+###########################################################################
 
-        self.centralwidget = QtWidgets.QWidget(janelaCadastroMorador)
+        self.centralwidget = QtWidgets.QWidget(janelaCadastroMorador)                       #Aqui definimos os Nomes das Labels da Tela Morador
         self.centralwidget.setObjectName("centralwidget")
         self.lblNomeCompleto = QtWidgets.QLabel(self.centralwidget)
         self.lblNomeCompleto.setGeometry(QtCore.QRect(20, 80, 111, 21))
@@ -57,7 +57,59 @@ class Ui_janelaCadastroMorador(object):
         self.lblNumeroApartamento = QtWidgets.QLabel(self.centralwidget)
         self.lblNumeroApartamento.setGeometry(QtCore.QRect(250, 140, 101, 16))
         self.lblNumeroApartamento.setObjectName("lblNumeroApartamento")
-        self.inputNomeCompleto = QtWidgets.QTextEdit(self.centralwidget)
+        self.lblTipoMorador = QtWidgets.QLabel(self.centralwidget)
+        self.lblTipoMorador.setGeometry(QtCore.QRect(520, 140, 101, 16))
+        self.lblTipoMorador.setObjectName("lblTipoMorador")
+        self.lblTelefone = QtWidgets.QLabel(self.centralwidget)
+        self.lblTelefone.setGeometry(QtCore.QRect(20, 200, 55, 16))
+        self.lblTelefone.setObjectName("lblTelefone")
+        self.lblPossuiVeiculo = QtWidgets.QLabel(self.centralwidget)
+        self.lblPossuiVeiculo.setGeometry(QtCore.QRect(20, 400, 91, 16))
+        self.lblPossuiVeiculo.setObjectName("lblPossuiVeiculo")
+        self.lblMarca = QtWidgets.QLabel(self.centralwidget)
+        self.lblMarca.setGeometry(QtCore.QRect(20, 430, 55, 16))
+        self.lblMarca.setObjectName("lblMarca")
+        self.lblModelo = QtWidgets.QLabel(self.centralwidget)
+        self.lblModelo.setGeometry(QtCore.QRect(170, 430, 55, 16))
+        self.lblModelo.setObjectName("lblModelo")
+        self.lblCorVeiculo = QtWidgets.QLabel(self.centralwidget)
+        self.lblCorVeiculo.setGeometry(QtCore.QRect(20, 500, 55, 16))
+        self.lblCorVeiculo.setObjectName("lblCorVeiculo")
+        self.lblFabricacaoVeiculo = QtWidgets.QLabel(self.centralwidget)
+        self.lblFabricacaoVeiculo.setGeometry(QtCore.QRect(570, 430, 121, 16))
+        self.lblFabricacaoVeiculo.setObjectName("lblFabricacaoVeiculo")
+        self.lblNumeroVaga = QtWidgets.QLabel(self.centralwidget)
+        self.lblNumeroVaga.setGeometry(QtCore.QRect(170, 500, 81, 16))
+        self.lblNumeroVaga.setObjectName("lblNumeroVaga")
+        self.lblPlaca = QtWidgets.QLabel(self.centralwidget)
+        self.lblPlaca.setGeometry(QtCore.QRect(400, 430, 55, 16))
+        self.lblPlaca.setObjectName("lblPlaca")
+        self.lblNomeApelido = QtWidgets.QLabel(self.centralwidget)
+        self.lblNomeApelido.setGeometry(QtCore.QRect(20, 260, 101, 16))
+        self.lblNomeApelido.setObjectName("lblNomeApelido")
+        self.lblSenha = QtWidgets.QLabel(self.centralwidget)
+        self.lblSenha.setGeometry(QtCore.QRect(250, 260, 55, 16))
+        self.lblSenha.setObjectName("lblSenha")
+        self.lblConfirmarSenha = QtWidgets.QLabel(self.centralwidget)
+        self.lblConfirmarSenha.setGeometry(QtCore.QRect(520, 260, 111, 16))
+        self.lblConfirmarSenha.setObjectName("lblConfirmarSenha")
+        self.lblRfid = QtWidgets.QLabel(self.centralwidget)
+        self.lblRfid.setGeometry(QtCore.QRect(20, 320, 101, 16))
+        self.lblRfid.setObjectName("lblRfid")
+        self.lblDigital = QtWidgets.QLabel(self.centralwidget)
+        self.lblDigital.setGeometry(QtCore.QRect(130, 320, 101, 16))
+        self.lblDigital.setObjectName("lblDigital")
+        self.lblTituloCadastroMorador = QtWidgets.QLabel(self.centralwidget)
+        self.lblTituloCadastroMorador.setGeometry(QtCore.QRect(20, 10, 321, 21))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.lblTituloCadastroMorador.setFont(font)
+        self.lblTituloCadastroMorador.setObjectName("lblTituloCadastroMorador")
+##################################################################################
+
+        self.inputNomeCompleto = QtWidgets.QTextEdit(self.centralwidget)                      # Aqui definimos os inputs (Entrada de dados) da tela Morador
         self.inputNomeCompleto.setGeometry(QtCore.QRect(20, 100, 451, 31))
         self.inputNomeCompleto.setObjectName("inputNomeCompleto")
         self.inputCpf = QtWidgets.QTextEdit(self.centralwidget)
@@ -72,43 +124,66 @@ class Ui_janelaCadastroMorador(object):
         self.inputNumeroApartamento = QtWidgets.QTextEdit(self.centralwidget)
         self.inputNumeroApartamento.setGeometry(QtCore.QRect(250, 160, 111, 31))
         self.inputNumeroApartamento.setObjectName("inputNumeroApartamento")
+        self.inputTelefone = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputTelefone.setGeometry(QtCore.QRect(20, 220, 181, 31))
+        self.inputTelefone.setObjectName("inputTelefone")
+        self.inputFabricacaoVeiculo = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputFabricacaoVeiculo.setGeometry(QtCore.QRect(570, 450, 121, 31))
+        self.inputFabricacaoVeiculo.setObjectName("inputFabricacaoVeiculo")
+        self.inputNumeroVaga = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputNumeroVaga.setGeometry(QtCore.QRect(170, 520, 111, 31))
+        self.inputNumeroVaga.setObjectName("inputNumeroVaga")
+        self.inputNomeApelido = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputNomeApelido.setGeometry(QtCore.QRect(20, 280, 181, 31))
+        self.inputNomeApelido.setObjectName("inputNomeApelido")
+        self.inputModeloVeiculo = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputModeloVeiculo.setGeometry(QtCore.QRect(170, 450, 181, 31))
+        self.inputModeloVeiculo.setObjectName("inputModeloVeiculo")
+        self.inputPlacaVeiculo = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputPlacaVeiculo.setGeometry(QtCore.QRect(400, 450, 111, 31))
+        self.inputPlacaVeiculo.setObjectName("inputPlacaVeiculo")
+        self.inputDigital = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputDigital.setGeometry(QtCore.QRect(130, 340, 71, 31))
+        self.inputDigital.setObjectName("inputDigital")
+        self.inputSenha = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputSenha.setGeometry(QtCore.QRect(250, 280, 181, 31))
+        self.inputSenha.setObjectName("inputSenha")
+        self.inputConfirmarSenha = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputConfirmarSenha.setGeometry(QtCore.QRect(520, 280, 181, 31))
+        self.inputConfirmarSenha.setObjectName("inputConfirmarSenha")
+        self.inputRfid = QtWidgets.QTextEdit(self.centralwidget)
+        self.inputRfid.setGeometry(QtCore.QRect(20, 340, 71, 31))
+        self.inputRfid.setObjectName("inputRfid")        
+##################################################################################
+
         self.comboBoxBloco = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBoxBloco.setEnabled(True)
+        self.comboBoxBloco.setEnabled(True)                                                     # Aqui sao sao os comboBox do BLOCO
         self.comboBoxBloco.setGeometry(QtCore.QRect(400, 160, 71, 31))
         self.comboBoxBloco.setObjectName("comboBoxBloco")
         self.comboBoxBloco.addItem("")
         self.comboBoxBloco.addItem("")
         self.comboBoxBloco.addItem("")
         self.comboBoxBloco.addItem("")
-        self.comboBoxTipoMorador = QtWidgets.QComboBox(self.centralwidget)
+##################################################################################
+
+        self.comboBoxTipoMorador = QtWidgets.QComboBox(self.centralwidget)                      # Aqui sao sao os comboBox do TIPO MORADOR
         self.comboBoxTipoMorador.setEnabled(True)
         self.comboBoxTipoMorador.setGeometry(QtCore.QRect(520, 160, 181, 31))
         self.comboBoxTipoMorador.setObjectName("comboBoxTipoMorador")
         self.comboBoxTipoMorador.addItem("")
         self.comboBoxTipoMorador.addItem("")
         self.comboBoxTipoMorador.addItem("")
-        self.lblTipoMorador = QtWidgets.QLabel(self.centralwidget)
-        self.lblTipoMorador.setGeometry(QtCore.QRect(520, 140, 101, 16))
-        self.lblTipoMorador.setObjectName("lblTipoMorador")
-        self.lblTelefone = QtWidgets.QLabel(self.centralwidget)
-        self.lblTelefone.setGeometry(QtCore.QRect(20, 200, 55, 16))
-        self.lblTelefone.setObjectName("lblTelefone")
-        self.inputTelefone = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputTelefone.setGeometry(QtCore.QRect(20, 220, 181, 31))
-        self.inputTelefone.setObjectName("inputTelefone")
-        self.radioBoxOpcaoSim = QtWidgets.QRadioButton(self.centralwidget)
+##################################################################################
+
+        self.radioBoxOpcaoSim = QtWidgets.QRadioButton(self.centralwidget) # RadioBox OPção Veiculo 
         self.radioBoxOpcaoSim.setGeometry(QtCore.QRect(110, 400, 95, 20))
         self.radioBoxOpcaoSim.setObjectName("radioBoxOpcaoSim")
         self.radioBoxOpcaoNao = QtWidgets.QRadioButton(self.centralwidget)
         self.radioBoxOpcaoNao.setGeometry(QtCore.QRect(160, 400, 95, 20))
         self.radioBoxOpcaoNao.setObjectName("radioBoxOpcaoNao")
-        self.lblPossuiVeiculo = QtWidgets.QLabel(self.centralwidget)
-        self.lblPossuiVeiculo.setGeometry(QtCore.QRect(20, 400, 91, 16))
-        self.lblPossuiVeiculo.setObjectName("lblPossuiVeiculo")
-        self.lblMarca = QtWidgets.QLabel(self.centralwidget)
-        self.lblMarca.setGeometry(QtCore.QRect(20, 430, 55, 16))
-        self.lblMarca.setObjectName("lblMarca")
-        self.comboBoxMarcaVeiculo = QtWidgets.QComboBox(self.centralwidget)
+###################################################################################
+
+        self.comboBoxMarcaVeiculo = QtWidgets.QComboBox(self.centralwidget) # ComboBox Veiculo
         self.comboBoxMarcaVeiculo.setEnabled(True)
         self.comboBoxMarcaVeiculo.setGeometry(QtCore.QRect(20, 450, 121, 31))
         self.comboBoxMarcaVeiculo.setObjectName("comboBoxMarcaVeiculo")
@@ -125,15 +200,6 @@ class Ui_janelaCadastroMorador(object):
         self.comboBoxMarcaVeiculo.addItem("")
         self.comboBoxMarcaVeiculo.addItem("")
         self.comboBoxMarcaVeiculo.addItem("")
-        self.lblModelo = QtWidgets.QLabel(self.centralwidget)
-        self.lblModelo.setGeometry(QtCore.QRect(170, 430, 55, 16))
-        self.lblModelo.setObjectName("lblModelo")
-        self.inputModeloVeiculo = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputModeloVeiculo.setGeometry(QtCore.QRect(170, 450, 181, 31))
-        self.inputModeloVeiculo.setObjectName("inputModeloVeiculo")
-        self.lblCorVeiculo = QtWidgets.QLabel(self.centralwidget)
-        self.lblCorVeiculo.setGeometry(QtCore.QRect(20, 500, 55, 16))
-        self.lblCorVeiculo.setObjectName("lblCorVeiculo")
         self.comboBoxCorVeiculo = QtWidgets.QComboBox(self.centralwidget)
         self.comboBoxCorVeiculo.setEnabled(True)
         self.comboBoxCorVeiculo.setGeometry(QtCore.QRect(20, 520, 121, 31))
@@ -143,13 +209,10 @@ class Ui_janelaCadastroMorador(object):
         self.comboBoxCorVeiculo.addItem("")
         self.comboBoxCorVeiculo.addItem("")
         self.comboBoxCorVeiculo.addItem("")
-        self.lblPlaca = QtWidgets.QLabel(self.centralwidget)
-        self.lblPlaca.setGeometry(QtCore.QRect(400, 430, 55, 16))
-        self.lblPlaca.setObjectName("lblPlaca")
-        self.inputPlacaVeiculo = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputPlacaVeiculo.setGeometry(QtCore.QRect(400, 450, 111, 31))
-        self.inputPlacaVeiculo.setObjectName("inputPlacaVeiculo")
-        self.btnSalvar = QtWidgets.QPushButton(self.centralwidget)
+
+###################################################################################
+
+        self.btnSalvar = QtWidgets.QPushButton(self.centralwidget)              # Botao salvar
         self.btnSalvar.setGeometry(QtCore.QRect(570, 550, 121, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -157,72 +220,25 @@ class Ui_janelaCadastroMorador(object):
         self.btnSalvar.setFont(font)
         self.btnSalvar.setAutoDefault(False)
         self.btnSalvar.setObjectName("btnSalvar")
-        self.btnSalvar.connect(self.funcSalvarMorador)
-        self.inputFabricacaoVeiculo = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputFabricacaoVeiculo.setGeometry(QtCore.QRect(570, 450, 121, 31))
-        self.inputFabricacaoVeiculo.setObjectName("inputFabricacaoVeiculo")
-        self.lblFabricacaoVeiculo = QtWidgets.QLabel(self.centralwidget)
-        self.lblFabricacaoVeiculo.setGeometry(QtCore.QRect(570, 430, 121, 16))
-        self.lblFabricacaoVeiculo.setObjectName("lblFabricacaoVeiculo")
-        self.inputNumeroVaga = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputNumeroVaga.setGeometry(QtCore.QRect(170, 520, 111, 31))
-        self.inputNumeroVaga.setObjectName("inputNumeroVaga")
-        self.lblNumeroVaga = QtWidgets.QLabel(self.centralwidget)
-        self.lblNumeroVaga.setGeometry(QtCore.QRect(170, 500, 81, 16))
-        self.lblNumeroVaga.setObjectName("lblNumeroVaga")
-        self.inputNomeApelido = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputNomeApelido.setGeometry(QtCore.QRect(20, 280, 181, 31))
-        self.inputNomeApelido.setObjectName("inputNomeApelido")
-        self.lblNomeApelido = QtWidgets.QLabel(self.centralwidget)
-        self.lblNomeApelido.setGeometry(QtCore.QRect(20, 260, 101, 16))
-        self.lblNomeApelido.setObjectName("lblNomeApelido")
-        self.inputSenha = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputSenha.setGeometry(QtCore.QRect(250, 280, 181, 31))
-        self.inputSenha.setObjectName("inputSenha")
-        self.lblSenha = QtWidgets.QLabel(self.centralwidget)
-        self.lblSenha.setGeometry(QtCore.QRect(250, 260, 55, 16))
-        self.lblSenha.setObjectName("lblSenha")
-        self.inputConfirmarSenha = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputConfirmarSenha.setGeometry(QtCore.QRect(520, 280, 181, 31))
-        self.inputConfirmarSenha.setObjectName("inputConfirmarSenha")
-        self.lblConfirmarSenha = QtWidgets.QLabel(self.centralwidget)
-        self.lblConfirmarSenha.setGeometry(QtCore.QRect(520, 260, 111, 16))
-        self.lblConfirmarSenha.setObjectName("lblConfirmarSenha")
-        self.inputRfid = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputRfid.setGeometry(QtCore.QRect(20, 340, 71, 31))
-        self.inputRfid.setObjectName("inputRfid")
-        self.lblRfid = QtWidgets.QLabel(self.centralwidget)
-        self.lblRfid.setGeometry(QtCore.QRect(20, 320, 101, 16))
-        self.lblRfid.setObjectName("lblRfid")
-        self.inputDigital = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputDigital.setGeometry(QtCore.QRect(130, 340, 71, 31))
-        self.inputDigital.setObjectName("inputDigital")
-        self.lblDigital = QtWidgets.QLabel(self.centralwidget)
-        self.lblDigital.setGeometry(QtCore.QRect(130, 320, 101, 16))
-        self.lblDigital.setObjectName("lblDigital")
-        self.linha = QtWidgets.QFrame(self.centralwidget)
+        self.btnSalvar.clicked.connect(self.funcSalvarMorador)
+##################################################################################
+
+        self.linha = QtWidgets.QFrame(self.centralwidget)                       #Linhas
         self.linha.setGeometry(QtCore.QRect(20, 380, 671, 20))
         self.linha.setFrameShape(QtWidgets.QFrame.HLine)
         self.linha.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.linha.setObjectName("linha")
-        self.lblTituloCadastroMorador = QtWidgets.QLabel(self.centralwidget)
-        self.lblTituloCadastroMorador.setGeometry(QtCore.QRect(20, 10, 321, 21))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        self.lblTituloCadastroMorador.setFont(font)
-        self.lblTituloCadastroMorador.setObjectName("lblTituloCadastroMorador")
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(20, 50, 681, 20))
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
+##################################################################################
+
         janelaCadastroMorador.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(janelaCadastroMorador)
         self.statusbar.setObjectName("statusbar")
         janelaCadastroMorador.setStatusBar(self.statusbar)
-
         self.retranslateUi(janelaCadastroMorador)
         QtCore.QMetaObject.connectSlotsByName(janelaCadastroMorador)
 
