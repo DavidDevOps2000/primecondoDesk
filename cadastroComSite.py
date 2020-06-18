@@ -9,7 +9,8 @@ class Ui_janelaCadastroMorador(object):
         self.vlrCpfMorador           = self.inputCpf.toPlainText()
         self.vlrSenha                = self.inputSenha.toPlainText()
         self.vlrApelido              = self.inputNomeApelido.toPlainText()
-        self.vlrTipo                 = self.comboBoxTipoMorador.get()
+        self.vlrTipo                 = self.comboBoxTipoMorador.itemData(self,)
+        
 
         self.sets = ("'%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeCompletoMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo))
 
@@ -30,8 +31,8 @@ class Ui_janelaCadastroMorador(object):
 
 
     def setupUi(self, janelaCadastroMorador):
-#                                                                                           Aqui é as configurações de Janela
-        janelaCadastroMorador.setObjectName("janelaCadastroMorador")
+########################################################################
+        janelaCadastroMorador.setObjectName("janelaCadastroMorador")# Aqui é as configurações de Janela
         janelaCadastroMorador.resize(725, 610)
         janelaCadastroMorador.setMinimumSize(QtCore.QSize(725, 610))
         janelaCadastroMorador.setMaximumSize(QtCore.QSize(725, 610))
@@ -39,6 +40,7 @@ class Ui_janelaCadastroMorador(object):
 
         self.centralwidget = QtWidgets.QWidget(janelaCadastroMorador)                       #Aqui definimos os Nomes das Labels da Tela Morador
         self.centralwidget.setObjectName("centralwidget")
+
         self.lblNomeCompleto = QtWidgets.QLabel(self.centralwidget)
         self.lblNomeCompleto.setGeometry(QtCore.QRect(20, 80, 111, 21))
         self.lblNomeCompleto.setObjectName("lblNomeCompleto")
@@ -241,29 +243,38 @@ class Ui_janelaCadastroMorador(object):
         janelaCadastroMorador.setStatusBar(self.statusbar)
         self.retranslateUi(janelaCadastroMorador)
         QtCore.QMetaObject.connectSlotsByName(janelaCadastroMorador)
-
+###################################################################################
     def retranslateUi(self, janelaCadastroMorador):
+######################################################
         _translate = QtCore.QCoreApplication.translate
         janelaCadastroMorador.setWindowTitle(_translate("janelaCadastroMorador", "MainWindow"))
         self.lblNomeCompleto.setText(_translate("janelaCadastroMorador", "Nome Completo:"))
         self.lblCpf.setText(_translate("janelaCadastroMorador", "CPF:"))
         self.lblEmail.setText(_translate("janelaCadastroMorador", "E-mail:"))
         self.lblBloco.setText(_translate("janelaCadastroMorador", "Bloco:"))
+######################################################
+
         self.lblDataNascimento.setText(_translate("janelaCadastroMorador", "Data de Nascimento:"))
         self.lblNumeroApartamento.setText(_translate("janelaCadastroMorador", "Nº apartamento:"))
         self.comboBoxBloco.setItemText(0, _translate("janelaCadastroMorador", "A"))
         self.comboBoxBloco.setItemText(1, _translate("janelaCadastroMorador", "B"))
         self.comboBoxBloco.setItemText(2, _translate("janelaCadastroMorador", "C"))
         self.comboBoxBloco.setItemText(3, _translate("janelaCadastroMorador", "D"))
+######################################################
+
         self.comboBoxTipoMorador.setItemText(0, _translate("janelaCadastroMorador", "Proprietário"))
         self.comboBoxTipoMorador.setItemText(1, _translate("janelaCadastroMorador", "Morador"))
         self.comboBoxTipoMorador.setItemText(2, _translate("janelaCadastroMorador", "Dependente"))
+######################################################
+
         self.lblTipoMorador.setText(_translate("janelaCadastroMorador", "Tipo de Morador:"))
         self.lblTelefone.setText(_translate("janelaCadastroMorador", "Tefone:"))
         self.radioBoxOpcaoSim.setText(_translate("janelaCadastroMorador", "Sim"))
         self.radioBoxOpcaoNao.setText(_translate("janelaCadastroMorador", "Não"))
         self.lblPossuiVeiculo.setText(_translate("janelaCadastroMorador", "Possui Veiculo"))
         self.lblMarca.setText(_translate("janelaCadastroMorador", "Marca"))
+######################################################
+
         self.comboBoxMarcaVeiculo.setItemText(1, _translate("janelaCadastroMorador", "Audi"))
         self.comboBoxMarcaVeiculo.setItemText(2, _translate("janelaCadastroMorador", "Agrale"))
         self.comboBoxMarcaVeiculo.setItemText(3, _translate("janelaCadastroMorador", "Aston Matin"))
@@ -275,11 +286,15 @@ class Ui_janelaCadastroMorador(object):
         self.comboBoxMarcaVeiculo.setItemText(9, _translate("janelaCadastroMorador", "Volskvagen"))
         self.comboBoxMarcaVeiculo.setItemText(10, _translate("janelaCadastroMorador", "Fiat"))
         self.comboBoxMarcaVeiculo.setItemText(11, _translate("janelaCadastroMorador", "Chevrolet"))
+######################################################
+
         self.lblModelo.setText(_translate("janelaCadastroMorador", "Modelo"))
         self.lblCorVeiculo.setText(_translate("janelaCadastroMorador", "Cor:"))
         self.comboBoxCorVeiculo.setItemText(1, _translate("janelaCadastroMorador", "Preto"))
         self.comboBoxCorVeiculo.setItemText(2, _translate("janelaCadastroMorador", "Vermelho"))
         self.comboBoxCorVeiculo.setItemText(3, _translate("janelaCadastroMorador", "Azul"))
+######################################################
+
         self.lblPlaca.setText(_translate("janelaCadastroMorador", "Placa:"))
         self.btnSalvar.setText(_translate("janelaCadastroMorador", "Salvar"))
         self.lblFabricacaoVeiculo.setText(_translate("janelaCadastroMorador", "Data de Fabricação:"))
