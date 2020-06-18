@@ -16,11 +16,11 @@ class ConectaBanco:
 
     def insertMorador(self, setsMorador):
         self.conecta()
-        cursorSql = self.con.cursor()
+        self.cursorSql = self.con.cursor()
         query = "INSERT INTO tbl_pessoa(cpf_pessoa, nome_pessoa, senha, nomeApelido, tipo_pessoa)"\
                 "VALUES("'%s'")" %(setsMorador)#Todos os valores inseridos para usuarios estaos nesse Sets
         print(query)
-        cursorSql.execute(query)
+        self.cursorSql.execute(query)
         self.cursorSql.commit()
         self.cursorSql.close()
 

@@ -9,22 +9,23 @@ class Ui_janelaCadastroMorador(object):
         self.vlrCpfMorador           = self.inputCpf.toPlainText()
         self.vlrSenha                = self.inputSenha.toPlainText()
         self.vlrApelido              = self.inputNomeApelido.toPlainText()
-        self.vlrTipo                 = self.comboBoxTipoMorador.itemData(self,)
-        
+        self.vlrTipo                 = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
 
         self.sets = ("'%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeCompletoMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo))
 
         self.insertar = ConectaBanco()
         
         try:
-            self.insertar.insertMorador(self.sets)
-            print(self.sets)
-            if not self.insertar:
-                print("Deu errado")
-            else: 
-                print("Funcionou")
+                self.insertar.insertMorador(self.sets)
+                
+                print(self.sets)
+                
+                if not self.insertar:
+                        print("Deu errado")
+                else: 
+                        print("Funcionou")
         except:
-              print('Erro de Conexao')
+                print('Erro de Conexao')
 
 
 
@@ -244,7 +245,7 @@ class Ui_janelaCadastroMorador(object):
         self.retranslateUi(janelaCadastroMorador)
         QtCore.QMetaObject.connectSlotsByName(janelaCadastroMorador)
 ###################################################################################
-    def retranslateUi(self, janelaCadastroMorador):
+    def retranslateUi(self, janelaCadastroMorador):                                                                 #Daqui pra baixo Apenas estamos jogando tudo na tela pelo SET
 ######################################################
         _translate = QtCore.QCoreApplication.translate
         janelaCadastroMorador.setWindowTitle(_translate("janelaCadastroMorador", "MainWindow"))
@@ -305,6 +306,7 @@ class Ui_janelaCadastroMorador(object):
         self.lblRfid.setText(_translate("janelaCadastroMorador", "RFID"))
         self.lblDigital.setText(_translate("janelaCadastroMorador", "DIGITAL"))
         self.lblTituloCadastroMorador.setText(_translate("janelaCadastroMorador", "Cadastro de Moradores"))
+########################################################################
 
 
 if __name__ == "__main__":
