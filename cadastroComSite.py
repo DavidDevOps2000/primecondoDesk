@@ -5,24 +5,34 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_janelaCadastroMorador(object):
 
     def funcSalvarMorador(self):
-        self.vlrNomeCompletoMorador  = self.inputNomeCompleto.toPlainText()
+        self.vlrNomeCompletoMorador  = self.inputNomeCompleto.toPlainText()     #
         self.vlrCpfMorador           = self.inputCpf.toPlainText()
         self.vlrSenha                = self.inputSenha.toPlainText()
         self.vlrApelido              = self.inputNomeApelido.toPlainText()
         self.vlrTipo                 = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
 
-        self.sets = ("'%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeCompletoMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo))
+        self.setsMorador             = ("'%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeCompletoMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo))
+        self.setsMoradorPesquisar    = ("'%s','%s'" % (self.vlrNomeCompletoMorador, self.vlrCpfMorador)) 
 
-        self.insertar = ConectaBanco()
-        
-        try:
-                self.insertar.insertMorador(self.sets)
+        self.vlrNumApt               = self.inputNumeroApartamento.toPlainText()
+        self.vlrBloco                = str(self.comboBoxBloco.currentText())
+        self.vlrNumApt               = self.inputNumeroApartamento.toPlainText()
+
+        self.cmdBanco = ConectaBanco()
+
+        try:                                    #o try executa uma função
                 
-                print(self.sets)
+                self.cmdBanco.insertMorador(self.setsMorador)
+                self.vlrId = self.cmdBanco.selectMoradorToMoradia(self.vlrNomeCompletoMorador, self.vlrCpfMorador)
                 
-                if not self.insertar:
+                if not self.cmdBanco:
                         print("Deu errado")
-                else: 
+                else:
+                        for self.idMor in self.vlrId: #Jogando o valor do SELECT id na Var idMor, onde pegaremos como array idMor'0'
+
+                                self.cmdBanco.insertMoradia(self.vlrNumApt, self.vlrBloco, self.idMor[0], self.vlrNumApt)
+
+
                         print("Funcionou")
         except:
                 print('Erro de Conexao')
