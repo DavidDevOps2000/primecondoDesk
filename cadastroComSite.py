@@ -5,26 +5,44 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_janelaCadastroMorador(object):
 
         def funcSalvarMorador(self):
-                self.vlrNomeCompletoMorador  = self.inputNomeCompleto.toPlainText()     #
+                # Morador
+                self.vlrNomeMorador  = self.inputNomeCompleto.toPlainText()     #
                 self.vlrCpfMorador           = self.inputCpf.toPlainText()
                 self.vlrSenha                = self.inputSenha.toPlainText()
                 self.vlrApelido              = self.inputNomeApelido.toPlainText()
                 self.vlrTipo                 = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
+                self.vlrDataNasc                = self.inputDataNascimento.toPlainText()
 
-                self.setsMorador             = ("'%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeCompletoMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo))
-                self.setsMoradorPesquisar    = ("'%s','%s'" % (self.vlrNomeCompletoMorador, self.vlrCpfMorador)) 
+                self.setsMorador             = ("'%s','%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo, self.vlrDataNasc))
+                self.setsMoradorPesquisar    = ("'%s','%s'" % (self.vlrNomeMorador, self.vlrCpfMorador)) 
 
+                self.IDmorador:int #ID contante do Morador recem cadastrado, para usarmos em outro inserts   
 
+                #Contatos
                 self.vlrTelefone             = self.inputTelefone.toPlainText()
-
+                self.vlrEmail                = self.inputEmail.toPlainText()
+                
+                #Identificadores
+                self.vlrRfid                 = self.inputRfid.toPlainText()
+                self.vlrBiometria            = self.inputDigital.toPlainText()
+                
+                #Moradia
                 self.vlrNumApt               = self.inputNumeroApartamento.toPlainText()
                 self.vlrBloco                = str(self.comboBoxBloco.currentText())
-                self.vlrNumApt               = self.inputNumeroApartamento.toPlainText()
+                self.vlrVaga                 = self.inputNumeroVaga.toPlainText()
+
+                #Vericulo
+                self.vlrMarca                = str(self.comboBoxMarcaVeiculo.currentText())
+                self.vlrCorVeiculo           = str(self.comboBoxCorVeiculo.currentText())
+                self.vlrPlaca                = self.inputPlacaVeiculo.toPlainText()  
+                self.vlrVagaCarro            = self.vlrVaga 
+                self.vlridMoradia :int
 
                 self.cmdBanco = ConectaBanco()
 
                 try:                                    #o try executa uma função
-                
+                        self.cmdBanco.insertMorador(self.setsMorador)
+                        
                         if not self.cmdBanco:
 
                                 print("Deu errado")
@@ -298,7 +316,7 @@ class Ui_janelaCadastroMorador(object):
                 self.comboBoxCorVeiculo.setItemText(2, _translate("janelaCadastroMorador", "Vermelho"))
                 self.comboBoxCorVeiculo.setItemText(3, _translate("janelaCadastroMorador", "Azul"))
 ########        ##############################################
-        
+
                 self.lblPlaca.setText(_translate("janelaCadastroMorador", "Placa:"))
                 self.btnSalvar.setText(_translate("janelaCadastroMorador", "Salvar"))
                 self.lblFabricacaoVeiculo.setText(_translate("janelaCadastroMorador", "Data de Fabricação:"))
