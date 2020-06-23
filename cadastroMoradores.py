@@ -1,47 +1,59 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from conectabanco import ConectaBanco
-import serial                                           #Obs IMPORTANTE, sempre use ".self" no começo nos parametros das funcoes ->(self), e no começo de toda Variavel self.nomeVariavel dentro das Classes 
+from funcMorador import FuncoesMorador
+#from conectabanco import ConectaBanco
+import serial
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_janelaCadastrarMoradores(object):
 
+
     def funcSalvarMorador(self):
+
                 # Morador
-                vlrNomeMorador          = self.inputNomeCompleto.toPlainText()     #
-                vlrCpfMorador           = self.inputCpf.toPlainText()
-                vlrSenha                = self.inputSenha.toPlainText()
-                vlrApelido              = self.inputNomeApelido.toPlainText()
-                vlrTipo                 = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
-                vlrDataNasc             = self.inputDataNascimento.toPlainText()
+                self.vlrNomeMorador          = self.inputNomeCompleto.text()     #
+                self.vlrCpfMorador           = self.inputCpf.text()
+                self.vlrSenha                = self.inputSenha.text()
+                self.vlrApelido              = self.inputNomeApelido.text()
+                self.vlrTipo                 = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
+                self.vlrDataNasc             = self.inputDataNascimento.text()
 
-                setsMorador             = ("'%s','%s','%s','%s','%s','%s'" % (vlrCpfMorador, vlrNomeMorador, vlrSenha, vlrApelido, vlrTipo, vlrDataNasc))
-                setsMoradorPesquisar    = ("'%s','%s'" % (vlrNomeMorador, vlrCpfMorador)) 
+                self.setsMorador             = ("'%s','%s','%s','%s','%s','%s', '%s'" % (self.vlrCpfMorador, self.vlrNomeMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo, self.vlrDataNasc,2))
+                setsMoradorPesquisar            = ("'%s','%s'" % (self.vlrNomeMorador, self.vlrCpfMorador)) 
 
-                IDmorador:int                           #ID contante do Morador recem cadastrado, para usarmos em outro inserts   
+                self.IDmorador:int                           #ID contante do Morador recem cadastrado, para usarmos em outro inserts   
 
                 #Contatos
-                vlrTelefone             = self.inputTelefone.toPlainText()
-                vlrEmail                = self.inputEmail.toPlainText()
+                self.vlrTelefone             = self.inputTelefone.text()
+                self.vlrEmail                = self.inputEmail.text()
                 
                 #Identificadores
-                vlrRfid                 = self.inputRfid.toPlainText()
-                vlrBiometria            = self.inputDigital.toPlainText()
+                self.vlrRfid                 = self.inputRfid.text()
+                self.vlrBiometria            = self.inputDigitalBiometria.text()
                 
                 #Moradia
-                vlrNumApt               = self.inputNumeroApartamento.toPlainText()
-                vlrBloco                = str(self.comboBoxBloco.currentText())
-                vlrVaga                 = self.inputNumeroVaga.toPlainText()
+                self.vlrNumApt               = self.inputNumeroApartamento.text()
+                self.vlrBloco                = str(self.comboBoxBloco.currentText())
+                self.vlrVaga                 = self.inputNumeroVaga.text()
 
                 #Vericulo
-                vlrMarca                = str(self.comboBoxTipoVeiculo.currentText())
-                vlrCorVeiculo           = str(self.comboBoxCorVeiculo.currentText())
-                vlrPlaca                = self.inputPlaca.toPlainText()  
-                vlrVagaCarro            = vlrVaga
-                vlridMoradia :int
+                self.vlrMarca                = str(self.comboBoxTipoVeiculo.currentText())
+                self.vlrCorVeiculo           = str(self.comboBoxCorVeiculo.currentText())
+                self.vlrPlaca                = self.inputPlaca.text()  
+                self.vlrVagaCarro            = self.vlrVaga
+                self.vlridMoradia :int
 
-                self.cmdBanco = ConectaBanco()
+                self.conexaoRfid             = FuncoesMorador()
+
+                self.cmdBanco = FuncoesMorador()
+
+                self.conexaoRfid             = FuncoesMorador()
+
+                self.cmdBanco = FuncoesMorador()
 
                 try:                                    #o try executa uma função
-                        self.cmdBanco.insertMorador(setsMorador)
+                        #self.cmdBanco.insertMorador(self.setsMorador)
+                        self.cmdBanco.insertMorador(self.setsMorador)
                         
                         if not self.cmdBanco:
 
@@ -52,7 +64,11 @@ class Ui_janelaCadastrarMoradores(object):
                 except:
                         print('Erro de Conexao')
 
-        
+
+
+
+
+
     def setupUi(self, janelaCadastrarMoradores):
         janelaCadastrarMoradores.setObjectName("janelaCadastrarMoradores")
         janelaCadastrarMoradores.resize(725, 650)
@@ -60,8 +76,9 @@ class Ui_janelaCadastrarMoradores(object):
         janelaCadastrarMoradores.setMaximumSize(QtCore.QSize(725, 650))
         janelaCadastrarMoradores.setBaseSize(QtCore.QSize(725, 650))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../Downloads/logo2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         janelaCadastrarMoradores.setWindowIcon(icon)
+        janelaCadastrarMoradores.setIconSize(QtCore.QSize(30, 30))
         self.centralwidget = QtWidgets.QWidget(janelaCadastrarMoradores)
         self.centralwidget.setObjectName("centralwidget")
         self.lblNomeCompleto = QtWidgets.QLabel(self.centralwidget)
@@ -106,29 +123,9 @@ class Ui_janelaCadastrarMoradores(object):
         font.setPointSize(9)
         self.lblNumeroApartamento.setFont(font)
         self.lblNumeroApartamento.setObjectName("lblNumeroApartamento")
-        self.inputNomeCompleto = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputNomeCompleto.setGeometry(QtCore.QRect(30, 110, 451, 31))
-        self.inputNomeCompleto.setTabChangesFocus(True)
-        self.inputNomeCompleto.setObjectName("inputNomeCompleto")
-        self.inputCpf = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputCpf.setGeometry(QtCore.QRect(30, 170, 181, 31))
-        self.inputCpf.setTabChangesFocus(True)
-        self.inputCpf.setObjectName("inputCpf")
-        self.inputDataNascimento = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputDataNascimento.setGeometry(QtCore.QRect(530, 110, 181, 31))
-        self.inputDataNascimento.setTabChangesFocus(True)
-        self.inputDataNascimento.setObjectName("inputDataNascimento")
-        self.inputEmail = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputEmail.setGeometry(QtCore.QRect(260, 230, 451, 31))
-        self.inputEmail.setTabChangesFocus(True)
-        self.inputEmail.setObjectName("inputEmail")
-        self.inputNumeroApartamento = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputNumeroApartamento.setGeometry(QtCore.QRect(260, 170, 111, 31))
-        self.inputNumeroApartamento.setTabChangesFocus(True)
-        self.inputNumeroApartamento.setObjectName("inputNumeroApartamento")
         self.comboBoxBloco = QtWidgets.QComboBox(self.centralwidget)
         self.comboBoxBloco.setEnabled(True)
-        self.comboBoxBloco.setGeometry(QtCore.QRect(410, 170, 71, 31))
+        self.comboBoxBloco.setGeometry(QtCore.QRect(410, 170, 71, 26))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.comboBoxBloco.setFont(font)
@@ -139,7 +136,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.comboBoxBloco.addItem("")
         self.comboBoxTipoMorador = QtWidgets.QComboBox(self.centralwidget)
         self.comboBoxTipoMorador.setEnabled(True)
-        self.comboBoxTipoMorador.setGeometry(QtCore.QRect(530, 170, 181, 31))
+        self.comboBoxTipoMorador.setGeometry(QtCore.QRect(530, 170, 181, 26))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.comboBoxTipoMorador.setFont(font)
@@ -159,10 +156,6 @@ class Ui_janelaCadastrarMoradores(object):
         font.setPointSize(9)
         self.lblTelefone.setFont(font)
         self.lblTelefone.setObjectName("lblTelefone")
-        self.inputTelefone = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputTelefone.setGeometry(QtCore.QRect(30, 230, 181, 31))
-        self.inputTelefone.setTabChangesFocus(True)
-        self.inputTelefone.setObjectName("inputTelefone")
         self.radioButtonOpcaoSim = QtWidgets.QRadioButton(self.centralwidget)
         self.radioButtonOpcaoSim.setGeometry(QtCore.QRect(120, 420, 95, 20))
         font = QtGui.QFont()
@@ -183,7 +176,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.lblTipoVeiculo.setObjectName("lblTipoVeiculo")
         self.comboBoxTipoVeiculo = QtWidgets.QComboBox(self.centralwidget)
         self.comboBoxTipoVeiculo.setEnabled(True)
-        self.comboBoxTipoVeiculo.setGeometry(QtCore.QRect(30, 470, 121, 31))
+        self.comboBoxTipoVeiculo.setGeometry(QtCore.QRect(30, 470, 121, 26))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.comboBoxTipoVeiculo.setFont(font)
@@ -197,10 +190,6 @@ class Ui_janelaCadastrarMoradores(object):
         font.setPointSize(9)
         self.lblModeloVeiculo.setFont(font)
         self.lblModeloVeiculo.setObjectName("lblModeloVeiculo")
-        self.inputModeloVeiculo = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputModeloVeiculo.setGeometry(QtCore.QRect(210, 470, 271, 31))
-        self.inputModeloVeiculo.setTabChangesFocus(True)
-        self.inputModeloVeiculo.setObjectName("inputModeloVeiculo")
         self.lblCorVeiculo = QtWidgets.QLabel(self.centralwidget)
         self.lblCorVeiculo.setGeometry(QtCore.QRect(530, 450, 55, 16))
         font = QtGui.QFont()
@@ -209,7 +198,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.lblCorVeiculo.setObjectName("lblCorVeiculo")
         self.comboBoxCorVeiculo = QtWidgets.QComboBox(self.centralwidget)
         self.comboBoxCorVeiculo.setEnabled(True)
-        self.comboBoxCorVeiculo.setGeometry(QtCore.QRect(530, 470, 181, 31))
+        self.comboBoxCorVeiculo.setGeometry(QtCore.QRect(530, 470, 181, 26))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.comboBoxCorVeiculo.setFont(font)
@@ -227,68 +216,41 @@ class Ui_janelaCadastrarMoradores(object):
         font.setPointSize(9)
         self.lblPlaca.setFont(font)
         self.lblPlaca.setObjectName("lblPlaca")
-        self.inputPlaca = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputPlaca.setGeometry(QtCore.QRect(210, 540, 111, 31))
-        self.inputPlaca.setTabChangesFocus(True)
-        self.inputPlaca.setObjectName("inputPlaca")
         self.btnSalvar = QtWidgets.QPushButton(self.centralwidget)
         self.btnSalvar.setGeometry(QtCore.QRect(560, 590, 131, 31))
         self.btnSalvar.setAutoDefault(False)
         self.btnSalvar.setObjectName("btnSalvar")
-        self.inputNumeroVaga = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputNumeroVaga.setGeometry(QtCore.QRect(30, 540, 111, 31))
-        self.inputNumeroVaga.setTabChangesFocus(True)
-        self.inputNumeroVaga.setObjectName("inputNumeroVaga")
+        self.btnSalvar.clicked.connect(self.funcSalvarMorador)
         self.lblNumeroVaga = QtWidgets.QLabel(self.centralwidget)
         self.lblNumeroVaga.setGeometry(QtCore.QRect(30, 520, 81, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblNumeroVaga.setFont(font)
         self.lblNumeroVaga.setObjectName("lblNumeroVaga")
-        self.inputNomeApelido = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputNomeApelido.setGeometry(QtCore.QRect(30, 290, 181, 31))
-        self.inputNomeApelido.setTabChangesFocus(True)
-        self.inputNomeApelido.setObjectName("inputNomeApelido")
         self.lblNomeApelido = QtWidgets.QLabel(self.centralwidget)
         self.lblNomeApelido.setGeometry(QtCore.QRect(30, 270, 101, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblNomeApelido.setFont(font)
         self.lblNomeApelido.setObjectName("lblNomeApelido")
-        self.inputSenha = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputSenha.setGeometry(QtCore.QRect(260, 290, 181, 31))
-        self.inputSenha.setTabChangesFocus(True)
-        self.inputSenha.setObjectName("inputSenha")
         self.lblSenha = QtWidgets.QLabel(self.centralwidget)
         self.lblSenha.setGeometry(QtCore.QRect(260, 270, 55, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblSenha.setFont(font)
         self.lblSenha.setObjectName("lblSenha")
-        self.inputConfirmarSenha = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputConfirmarSenha.setGeometry(QtCore.QRect(530, 290, 181, 31))
-        self.inputConfirmarSenha.setTabChangesFocus(True)
-        self.inputConfirmarSenha.setObjectName("inputConfirmarSenha")
         self.lblConfirmarSenha = QtWidgets.QLabel(self.centralwidget)
         self.lblConfirmarSenha.setGeometry(QtCore.QRect(530, 270, 111, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblConfirmarSenha.setFont(font)
         self.lblConfirmarSenha.setObjectName("lblConfirmarSenha")
-        self.inputRfid = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputRfid.setGeometry(QtCore.QRect(30, 360, 181, 31))
-        self.inputRfid.setTabChangesFocus(True)
-        self.inputRfid.setObjectName("inputRfid")
         self.lblRfid = QtWidgets.QLabel(self.centralwidget)
         self.lblRfid.setGeometry(QtCore.QRect(30, 340, 161, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblRfid.setFont(font)
         self.lblRfid.setObjectName("lblRfid")
-        self.inputDigital = QtWidgets.QTextEdit(self.centralwidget)
-        self.inputDigital.setGeometry(QtCore.QRect(260, 360, 181, 31))
-        self.inputDigital.setTabChangesFocus(True)
-        self.inputDigital.setObjectName("inputDigital")
         self.lblDigital = QtWidgets.QLabel(self.centralwidget)
         self.lblDigital.setGeometry(QtCore.QRect(260, 340, 101, 16))
         font = QtGui.QFont()
@@ -301,7 +263,9 @@ class Ui_janelaCadastrarMoradores(object):
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
         self.radioButtonOpcaoNao = QtWidgets.QRadioButton(self.centralwidget)
-        self.radioButtonOpcaoNao.setGeometry(QtCore.QRect(170, 420, 95, 20))
+        self.radioButtonOpcaoNao.setGeometry(QtCore.QRect(170, 420, 51, 20))
+        self.radioButtonOpcaoNao.setCheckable(True)
+        self.radioButtonOpcaoNao.setChecked(True)
         self.radioButtonOpcaoNao.setObjectName("radioButtonOpcaoNao")
         self.lblTituloCadastrarMoradores = QtWidgets.QLabel(self.centralwidget)
         self.lblTituloCadastrarMoradores.setGeometry(QtCore.QRect(30, 20, 271, 16))
@@ -317,6 +281,91 @@ class Ui_janelaCadastrarMoradores(object):
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
+        self.inputNomeCompleto = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputNomeCompleto.setGeometry(QtCore.QRect(30, 110, 451, 26))
+        self.inputNomeCompleto.setStyleSheet("font: 9pt \"MS Shell Dlg 2\";\n"
+"")
+        self.inputNomeCompleto.setMaxLength(85)
+        self.inputNomeCompleto.setObjectName("inputNomeCompleto")
+        self.inputDataNascimento = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputDataNascimento.setGeometry(QtCore.QRect(530, 110, 181, 26))
+        self.inputDataNascimento.setMaxLength(10)
+        self.inputDataNascimento.setPlaceholderText("")
+        self.inputDataNascimento.setObjectName("inputDataNascimento")
+        self.inputCpf = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputCpf.setGeometry(QtCore.QRect(30, 170, 181, 26))
+        self.inputCpf.setMaxLength(14)
+        self.inputCpf.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.inputCpf.setCursorPosition(0)
+        self.inputCpf.setObjectName("inputCpf")
+        self.inputNumeroApartamento = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputNumeroApartamento.setGeometry(QtCore.QRect(260, 170, 111, 26))
+        self.inputNumeroApartamento.setMaxLength(4)
+        self.inputNumeroApartamento.setEchoMode(QtWidgets.QLineEdit.Normal)
+        self.inputNumeroApartamento.setCursorPosition(0)
+        self.inputNumeroApartamento.setObjectName("inputNumeroApartamento")
+        self.inputTelefone = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputTelefone.setGeometry(QtCore.QRect(30, 230, 181, 26))
+        self.inputTelefone.setMaxLength(24)
+        self.inputTelefone.setObjectName("inputTelefone")
+        self.inputEmail = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputEmail.setGeometry(QtCore.QRect(260, 230, 451, 26))
+        self.inputEmail.setMaxLength(56)
+        self.inputEmail.setDragEnabled(False)
+        self.inputEmail.setObjectName("inputEmail")
+        self.inputNomeApelido = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputNomeApelido.setGeometry(QtCore.QRect(30, 290, 181, 26))
+        self.inputNomeApelido.setMaxLength(20)
+        self.inputNomeApelido.setObjectName("inputNomeApelido")
+        self.inputPlaca = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputPlaca.setEnabled(True)
+        self.inputPlaca.setGeometry(QtCore.QRect(210, 540, 111, 26))
+        self.inputPlaca.setMaxLength(7)
+        self.inputPlaca.setObjectName("inputPlaca")
+        self.inputSenha = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputSenha.setGeometry(QtCore.QRect(260, 290, 181, 26))
+        self.inputSenha.setMaxLength(20)
+        self.inputSenha.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.inputSenha.setObjectName("inputSenha")
+        self.inputConfirmarSenha = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputConfirmarSenha.setGeometry(QtCore.QRect(530, 290, 181, 26))
+        self.inputConfirmarSenha.setMaxLength(20)
+        self.inputConfirmarSenha.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.inputConfirmarSenha.setObjectName("inputConfirmarSenha")
+        self.inputRfid = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputRfid.setGeometry(QtCore.QRect(30, 360, 151, 26))
+        self.inputRfid.setMaxLength(20)
+        self.inputRfid.setReadOnly(True)
+        self.inputRfid.setObjectName("inputRfid")
+        self.inputDigitalBiometria = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputDigitalBiometria.setGeometry(QtCore.QRect(260, 360, 151, 26))
+        self.inputDigitalBiometria.setMaxLength(100)
+        self.inputDigitalBiometria.setReadOnly(True)
+        self.inputDigitalBiometria.setObjectName("inputDigitalBiometria")
+        self.inputModeloVeiculo = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputModeloVeiculo.setEnabled(True)
+        self.inputModeloVeiculo.setGeometry(QtCore.QRect(210, 470, 271, 26))
+        self.inputModeloVeiculo.setMaxLength(25)
+        self.inputModeloVeiculo.setObjectName("inputModeloVeiculo")
+        self.inputNumeroVaga = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputNumeroVaga.setEnabled(True)
+        self.inputNumeroVaga.setGeometry(QtCore.QRect(30, 540, 111, 26))
+        self.inputNumeroVaga.setMaxLength(4)
+        self.inputNumeroVaga.setObjectName("inputNumeroVaga")
+        self.btnBuscarRfid = QtWidgets.QPushButton(self.centralwidget)
+        self.btnBuscarRfid.setGeometry(QtCore.QRect(180, 359, 31, 28))
+        self.btnBuscarRfid.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btnBuscarRfid.setIcon(icon1)
+        self.btnBuscarRfid.setAutoDefault(False)
+        self.btnBuscarRfid.setObjectName("btnBuscarRfid")
+        self.btnBuscarDigitalBiometria = QtWidgets.QPushButton(self.centralwidget)
+        self.btnBuscarDigitalBiometria.setGeometry(QtCore.QRect(410, 359, 31, 28))
+        self.btnBuscarDigitalBiometria.setText("")
+        self.btnBuscarDigitalBiometria.setIcon(icon1)
+        self.btnBuscarDigitalBiometria.setAutoDefault(False)
+        self.btnBuscarDigitalBiometria.setObjectName("btnBuscarDigitalBiometria")
         janelaCadastrarMoradores.setCentralWidget(self.centralwidget)
         self.lblNomeCompleto.setBuddy(self.inputNomeCompleto)
         self.lblCpf.setBuddy(self.inputCpf)
@@ -336,7 +385,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.lblSenha.setBuddy(self.inputSenha)
         self.lblConfirmarSenha.setBuddy(self.inputConfirmarSenha)
         self.lblRfid.setBuddy(self.inputRfid)
-        self.lblDigital.setBuddy(self.inputDigital)
+        self.lblDigital.setBuddy(self.inputDigitalBiometria)
 
         self.retranslateUi(janelaCadastrarMoradores)
         self.btnLimpar.clicked.connect(self.inputNomeCompleto.clear)
@@ -349,7 +398,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.btnLimpar.clicked.connect(self.inputSenha.clear)
         self.btnLimpar.clicked.connect(self.inputConfirmarSenha.clear)
         self.btnLimpar.clicked.connect(self.inputRfid.clear)
-        self.btnLimpar.clicked.connect(self.inputDigital.clear)
+        self.btnLimpar.clicked.connect(self.inputDigitalBiometria.clear)
         self.btnLimpar.clicked.connect(self.inputModeloVeiculo.clear)
         self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
         self.btnLimpar.clicked.connect(self.inputPlaca.clear)
@@ -365,8 +414,8 @@ class Ui_janelaCadastrarMoradores(object):
         janelaCadastrarMoradores.setTabOrder(self.inputNomeApelido, self.inputSenha)
         janelaCadastrarMoradores.setTabOrder(self.inputSenha, self.inputConfirmarSenha)
         janelaCadastrarMoradores.setTabOrder(self.inputConfirmarSenha, self.inputRfid)
-        janelaCadastrarMoradores.setTabOrder(self.inputRfid, self.inputDigital)
-        janelaCadastrarMoradores.setTabOrder(self.inputDigital, self.radioButtonOpcaoSim)
+        janelaCadastrarMoradores.setTabOrder(self.inputRfid, self.inputDigitalBiometria)
+        janelaCadastrarMoradores.setTabOrder(self.inputDigitalBiometria, self.radioButtonOpcaoSim)
         janelaCadastrarMoradores.setTabOrder(self.radioButtonOpcaoSim, self.radioButtonOpcaoNao)
         janelaCadastrarMoradores.setTabOrder(self.radioButtonOpcaoNao, self.comboBoxTipoVeiculo)
         janelaCadastrarMoradores.setTabOrder(self.comboBoxTipoVeiculo, self.inputModeloVeiculo)
@@ -378,38 +427,13 @@ class Ui_janelaCadastrarMoradores(object):
 
     def retranslateUi(self, janelaCadastrarMoradores):
         _translate = QtCore.QCoreApplication.translate
-        janelaCadastrarMoradores.setWindowTitle(_translate("janelaCadastrarMoradores", "Prime Condo"))
+        janelaCadastrarMoradores.setWindowTitle(_translate("janelaCadastrarMoradores", "PrimeCondo"))
         self.lblNomeCompleto.setText(_translate("janelaCadastrarMoradores", "&Nome Completo:"))
         self.lblCpf.setText(_translate("janelaCadastrarMoradores", "&CPF:"))
         self.lblEmail.setText(_translate("janelaCadastrarMoradores", "&E-mail:"))
         self.lblBloco.setText(_translate("janelaCadastrarMoradores", "&Bloco:"))
         self.lblDataNascimento.setText(_translate("janelaCadastrarMoradores", "&Data de Nascimento:"))
-        self.lblNumeroApartamento.setText(_translate("janelaCadastrarMoradores", "&Nº apt.:"))
-        self.inputNomeCompleto.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.inputCpf.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.inputDataNascimento.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.inputEmail.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.inputNumeroApartamento.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.lblNumeroApartamento.setText(_translate("janelaCadastrarMoradores", "Nº apt:"))
         self.comboBoxBloco.setItemText(0, _translate("janelaCadastrarMoradores", "A"))
         self.comboBoxBloco.setItemText(1, _translate("janelaCadastrarMoradores", "B"))
         self.comboBoxBloco.setItemText(2, _translate("janelaCadastrarMoradores", "C"))
@@ -419,11 +443,6 @@ class Ui_janelaCadastrarMoradores(object):
         self.comboBoxTipoMorador.setItemText(2, _translate("janelaCadastrarMoradores", "Dependente"))
         self.lblTipoMorador.setText(_translate("janelaCadastrarMoradores", "&Tipo de Morador:"))
         self.lblTelefone.setText(_translate("janelaCadastrarMoradores", "&Tefone:"))
-        self.inputTelefone.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.radioButtonOpcaoSim.setText(_translate("janelaCadastrarMoradores", "Sim"))
         self.lblPossuiVeiculo.setText(_translate("janelaCadastrarMoradores", "&Possui Veiculo"))
         self.lblTipoVeiculo.setText(_translate("janelaCadastrarMoradores", "&Tipo"))
@@ -431,11 +450,6 @@ class Ui_janelaCadastrarMoradores(object):
         self.comboBoxTipoVeiculo.setItemText(1, _translate("janelaCadastrarMoradores", "Moto"))
         self.comboBoxTipoVeiculo.setItemText(2, _translate("janelaCadastrarMoradores", "Outros"))
         self.lblModeloVeiculo.setText(_translate("janelaCadastrarMoradores", "&Modelo:"))
-        self.inputModeloVeiculo.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.lblCorVeiculo.setText(_translate("janelaCadastrarMoradores", "&Cor:"))
         self.comboBoxCorVeiculo.setItemText(1, _translate("janelaCadastrarMoradores", "Preto"))
         self.comboBoxCorVeiculo.setItemText(2, _translate("janelaCadastrarMoradores", "Vermelho"))
@@ -443,51 +457,22 @@ class Ui_janelaCadastrarMoradores(object):
         self.comboBoxCorVeiculo.setItemText(4, _translate("janelaCadastrarMoradores", "Branco"))
         self.comboBoxCorVeiculo.setItemText(5, _translate("janelaCadastrarMoradores", "Outros"))
         self.lblPlaca.setText(_translate("janelaCadastrarMoradores", "&Placa:"))
-        self.inputPlaca.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.btnSalvar.setText(_translate("janelaCadastrarMoradores", "SALVAR"))
-        self.inputNumeroVaga.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.lblNumeroVaga.setText(_translate("janelaCadastrarMoradores", "&Nº da Vaga:"))
-        self.inputNomeApelido.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.lblNomeApelido.setText(_translate("janelaCadastrarMoradores", "&Nome / Apelido"))
-        self.inputSenha.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.lblSenha.setText(_translate("janelaCadastrarMoradores", "&Senha:"))
-        self.inputConfirmarSenha.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.lblConfirmarSenha.setText(_translate("janelaCadastrarMoradores", "&Confirmar Senha:"))
-        self.inputRfid.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.lblRfid.setText(_translate("janelaCadastrarMoradores", "&RFID (Tag ou Cartão)"))
-        self.inputDigital.setHtml(_translate("janelaCadastrarMoradores", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.lblDigital.setText(_translate("janelaCadastrarMoradores", "&Digital"))
+        self.lblDigital.setText(_translate("janelaCadastrarMoradores", "&Digital | Biometria"))
         self.radioButtonOpcaoNao.setText(_translate("janelaCadastrarMoradores", "Não"))
         self.lblTituloCadastrarMoradores.setText(_translate("janelaCadastrarMoradores", "Cadastro de Moradores"))
         self.btnLimpar.setText(_translate("janelaCadastrarMoradores", "LIMPAR"))
+        self.inputDataNascimento.setInputMask(_translate("janelaCadastrarMoradores", "00/00/0000"))
+        self.inputCpf.setInputMask(_translate("janelaCadastrarMoradores", "000.000.000-00"))
+        self.inputCpf.setPlaceholderText(_translate("janelaCadastrarMoradores", "Digite só números"))
+        self.inputNumeroApartamento.setInputMask(_translate("janelaCadastrarMoradores", "0000"))
+        self.inputTelefone.setInputMask(_translate("janelaCadastrarMoradores", "(000) 00000-0000 000 000"))
+        self.inputNumeroVaga.setInputMask(_translate("janelaCadastrarMoradores", "0000"))
 
 
 if __name__ == "__main__":

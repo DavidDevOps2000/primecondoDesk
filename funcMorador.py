@@ -1,7 +1,9 @@
 import MySQLdb
+import serial
+import datetime
 
-
-class ConectaBanco:
+class FuncoesMorador:
+#######################################################################################################################################
     def __init__(self):
         self.con = ""
 
@@ -13,10 +15,11 @@ class ConectaBanco:
         self.port = 3306
         self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
 
+##################################################################################################################### INSERTS ############
     def insertMorador(self, setsMorador):
         self.conecta()
         cursorSql = self.con.cursor()
-        queryInsertMorador = "INSERT INTO tbl_pessoa (cpf_pessoa, nome_pessoa, senha, nomeApelido, tipo_pessoa, data_nascimento)"\
+        queryInsertMorador = "INSERT INTO tbl_pessoa (cpf_pessoa, nome_pessoa, senha, nomeApelido, tipo_pessoa, data_nascimento, tbl_rfid_id_tag)"\
                              " VALUES("'%s'");"   %   (setsMorador)
         print(queryInsertMorador)
         cursorSql.execute(queryInsertMorador)
@@ -53,15 +56,6 @@ class ConectaBanco:
         self.con.commit()
         self.con.close()
 
-    def insertRfId(self, setsRfid):
-        self.conecta()
-        cursorSql = self.con.cursor()
-        queryInsertRfid = "INSERT INTO tbl_contato (tel, email)"\
-                                "VALUES("'%s'");" %  (setsRfid)
-        print(queryInsertRfid)
-        cursorSql.execute(queryInsertRfid)
-        self.con.commit()
-        self.con.close()
 
     def insertBiometria(self, setsBiometria):
         self.conecta()
@@ -92,19 +86,17 @@ class ConectaBanco:
         cursorSql.execute(queryInsertContatosPessoa)
         self.con.commit()
         self.con.close()
+##########################################################################################################################################
 
-
-
-
-    def selectNomeLivroEmprestado(self, setNomeLivroEmprestado):
+    def insertRfId(self, setsRfid):
         self.conecta()
-        cur = self.con.cursor()
-        query = "select nome_livro from tbl_livros join Livro_Emprestimo on livro_emprestimo.fk_" \
-                "livro = tbl_livros.codigo_livro where fk_emprestimo='%s';" % (setNomeLivroEmprestado)
-        print(query)
-        cur.execute(query)
-        result = cursorSql.fetchall()
+        cursorSql = self.con.cursor()
+        queryInsertRfid = "INSERT INTO tbl_rfid (reg_tag)"\
+                                "VALUES("'%s'");" %  (setsRfid)# Aqui, nesse momento, só irei colocar o cod do tag
+        print(queryInsertRfid)
+        cursorSql.execute(queryInsertRfid)
+        self.con.commit()
         self.con.close()
-        print(result)
-        return result
 
+    
+#Para inserir dados na tabela  
