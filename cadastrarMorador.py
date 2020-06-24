@@ -43,29 +43,33 @@ class Ui_janelaCadastrarMoradores(object):
 
                 self.cmdBanco = FuncoesMorador()
 
-                self.conexaoRfid             = FuncoesMorador()
+                self.cmdBanco.insertMorador(self.setsMorador)
 
-                self.cmdBanco = FuncoesMorador()
+                self.IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
 
-                try:                                    #o try executa uma função
-                        self.cmdBanco.insertMorador(self.setsMorador)
-
-                        self.IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
-
-                        self.cmdBanco.insertMoradia(self.vlrNumApt, self.vlrBloco, self.IDmorador[0], self.vlrVagaCarro)
-
-                        self.IDmoradia = self.cmdBanco.buscarIdMoradia(self.IDmorador[0], self.vlrBloco, self.vlrNumApt)
-
-                        self.cmdBanco.insertVeiculo(self.comboBoxCorVeiculo, self.vlrTipoVeiculo, self.inputModeloVeiculo, self.inputPlaca, self.IDmoradia[0])
 
                         
-                        if not self.cmdBanco:
+                
+                self.lblResultado.setText("Não funcionou")
+                               
+                                             self.lblResultado.setText("funcionou")
+                                
+                             try:
+                                        self.cmdBanco.insertMoradia(self.vlrNumApt, self.vlrBloco, self.IDmorador[0], self.vlrVagaCarro)
 
-                                self.lblResultado.setText("Não funcionou")
-                        else:
+                                        self.IDmoradia = self.cmdBanco.buscarIdMoradia(self.IDmorador[0], self.vlrBloco, self.vlrNumApt)
 
-                                self.lblResultado.setText("Funcionou")
+                                #self.cmdBanco.insertVeiculo(self.comboBoxCorVeiculo, self.vlrTipoVeiculo, self.inputModeloVeiculo, self.inputPlaca, self.IDmoradia[0])
+
+                                        print(self.IDmorador[0] +' '+ self.IDmoradia[0])
+
+                                        self.lblResultado.setText("Funcionou")
+                             except:
+                                        print(self.IDmorador[0] +' '+ self.IDmoradia[0])
+
+                                        self.lblResultado.setText("Parou Aqui")
                 except:
+                       
                         self.lblResultado.setText('Erro de Conexao')
 
         
@@ -79,7 +83,7 @@ class Ui_janelaCadastrarMoradores(object):
              if ok:                          #Se a pessoa clicar em OK ....
                        self.funcSalvarMorador()
 
-                       
+
        
                 
     def setupUi(self, janelaCadastrarMoradores):

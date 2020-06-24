@@ -30,7 +30,7 @@ class FuncoesMorador:
         self.conecta()
         cursorSql = self.con.cursor()
         queryInsertMoradia = "INSERT INTO tbl_moradia (num_ap, 	bloco_ap, 	tbl_pessoa_id_pessoa1, 	num_vaga_car)"\
-	                          "VALUES("'%s','%s','%s','%s'");"  %  (vlrNumApt, vlrBloco, vlrNomeMorador, vlrNumVagaCar)
+	                          "VALUES("'%s','%s',"%s","%s"");"  %  (vlrNumApt, vlrBloco, vlrNomeMorador, vlrNumVagaCar)
         print(queryInsertMoradia)
         cursorSql.execute(queryInsertMoradia)
         self.con.commit()
