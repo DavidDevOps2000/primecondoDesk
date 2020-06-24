@@ -1,27 +1,25 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from funcMorador import FuncoesMorador
-#from conectabanco import ConectaBanco
+from tkinter import messagebox
+from tkinter import *
 import serial
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_janelaCadastrarMoradores(object):
 
-
     def funcSalvarMorador(self):
-
                 # Morador
                 self.vlrNomeMorador          = self.inputNomeCompleto.text()     #
                 self.vlrCpfMorador           = self.inputCpf.text()
                 self.vlrSenha                = self.inputSenha.text()
                 self.vlrApelido              = self.inputNomeApelido.text()
-                self.vlrTipo                 = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
+                self.vlrTipoMorador          = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
                 self.vlrDataNasc             = self.inputDataNascimento.text()
 
-                self.setsMorador             = ("'%s','%s','%s','%s','%s','%s', '%s'" % (self.vlrCpfMorador, self.vlrNomeMorador, self.vlrSenha, self.vlrApelido, self.vlrTipo, self.vlrDataNasc,2))
-                setsMoradorPesquisar            = ("'%s','%s'" % (self.vlrNomeMorador, self.vlrCpfMorador)) 
-
-                self.IDmorador:int                           #ID contante do Morador recem cadastrado, para usarmos em outro inserts   
+                self.setsMorador             = ("'%s','%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeMorador, self.vlrSenha, self.vlrApelido, self.vlrTipoMorador, self.vlrDataNasc))
 
                 #Contatos
                 self.vlrTelefone             = self.inputTelefone.text()
@@ -37,13 +35,11 @@ class Ui_janelaCadastrarMoradores(object):
                 self.vlrVaga                 = self.inputNumeroVaga.text()
 
                 #Vericulo
-                self.vlrMarca                = str(self.comboBoxTipoVeiculo.currentText())
+                self.vlrTipoVeiculo          = str(self.comboBoxTipoVeiculo.currentText())
                 self.vlrCorVeiculo           = str(self.comboBoxCorVeiculo.currentText())
                 self.vlrPlaca                = self.inputPlaca.text()  
                 self.vlrVagaCarro            = self.vlrVaga
                 self.vlridMoradia :int
-
-                self.conexaoRfid             = FuncoesMorador()
 
                 self.cmdBanco = FuncoesMorador()
 
@@ -52,23 +48,40 @@ class Ui_janelaCadastrarMoradores(object):
                 self.cmdBanco = FuncoesMorador()
 
                 try:                                    #o try executa uma função
-                        #self.cmdBanco.insertMorador(self.setsMorador)
                         self.cmdBanco.insertMorador(self.setsMorador)
+
+                        self.IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
+
+                        self.cmdBanco.insertMoradia(self.vlrNumApt, self.vlrBloco, self.IDmorador[0], self.vlrVagaCarro)
+
+                        self.IDmoradia = self.cmdBanco.buscarIdMoradia(self.IDmorador[0], self.vlrBloco, self.vlrNumApt)
+
+                        self.cmdBanco.insertVeiculo(self.comboBoxCorVeiculo, self.vlrTipoVeiculo, self.inputModeloVeiculo, self.inputPlaca, self.IDmoradia[0])
+
                         
                         if not self.cmdBanco:
 
-                                print("Deu errado")
+                                self.lblResultado.setText("Não funcionou")
                         else:
 
-                                print("Funcionou")
+                                self.lblResultado.setText("Funcionou")
                 except:
-                        print('Erro de Conexao')
+                        self.lblResultado.setText('Erro de Conexao')
 
+        
 
+    def abrirMsgBox(self):
+             top = Tk()  
+             top.geometry("0x0")
+             top.overrideredirect(True)  
+             ok = messagebox.askokcancel("Cadastrar Morador","Você tem que certeza que cadastrá-lo(a) ?") 
+        
+             if ok:                          #Se a pessoa clicar em OK ....
+                       self.funcSalvarMorador()
 
-
-
-
+                       
+       
+                
     def setupUi(self, janelaCadastrarMoradores):
         janelaCadastrarMoradores.setObjectName("janelaCadastrarMoradores")
         janelaCadastrarMoradores.resize(725, 650)
@@ -220,7 +233,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.btnSalvar.setGeometry(QtCore.QRect(560, 590, 131, 31))
         self.btnSalvar.setAutoDefault(False)
         self.btnSalvar.setObjectName("btnSalvar")
-        self.btnSalvar.clicked.connect(self.funcSalvarMorador)
+        self.btnSalvar.clicked.connect(self.abrirMsgBox)
         self.lblNumeroVaga = QtWidgets.QLabel(self.centralwidget)
         self.lblNumeroVaga.setGeometry(QtCore.QRect(30, 520, 81, 16))
         font = QtGui.QFont()
@@ -306,7 +319,8 @@ class Ui_janelaCadastrarMoradores(object):
         self.inputNumeroApartamento.setObjectName("inputNumeroApartamento")
         self.inputTelefone = QtWidgets.QLineEdit(self.centralwidget)
         self.inputTelefone.setGeometry(QtCore.QRect(30, 230, 181, 26))
-        self.inputTelefone.setMaxLength(24)
+        self.inputTelefone.setMaxLength(16)
+        self.inputTelefone.setCursorPosition(0)
         self.inputTelefone.setObjectName("inputTelefone")
         self.inputEmail = QtWidgets.QLineEdit(self.centralwidget)
         self.inputEmail.setGeometry(QtCore.QRect(260, 230, 451, 26))
@@ -351,6 +365,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.inputNumeroVaga.setEnabled(True)
         self.inputNumeroVaga.setGeometry(QtCore.QRect(30, 540, 111, 26))
         self.inputNumeroVaga.setMaxLength(4)
+        self.inputNumeroVaga.setCursorPosition(0)
         self.inputNumeroVaga.setObjectName("inputNumeroVaga")
         self.btnBuscarRfid = QtWidgets.QPushButton(self.centralwidget)
         self.btnBuscarRfid.setGeometry(QtCore.QRect(180, 359, 31, 28))
@@ -366,6 +381,14 @@ class Ui_janelaCadastrarMoradores(object):
         self.btnBuscarDigitalBiometria.setIcon(icon1)
         self.btnBuscarDigitalBiometria.setAutoDefault(False)
         self.btnBuscarDigitalBiometria.setObjectName("btnBuscarDigitalBiometria")
+        self.lblResultado = QtWidgets.QLabel(self.centralwidget)
+        self.lblResultado.setGeometry(QtCore.QRect(510, 375, 191, 31))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(12)
+        self.lblResultado.setFont(font)
+        self.lblResultado.setText("")
+        self.lblResultado.setObjectName("lblResultado")
         janelaCadastrarMoradores.setCentralWidget(self.centralwidget)
         self.lblNomeCompleto.setBuddy(self.inputNomeCompleto)
         self.lblCpf.setBuddy(self.inputCpf)
@@ -471,7 +494,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.inputCpf.setInputMask(_translate("janelaCadastrarMoradores", "000.000.000-00"))
         self.inputCpf.setPlaceholderText(_translate("janelaCadastrarMoradores", "Digite só números"))
         self.inputNumeroApartamento.setInputMask(_translate("janelaCadastrarMoradores", "0000"))
-        self.inputTelefone.setInputMask(_translate("janelaCadastrarMoradores", "(000) 00000-0000 000 000"))
+        self.inputTelefone.setInputMask(_translate("janelaCadastrarMoradores", "(000) 00000-0000"))
         self.inputNumeroVaga.setInputMask(_translate("janelaCadastrarMoradores", "0000"))
 
 

@@ -1,0 +1,1 @@
+pyuic5 -x cadastroMoradoresFinalV1.ui -o cadastrarMorador.py
