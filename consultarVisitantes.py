@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from conectabanco import ConectaBanco
 
 
 class Ui_janelaConsultarVisitantes(object):
@@ -7,6 +8,9 @@ class Ui_janelaConsultarVisitantes(object):
         janelaConsultarVisitantes.resize(725, 610)
         janelaConsultarVisitantes.setMinimumSize(QtCore.QSize(725, 610))
         janelaConsultarVisitantes.setMaximumSize(QtCore.QSize(725, 610))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        janelaConsultarVisitantes.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(janelaConsultarVisitantes)
         self.centralwidget.setObjectName("centralwidget")
         self.comboBoxConsultarVisitantes = QtWidgets.QComboBox(self.centralwidget)
@@ -105,9 +109,9 @@ class Ui_janelaConsultarVisitantes(object):
         self.btnConsultarVisitante = QtWidgets.QPushButton(self.centralwidget)
         self.btnConsultarVisitante.setGeometry(QtCore.QRect(650, 109, 51, 33))
         self.btnConsultarVisitante.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btnConsultarVisitante.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btnConsultarVisitante.setIcon(icon1)
         self.btnConsultarVisitante.setObjectName("btnConsultarVisitante")
         janelaConsultarVisitantes.setCentralWidget(self.centralwidget)
 
