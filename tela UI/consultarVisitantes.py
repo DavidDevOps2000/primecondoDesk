@@ -1,23 +1,42 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'consultarVisitantes.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.0
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+#from conectabanco import ConectaBanco
+import MySQLdb
 
 class Ui_janelaConsultarVisitantes(object):
+
+    def __init__(self):
+        self.con = ""
+
+    def conecta(self):
+        self.host = "localhost"
+        self.user = "root"
+        self.password = ""
+        self.db = "bd_cond"
+        self.port = 3306
+        self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
+
+    def funCarregarVisi(self, janelaConsultarVisitantes):
+        self.conecta()
+        self.query = "SELECT * FROM visi_apt"
+        self.sqlCursor = self.con.cursor()
+        result = self.sqlCursor.execute(self.query)
+        self.tblConsultarVisitantes.setRowCount(0)
+                
+        for row_number, row_data in enumerate(result):
+
+                    self.tblConsultarVisitantes.insertRow(row_number)
+
+                    for column_number, data in enumerate(row_data):
+                        self.tblConsultarVisitantes.setItem(row_number, column_number, QtWidgets.QtableWidgets(str(data)))
+        self.conecta.close()
+
     def setupUi(self, janelaConsultarVisitantes):
         janelaConsultarVisitantes.setObjectName("janelaConsultarVisitantes")
         janelaConsultarVisitantes.resize(725, 610)
         janelaConsultarVisitantes.setMinimumSize(QtCore.QSize(725, 610))
         janelaConsultarVisitantes.setMaximumSize(QtCore.QSize(725, 610))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../.designer/img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         janelaConsultarVisitantes.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(janelaConsultarVisitantes)
         self.centralwidget.setObjectName("centralwidget")
@@ -60,9 +79,9 @@ class Ui_janelaConsultarVisitantes(object):
         self.tblConsultarVisitantes = QtWidgets.QTableWidget(self.centralwidget)
         self.tblConsultarVisitantes.setGeometry(QtCore.QRect(30, 160, 671, 361))
         self.tblConsultarVisitantes.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.tblConsultarVisitantes.setRowCount(15)
+        self.tblConsultarVisitantes.setColumnCount(4)
         self.tblConsultarVisitantes.setObjectName("tblConsultarVisitantes")
-        self.tblConsultarVisitantes.setColumnCount(5)
-        self.tblConsultarVisitantes.setRowCount(12)
         item = QtWidgets.QTableWidgetItem()
         self.tblConsultarVisitantes.setVerticalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -97,8 +116,6 @@ class Ui_janelaConsultarVisitantes(object):
         self.tblConsultarVisitantes.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.tblConsultarVisitantes.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tblConsultarVisitantes.setHorizontalHeaderItem(4, item)
         self.tblConsultarVisitantes.horizontalHeader().setDefaultSectionSize(200)
         self.tblConsultarVisitantes.horizontalHeader().setStretchLastSection(True)
         self.tblConsultarVisitantes.verticalHeader().setVisible(False)
@@ -118,7 +135,7 @@ class Ui_janelaConsultarVisitantes(object):
         self.btnConsultarVisitante.setGeometry(QtCore.QRect(650, 109, 51, 33))
         self.btnConsultarVisitante.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("primecondoDesk/img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../../../.designer/backup/primecondoDesk/img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnConsultarVisitante.setIcon(icon1)
         self.btnConsultarVisitante.setObjectName("btnConsultarVisitante")
         janelaConsultarVisitantes.setCentralWidget(self.centralwidget)
@@ -171,8 +188,6 @@ class Ui_janelaConsultarVisitantes(object):
         item.setText(_translate("janelaConsultarVisitantes", "Data Cadastro"))
         item = self.tblConsultarVisitantes.horizontalHeaderItem(3)
         item.setText(_translate("janelaConsultarVisitantes", "Data final da visita"))
-        item = self.tblConsultarVisitantes.horizontalHeaderItem(4)
-        item.setText(_translate("janelaConsultarVisitantes", "Status"))
         self.btnAlterar.setText(_translate("janelaConsultarVisitantes", "ALTERAR"))
 
 

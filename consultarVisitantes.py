@@ -1,8 +1,39 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from conectabanco import ConectaBanco
-
+#from conectabanco import ConectaBanco
+import MySQLdb
 
 class Ui_janelaConsultarVisitantes(object):
+
+    def __init__(self):
+        self.con = ""
+
+    def conecta(self):
+        self.host = "localhost"
+        self.user = "root"
+        self.password = ""
+        self.db = "bd_cond"
+        self.port = 3306
+        self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
+
+    def funCarregarVisi(self):
+        self.conecta()
+        self.sqlCursor = self.con.cursor()
+        query = "SELECT * FROM visi_apt;"
+        self.sqlCursor.execute(query)
+        self.result = self.sqlCursor.fetchall()
+
+        self.tblConsultarVisitantes.setRowCount(0)
+                
+        for linhas_numeros, linhas_dados in enumerate(self.result):
+
+                    self.tblConsultarVisitantes.insertRow(linhas_numeros)
+
+                    for numero_coluna, data in enumerate(linhas_dados):
+                            
+                            self.tblConsultarVisitantes.setItem(linhas_numeros, numero_coluna, QtWidgets.QTableWidgetItem(str(data)))
+
+        self.con.close()
+
     def setupUi(self, janelaConsultarVisitantes):
         janelaConsultarVisitantes.setObjectName("janelaConsultarVisitantes")
         janelaConsultarVisitantes.resize(725, 610)
@@ -52,9 +83,9 @@ class Ui_janelaConsultarVisitantes(object):
         self.tblConsultarVisitantes = QtWidgets.QTableWidget(self.centralwidget)
         self.tblConsultarVisitantes.setGeometry(QtCore.QRect(30, 160, 671, 361))
         self.tblConsultarVisitantes.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.tblConsultarVisitantes.setRowCount(15)
+        self.tblConsultarVisitantes.setColumnCount(4)
         self.tblConsultarVisitantes.setObjectName("tblConsultarVisitantes")
-        self.tblConsultarVisitantes.setColumnCount(5)
-        self.tblConsultarVisitantes.setRowCount(12)
         item = QtWidgets.QTableWidgetItem()
         self.tblConsultarVisitantes.setVerticalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -89,8 +120,6 @@ class Ui_janelaConsultarVisitantes(object):
         self.tblConsultarVisitantes.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.tblConsultarVisitantes.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tblConsultarVisitantes.setHorizontalHeaderItem(4, item)
         self.tblConsultarVisitantes.horizontalHeader().setDefaultSectionSize(200)
         self.tblConsultarVisitantes.horizontalHeader().setStretchLastSection(True)
         self.tblConsultarVisitantes.verticalHeader().setVisible(False)
@@ -113,6 +142,7 @@ class Ui_janelaConsultarVisitantes(object):
         icon1.addPixmap(QtGui.QPixmap("img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnConsultarVisitante.setIcon(icon1)
         self.btnConsultarVisitante.setObjectName("btnConsultarVisitante")
+        self.btnConsultarVisitante.clicked.connect(self.funCarregarVisi)
         janelaConsultarVisitantes.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(janelaConsultarVisitantes)
@@ -163,8 +193,6 @@ class Ui_janelaConsultarVisitantes(object):
         item.setText(_translate("janelaConsultarVisitantes", "Data Cadastro"))
         item = self.tblConsultarVisitantes.horizontalHeaderItem(3)
         item.setText(_translate("janelaConsultarVisitantes", "Data final da visita"))
-        item = self.tblConsultarVisitantes.horizontalHeaderItem(4)
-        item.setText(_translate("janelaConsultarVisitantes", "Status"))
         self.btnAlterar.setText(_translate("janelaConsultarVisitantes", "ALTERAR"))
 
 

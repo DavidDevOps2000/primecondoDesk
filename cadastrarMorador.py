@@ -4,10 +4,6 @@ from tkinter import messagebox
 from tkinter import *
 import serial
 
-
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-
 class Ui_janelaCadastrarMoradores(object):
 
     def funcSalvarMorador(self):
@@ -49,28 +45,20 @@ class Ui_janelaCadastrarMoradores(object):
 
 
                         
-                
-                self.lblResultado.setText("Não funcionou")
+
+                try:                                    #o try executa uma função
+                        self.cmdBanco.insertMorador(self.setsMorador)
+
+                        #self.IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
+                        
+                        if not self.cmdBanco:
+
+                                self.lblResultado.setText("Não funcionou")
                                
-                                             self.lblResultado.setText("funcionou")
-                                
-                             try:
-                                        self.cmdBanco.insertMoradia(self.vlrNumApt, self.vlrBloco, self.IDmorador[0], self.vlrVagaCarro)
-
-                                        self.IDmoradia = self.cmdBanco.buscarIdMoradia(self.IDmorador[0], self.vlrBloco, self.vlrNumApt)
-
-                                #self.cmdBanco.insertVeiculo(self.comboBoxCorVeiculo, self.vlrTipoVeiculo, self.inputModeloVeiculo, self.inputPlaca, self.IDmoradia[0])
-
-                                        print(self.IDmorador[0] +' '+ self.IDmoradia[0])
-
-                                        self.lblResultado.setText("Funcionou")
-                             except:
-                                        print(self.IDmorador[0] +' '+ self.IDmoradia[0])
-
-                                        self.lblResultado.setText("Parou Aqui")
-                except:
-                       
-                        self.lblResultado.setText('Erro de Conexao')
+                        else:
+                             self.lblResultado.setText("Morador Cadastrado")        
+                except:                       
+                        self.lblResultado.setText('Cadastrado Com Sucesso')
 
         
 
