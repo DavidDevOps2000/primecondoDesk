@@ -38,18 +38,12 @@ class Ui_janelaCadastrarMoradores(object):
                 self.vlridMoradia :int
 
                 self.cmdBanco = FuncoesMorador()
-
-                self.cmdBanco.insertMorador(self.setsMorador)
-
-                self.IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
-
-
                         
 
                 try:                                    #o try executa uma função
                         self.cmdBanco.insertMorador(self.setsMorador)
 
-                        #self.IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
+                        
                         
                         if not self.cmdBanco:
 
@@ -58,7 +52,7 @@ class Ui_janelaCadastrarMoradores(object):
                         else:
                              self.lblResultado.setText("Morador Cadastrado")        
                 except:                       
-                        self.lblResultado.setText('Cadastrado Com Sucesso')
+                        self.lblResultado.setText("Erro na Conexao")
 
         
 
