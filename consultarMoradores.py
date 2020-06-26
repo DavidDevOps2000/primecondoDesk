@@ -1,13 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-#from conectabanco import ConectaBanco
 import MySQLdb
 
-
-
-
-
-class Ui_janelaConsultarVisitantes(object):
-    
+class Ui_janelaConsultarMoradores(object):
 
     def __init__(self):
         self.con = ""
@@ -27,27 +21,19 @@ class Ui_janelaConsultarVisitantes(object):
             suaBusca="nome_pessoa"
             return suaBusca
 
-        elif suaBusca == "RG da Visita":
-
-            suaBusca="rg_visi"
-            return suaBusca
-
         else:                       #Se nenhuma opção for dessas escolhidas, então por lógica, é a nome visita 
-            suaBusca="nome_visi"
+            suaBusca="cpf_pessoa"
             return suaBusca
 
 
-    def funCarregarVisi(self):
+    def funCarregarMorador(self):
 
         suaEscolha = self.campoPesqVisi(self.comboBoxConsultarMoradores.currentText())
         vlrPesquisa = self.inputConsultarMoradores.text()
         self.conecta()
         self.sqlCursor = self.con.cursor()
-        query = "SELECT nome_visi, CASE autorizado WHEN FALSE THEN 'NÃO' ELSE 'SIM' END autorizado,"\
-                "num_ap, bloco_ap, CASE data_fim_visi WHEN !NULL THEN data_fim_visi ELSE 'Sem limite' END data_fim_visi, rg_visi, dt_registro_visi FROM visi_apt JOIN agen_visi ON visi_apt.id_visi"\
-                "= agen_visi.visi_apt_id_visi JOIN tbl_pessoa ON agen_visi.tbl_pessoa_id_pessoa = tbl_pessoa.id_pessoa "\
-                "JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 "\
-                "WHERE %s = '%s';" % (suaEscolha, vlrPesquisa)
+        query ="SELECT nome_pessoa, num_ap, bloco_ap, tipo_pessoa, CASE status_pess WHEN TRUE THEN 'ATIVO' ELSE 'DESATIVADO' END status_pess, dt_reg FROM tbl_pessoa "\
+                "JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 WHERE %s ='%s'" % (suaEscolha, vlrPesquisa)
 
         print(query)
         self.sqlCursor.execute(query)
@@ -65,17 +51,17 @@ class Ui_janelaConsultarVisitantes(object):
 
         self.con.close()
 
-        
-    def setupUi(self, janelaConsultarVisitantes):
-        janelaConsultarVisitantes.setObjectName("janelaConsultarVisitantes")
-        janelaConsultarVisitantes.setWindowModality(QtCore.Qt.WindowModal)
-        janelaConsultarVisitantes.resize(725, 610)
-        janelaConsultarVisitantes.setMinimumSize(QtCore.QSize(725, 610))
-        janelaConsultarVisitantes.setMaximumSize(QtCore.QSize(725, 610))
+
+    def setupUi(self, janelaConsultarMoradores):
+        janelaConsultarMoradores.setObjectName("janelaConsultarMoradores")
+        janelaConsultarMoradores.setWindowModality(QtCore.Qt.WindowModal)
+        janelaConsultarMoradores.resize(725, 610)
+        janelaConsultarMoradores.setMinimumSize(QtCore.QSize(725, 610))
+        janelaConsultarMoradores.setMaximumSize(QtCore.QSize(725, 610))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        janelaConsultarVisitantes.setWindowIcon(icon)
-        self.centralwidget = QtWidgets.QWidget(janelaConsultarVisitantes)
+        janelaConsultarMoradores.setWindowIcon(icon)
+        self.centralwidget = QtWidgets.QWidget(janelaConsultarMoradores)
         self.centralwidget.setObjectName("centralwidget")
         self.comboBoxConsultarMoradores = QtWidgets.QComboBox(self.centralwidget)
         self.comboBoxConsultarMoradores.setEnabled(True)
@@ -134,7 +120,7 @@ class Ui_janelaConsultarVisitantes(object):
         self.tblConsultarMoradores.setWordWrap(True)
         self.tblConsultarMoradores.setCornerButtonEnabled(True)
         self.tblConsultarMoradores.setRowCount(11)
-        self.tblConsultarMoradores.setColumnCount(5)
+        self.tblConsultarMoradores.setColumnCount(6)
         self.tblConsultarMoradores.setObjectName("tblConsultarMoradores")
         item = QtWidgets.QTableWidgetItem()
         self.tblConsultarMoradores.setVerticalHeaderItem(0, item)
@@ -171,6 +157,8 @@ class Ui_janelaConsultarVisitantes(object):
         item = QtWidgets.QTableWidgetItem()
         self.tblConsultarMoradores.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
+        self.tblConsultarMoradores.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         font = QtGui.QFont()
         font.setStrikeOut(False)
@@ -199,55 +187,59 @@ class Ui_janelaConsultarVisitantes(object):
         icon1.addPixmap(QtGui.QPixmap("img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnConsultarMoradores.setIcon(icon1)
         self.btnConsultarMoradores.setObjectName("btnConsultarMoradores")
-        janelaConsultarVisitantes.setCentralWidget(self.centralwidget)
+        self.btnConsultarMoradores.clicked.connect(self.funCarregarMorador)
 
-        self.retranslateUi(janelaConsultarVisitantes)
+        janelaConsultarMoradores.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(janelaConsultarMoradores)
         self.btnLimpar.clicked.connect(self.tblConsultarMoradores.clearContents)
         self.btnLimpar.clicked.connect(self.inputConsultarMoradores.clear)
-        QtCore.QMetaObject.connectSlotsByName(janelaConsultarVisitantes)
-        janelaConsultarVisitantes.setTabOrder(self.comboBoxConsultarMoradores, self.inputConsultarMoradores)
-        janelaConsultarVisitantes.setTabOrder(self.inputConsultarMoradores, self.tblConsultarMoradores)
-        janelaConsultarVisitantes.setTabOrder(self.tblConsultarMoradores, self.btnLimpar)
+        QtCore.QMetaObject.connectSlotsByName(janelaConsultarMoradores)
+        janelaConsultarMoradores.setTabOrder(self.comboBoxConsultarMoradores, self.inputConsultarMoradores)
+        janelaConsultarMoradores.setTabOrder(self.inputConsultarMoradores, self.tblConsultarMoradores)
+        janelaConsultarMoradores.setTabOrder(self.tblConsultarMoradores, self.btnLimpar)
 
-    def retranslateUi(self, janelaConsultarVisitantes):
+    def retranslateUi(self, janelaConsultarMoradores):
         _translate = QtCore.QCoreApplication.translate
-        janelaConsultarVisitantes.setWindowTitle(_translate("janelaConsultarVisitantes", "Prime Condo"))
-        self.comboBoxConsultarMoradores.setItemText(0, _translate("janelaConsultarVisitantes", "Nome do Morador"))
-        self.comboBoxConsultarMoradores.setItemText(1, _translate("janelaConsultarVisitantes", "CPF"))
-        self.label.setText(_translate("janelaConsultarVisitantes", "Digite o nome da morador(a) ou os dados referente à pesquisa:"))
-        self.lblTituloConsultarVisitantes.setText(_translate("janelaConsultarVisitantes", "Consultar Moradores"))
-        self.btnLimpar.setText(_translate("janelaConsultarVisitantes", "LIMPAR"))
+        janelaConsultarMoradores.setWindowTitle(_translate("janelaConsultarMoradores", "Prime Condo"))
+        self.comboBoxConsultarMoradores.setItemText(0, _translate("janelaConsultarMoradores", "Nome do Morador"))
+        self.comboBoxConsultarMoradores.setItemText(1, _translate("janelaConsultarMoradores", "CPF"))
+        self.label.setText(_translate("janelaConsultarMoradores", "Digite o nome da morador(a) ou os dados referente à pesquisa:"))
+        self.lblTituloConsultarVisitantes.setText(_translate("janelaConsultarMoradores", "Consultar Moradores"))
+        self.btnLimpar.setText(_translate("janelaConsultarMoradores", "LIMPAR"))
         self.tblConsultarMoradores.setSortingEnabled(False)
         item = self.tblConsultarMoradores.verticalHeaderItem(0)
-        item.setText(_translate("janelaConsultarVisitantes", "1"))
+        item.setText(_translate("janelaConsultarMoradores", "1"))
         item = self.tblConsultarMoradores.verticalHeaderItem(1)
-        item.setText(_translate("janelaConsultarVisitantes", "2"))
+        item.setText(_translate("janelaConsultarMoradores", "2"))
         item = self.tblConsultarMoradores.verticalHeaderItem(2)
-        item.setText(_translate("janelaConsultarVisitantes", "3"))
+        item.setText(_translate("janelaConsultarMoradores", "3"))
         item = self.tblConsultarMoradores.verticalHeaderItem(3)
-        item.setText(_translate("janelaConsultarVisitantes", "4"))
+        item.setText(_translate("janelaConsultarMoradores", "4"))
         item = self.tblConsultarMoradores.verticalHeaderItem(4)
-        item.setText(_translate("janelaConsultarVisitantes", "5"))
+        item.setText(_translate("janelaConsultarMoradores", "5"))
         item = self.tblConsultarMoradores.verticalHeaderItem(5)
-        item.setText(_translate("janelaConsultarVisitantes", "6"))
+        item.setText(_translate("janelaConsultarMoradores", "6"))
         item = self.tblConsultarMoradores.verticalHeaderItem(6)
-        item.setText(_translate("janelaConsultarVisitantes", "7"))
+        item.setText(_translate("janelaConsultarMoradores", "7"))
         item = self.tblConsultarMoradores.verticalHeaderItem(7)
-        item.setText(_translate("janelaConsultarVisitantes", "8"))
+        item.setText(_translate("janelaConsultarMoradores", "8"))
         item = self.tblConsultarMoradores.verticalHeaderItem(8)
-        item.setText(_translate("janelaConsultarVisitantes", "9"))
+        item.setText(_translate("janelaConsultarMoradores", "9"))
         item = self.tblConsultarMoradores.verticalHeaderItem(9)
-        item.setText(_translate("janelaConsultarVisitantes", "10"))
+        item.setText(_translate("janelaConsultarMoradores", "10"))
         item = self.tblConsultarMoradores.verticalHeaderItem(10)
-        item.setText(_translate("janelaConsultarVisitantes", "11"))
+        item.setText(_translate("janelaConsultarMoradores", "11"))
         item = self.tblConsultarMoradores.horizontalHeaderItem(1)
-        item.setText(_translate("janelaConsultarVisitantes", "Bloco"))
+        item.setText(_translate("janelaConsultarMoradores", "Bloco"))
         item = self.tblConsultarMoradores.horizontalHeaderItem(2)
-        item.setText(_translate("janelaConsultarVisitantes", "Nº apt"))
+        item.setText(_translate("janelaConsultarMoradores", "Nº apt"))
         item = self.tblConsultarMoradores.horizontalHeaderItem(3)
-        item.setText(_translate("janelaConsultarVisitantes", "Tipo"))
+        item.setText(_translate("janelaConsultarMoradores", "Tipo"))
         item = self.tblConsultarMoradores.horizontalHeaderItem(4)
-        item.setText(_translate("janelaConsultarVisitantes", "Status"))
+        item.setText(_translate("janelaConsultarMoradores", "Status"))
+        item = self.tblConsultarMoradores.horizontalHeaderItem(5)
+        item.setText(_translate("janelaConsultarMoradores", "Data de Registro:"))
         __sortingEnabled = self.tblConsultarMoradores.isSortingEnabled()
         self.tblConsultarMoradores.setSortingEnabled(False)
         self.tblConsultarMoradores.setSortingEnabled(__sortingEnabled)
@@ -256,8 +248,8 @@ class Ui_janelaConsultarVisitantes(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    janelaConsultarVisitantes = QtWidgets.QMainWindow()
-    ui = Ui_janelaConsultarVisitantes()
-    ui.setupUi(janelaConsultarVisitantes)
-    janelaConsultarVisitantes.show()
+    janelaConsultarMoradores = QtWidgets.QMainWindow()
+    ui = Ui_janelaConsultarMoradores()
+    ui.setupUi(janelaConsultarMoradores)
+    janelaConsultarMoradores.show()
     sys.exit(app.exec_())
