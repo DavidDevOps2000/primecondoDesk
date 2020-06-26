@@ -1,1 +1,0 @@
-pyuic5 -x consultarVisitantes.ui -o consultarVisitantes.py
