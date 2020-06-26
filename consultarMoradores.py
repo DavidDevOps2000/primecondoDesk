@@ -14,8 +14,11 @@ class Ui_janelaConsultarMoradores(object):
         self.port = 3306
         self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
 
-    def campoPesqVisi(self, suaBusca):
 
+  
+
+    def campoPesqVisi(self, suaBusca):
+        
         if suaBusca == "Nome do Morador":
 
             suaBusca="nome_pessoa"
@@ -24,7 +27,7 @@ class Ui_janelaConsultarMoradores(object):
         else:                       #Se nenhuma opção for dessas escolhidas, então por lógica, é a nome visita 
             suaBusca="cpf_pessoa"
             return suaBusca
-
+            
 
     def funCarregarMorador(self):
 
@@ -32,7 +35,7 @@ class Ui_janelaConsultarMoradores(object):
         vlrPesquisa = self.inputConsultarMoradores.text()
         self.conecta()
         self.sqlCursor = self.con.cursor()
-        query ="SELECT nome_pessoa, num_ap, bloco_ap, tipo_pessoa, CASE status_pess WHEN TRUE THEN 'ATIVO' ELSE 'DESATIVADO' END status_pess, dt_reg FROM tbl_pessoa "\
+        query ="SELECT nome_pessoa, bloco_ap, num_ap, tipo_pessoa, CASE status_pess WHEN TRUE THEN 'ATIVO' ELSE 'DESATIVADO' END status_pess, dt_reg FROM tbl_pessoa "\
                 "JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 WHERE %s ='%s'" % (suaEscolha, vlrPesquisa)
 
         print(query)
@@ -203,7 +206,7 @@ class Ui_janelaConsultarMoradores(object):
         _translate = QtCore.QCoreApplication.translate
         janelaConsultarMoradores.setWindowTitle(_translate("janelaConsultarMoradores", "Prime Condo"))
         self.comboBoxConsultarMoradores.setItemText(0, _translate("janelaConsultarMoradores", "Nome do Morador"))
-        self.comboBoxConsultarMoradores.setItemText(1, _translate("janelaConsultarMoradores", "CPF"))
+        self.comboBoxConsultarMoradores.setItemText(1, _translate("janelaConsultarMoradores", "CPF (com pontos e hífen)"))
         self.label.setText(_translate("janelaConsultarMoradores", "Digite o nome da morador(a) ou os dados referente à pesquisa:"))
         self.lblTituloConsultarVisitantes.setText(_translate("janelaConsultarMoradores", "Consultar Moradores"))
         self.btnLimpar.setText(_translate("janelaConsultarMoradores", "LIMPAR"))

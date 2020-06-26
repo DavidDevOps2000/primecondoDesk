@@ -215,7 +215,7 @@ class Ui_janelaConsultarVisitantes(object):
         _translate = QtCore.QCoreApplication.translate
         janelaConsultarVisitantes.setWindowTitle(_translate("janelaConsultarVisitantes", "Prime Condo"))
         self.comboBoxConsultarVisitantes.setItemText(0, _translate("janelaConsultarVisitantes", "Nome do Morador"))
-        self.comboBoxConsultarVisitantes.setItemText(1, _translate("janelaConsultarVisitantes", "RG da Visita"))
+        self.comboBoxConsultarVisitantes.setItemText(1, _translate("janelaConsultarVisitantes", "RG Visita (Só Numeros)"))
         self.comboBoxConsultarVisitantes.setItemText(2, _translate("janelaConsultarVisitantes", "Nome da Visita"))
         self.label.setText(_translate("janelaConsultarVisitantes", "Escolha uma opção de consulta e digite o nome:"))
         self.lblTituloConsultarVisitantes.setText(_translate("janelaConsultarVisitantes", "Consultar Visitantes"))
