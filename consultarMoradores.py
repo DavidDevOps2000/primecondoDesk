@@ -1,16 +1,71 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'consultarVisitantes.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.0
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+#from conectabanco import ConectaBanco
+import MySQLdb
+
+
+
 
 
 class Ui_janelaConsultarVisitantes(object):
+    
+
+    def __init__(self):
+        self.con = ""
+
+    def conecta(self):
+        self.host = "localhost"
+        self.user = "root"
+        self.password = ""
+        self.db = "bd_cond"
+        self.port = 3306
+        self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
+
+    def campoPesqVisi(self, suaBusca):
+
+        if suaBusca == "Nome do Morador":
+
+            suaBusca="nome_pessoa"
+            return suaBusca
+
+        elif suaBusca == "RG da Visita":
+
+            suaBusca="rg_visi"
+            return suaBusca
+
+        else:                       #Se nenhuma opção for dessas escolhidas, então por lógica, é a nome visita 
+            suaBusca="nome_visi"
+            return suaBusca
+
+
+    def funCarregarVisi(self):
+
+        suaEscolha = self.campoPesqVisi(self.comboBoxConsultarMoradores.currentText())
+        vlrPesquisa = self.inputConsultarMoradores.text()
+        self.conecta()
+        self.sqlCursor = self.con.cursor()
+        query = "SELECT nome_visi, CASE autorizado WHEN FALSE THEN 'NÃO' ELSE 'SIM' END autorizado,"\
+                "num_ap, bloco_ap, CASE data_fim_visi WHEN !NULL THEN data_fim_visi ELSE 'Sem limite' END data_fim_visi, rg_visi, dt_registro_visi FROM visi_apt JOIN agen_visi ON visi_apt.id_visi"\
+                "= agen_visi.visi_apt_id_visi JOIN tbl_pessoa ON agen_visi.tbl_pessoa_id_pessoa = tbl_pessoa.id_pessoa "\
+                "JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 "\
+                "WHERE %s = '%s';" % (suaEscolha, vlrPesquisa)
+
+        print(query)
+        self.sqlCursor.execute(query)
+        self.result = self.sqlCursor.fetchall()
+
+        self.tblConsultarMoradores.setRowCount(0)
+                
+        for linhas_numeros, linhas_dados in enumerate(self.result):
+
+                    self.tblConsultarMoradores.insertRow(linhas_numeros)
+
+                    for numero_coluna, data in enumerate(linhas_dados):
+                            
+                            self.tblConsultarMoradores.setItem(linhas_numeros, numero_coluna, QtWidgets.QTableWidgetItem(str(data)))
+
+        self.con.close()
+
+        
     def setupUi(self, janelaConsultarVisitantes):
         janelaConsultarVisitantes.setObjectName("janelaConsultarVisitantes")
         janelaConsultarVisitantes.setWindowModality(QtCore.Qt.WindowModal)
@@ -18,7 +73,7 @@ class Ui_janelaConsultarVisitantes(object):
         janelaConsultarVisitantes.setMinimumSize(QtCore.QSize(725, 610))
         janelaConsultarVisitantes.setMaximumSize(QtCore.QSize(725, 610))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../.designer/img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         janelaConsultarVisitantes.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(janelaConsultarVisitantes)
         self.centralwidget.setObjectName("centralwidget")
@@ -141,7 +196,7 @@ class Ui_janelaConsultarVisitantes(object):
         self.btnConsultarMoradores.setGeometry(QtCore.QRect(650, 109, 51, 33))
         self.btnConsultarMoradores.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnConsultarMoradores.setIcon(icon1)
         self.btnConsultarMoradores.setObjectName("btnConsultarMoradores")
         janelaConsultarVisitantes.setCentralWidget(self.centralwidget)
