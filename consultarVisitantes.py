@@ -31,6 +31,7 @@ class Ui_janelaConsultarVisitantes(object):
             suaBusca="nome_visi"
             return suaBusca
 
+
     def funCarregarVisi(self):
 
         suaEscolha = self.campoPesqVisi(self.comboBoxConsultarVisitantes.currentText())
@@ -38,8 +39,7 @@ class Ui_janelaConsultarVisitantes(object):
         self.conecta()
         self.sqlCursor = self.con.cursor()
         query = "SELECT nome_visi, CASE autorizado WHEN FALSE THEN 'NÃO' ELSE 'SIM' END autorizado,"\
-                "CASE data_fim_visi WHEN !NULL THEN data_fim_visi ELSE 'Sem limite' END data_fim_visi,"\
-                "bloco_ap, num_ap, rg_visi, dt_registro_visi FROM visi_apt JOIN agen_visi ON visi_apt.id_visi"\
+                "num_ap, bloco_ap, CASE data_fim_visi WHEN !NULL THEN data_fim_visi ELSE 'Sem limite' END data_fim_visi, rg_visi, dt_registro_visi FROM visi_apt JOIN agen_visi ON visi_apt.id_visi"\
                 "= agen_visi.visi_apt_id_visi JOIN tbl_pessoa ON agen_visi.tbl_pessoa_id_pessoa = tbl_pessoa.id_pessoa "\
                 "JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 "\
                 "WHERE %s = '%s';" % (suaEscolha, vlrPesquisa)
@@ -59,6 +59,7 @@ class Ui_janelaConsultarVisitantes(object):
                             self.tblConsultarVisitantes.setItem(linhas_numeros, numero_coluna, QtWidgets.QTableWidgetItem(str(data)))
 
         self.con.close()
+
 
 
     def setupUi(self, janelaConsultarVisitantes):

@@ -33,7 +33,7 @@
     <normaloff>../../../.designer/img/logo.png</normaloff>../../../.designer/img/logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QComboBox" name="comboBoxConsultarVisitantes">
+   <widget class="QComboBox" name="comboBoxConsultarMoradores">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -57,12 +57,7 @@
     </item>
     <item>
      <property name="text">
-      <string>RG da Visita</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Nome da Visita</string>
+      <string>CPF</string>
      </property>
     </item>
    </widget>
@@ -71,7 +66,7 @@
      <rect>
       <x>30</x>
       <y>80</y>
-      <width>271</width>
+      <width>351</width>
       <height>16</height>
      </rect>
     </property>
@@ -81,7 +76,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Digite o nome da morador que agendou a visita.</string>
+     <string>Digite o nome da morador(a) ou os dados referente à pesquisa:</string>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -114,14 +109,14 @@
      </font>
     </property>
     <property name="text">
-     <string>Consultar Visitantes</string>
+     <string>Consultar Moradores</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnLimpar">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>540</y>
+      <x>570</x>
+      <y>530</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -138,7 +133,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tblConsultarVisitantes">
+   <widget class="QTableWidget" name="tblConsultarMoradores">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -207,7 +202,7 @@
      <number>11</number>
     </property>
     <property name="columnCount">
-     <number>7</number>
+     <number>5</number>
     </property>
     <attribute name="horizontalHeaderVisible">
      <bool>true</bool>
@@ -296,7 +291,7 @@
     </row>
     <column>
      <property name="text">
-      <string notr="true">Nome visitante</string>
+      <string notr="true">Nome</string>
      </property>
      <property name="background">
       <color>
@@ -308,7 +303,7 @@
     </column>
     <column>
      <property name="text">
-      <string>Autorizado ?</string>
+      <string>Bloco</string>
      </property>
     </column>
     <column>
@@ -318,22 +313,12 @@
     </column>
     <column>
      <property name="text">
-      <string>Bloco Destino</string>
+      <string>Tipo</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>Fim da visita em</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>RG</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Agendado em</string>
+      <string>Status</string>
      </property>
     </column>
     <item row="0" column="0">
@@ -350,25 +335,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="btnAlterar">
-    <property name="geometry">
-     <rect>
-      <x>570</x>
-      <y>540</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>ALTERAR</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="inputConsultarVisitantes">
+   <widget class="QLineEdit" name="inputConsultarMoradores">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -383,7 +350,7 @@
      </font>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnConsultarVisitante">
+   <widget class="QPushButton" name="btnConsultarMoradores">
     <property name="geometry">
      <rect>
       <x>650</x>
@@ -397,24 +364,23 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../../.designer/backup/primecondoDesk/img/lupa.png</normaloff>../../../.designer/backup/primecondoDesk/img/lupa.png</iconset>
+      <normaloff>../img/lupa.png</normaloff>../img/lupa.png</iconset>
     </property>
    </widget>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>comboBoxConsultarVisitantes</tabstop>
-  <tabstop>inputConsultarVisitantes</tabstop>
-  <tabstop>tblConsultarVisitantes</tabstop>
+  <tabstop>comboBoxConsultarMoradores</tabstop>
+  <tabstop>inputConsultarMoradores</tabstop>
+  <tabstop>tblConsultarMoradores</tabstop>
   <tabstop>btnLimpar</tabstop>
-  <tabstop>btnAlterar</tabstop>
  </tabstops>
  <resources/>
  <connections>
   <connection>
    <sender>btnLimpar</sender>
    <signal>clicked()</signal>
-   <receiver>tblConsultarVisitantes</receiver>
+   <receiver>tblConsultarMoradores</receiver>
    <slot>clearContents()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -430,7 +396,7 @@
   <connection>
    <sender>btnLimpar</sender>
    <signal>clicked()</signal>
-   <receiver>inputConsultarVisitantes</receiver>
+   <receiver>inputConsultarMoradores</receiver>
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">

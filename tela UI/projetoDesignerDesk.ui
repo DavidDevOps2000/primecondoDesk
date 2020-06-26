@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Principal</class>
+ <widget class="QMainWindow" name="Principal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>965</width>
+    <height>708</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>965</width>
+    <height>708</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>965</width>
+    <height>708</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Prime Condo</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../primecondoDesk/img/logo.png</normaloff>../primecondoDesk/img/logo.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>965</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>CONTA</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionCadastro"/>
+    <addaction name="actionSenha"/>
+    <addaction name="actionSair"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>CONDÔMINOS</string>
+    </property>
+    <addaction name="btnActCadastrarMoradores"/>
+    <addaction name="btnActConsultarMoradores"/>
+    <addaction name="btnActAtualizarMoradores"/>
+    <addaction name="btnActAtivarDesativarMoradores"/>
+   </widget>
+   <widget class="QMenu" name="menuCadastro_de_Visitantes">
+    <property name="title">
+     <string>VISITANTES</string>
+    </property>
+    <addaction name="btnActNovoVisitante"/>
+    <addaction name="btnActConsultarVisitantes"/>
+    <addaction name="btnActAtivarDesativarVisitantes"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuCadastro_de_Visitantes"/>
+  </widget>
+  <action name="actionCadastro">
+   <property name="text">
+    <string>Cadastro</string>
+   </property>
+  </action>
+  <action name="actionSenha">
+   <property name="text">
+    <string>Senha</string>
+   </property>
+  </action>
+  <action name="btnActAtualizarMoradores">
+   <property name="text">
+    <string>Atualizar Moradores</string>
+   </property>
+  </action>
+  <action name="btnActAtivarDesativarMoradores">
+   <property name="text">
+    <string>Ativar / Desativar - Moradores</string>
+   </property>
+  </action>
+  <action name="btnActNovoVisitante">
+   <property name="text">
+    <string>Novo Visitante</string>
+   </property>
+  </action>
+  <action name="actionDependente">
+   <property name="text">
+    <string>Dependente</string>
+   </property>
+  </action>
+  <action name="actionAutonomo">
+   <property name="text">
+    <string>Autonômo</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionDependente_2">
+   <property name="text">
+    <string>Proprietário</string>
+   </property>
+  </action>
+  <action name="actionPropriet_rio">
+   <property name="text">
+    <string>Morador</string>
+   </property>
+  </action>
+  <action name="actionDependente_3">
+   <property name="text">
+    <string>Dependente</string>
+   </property>
+  </action>
+  <action name="actionSair">
+   <property name="text">
+    <string>Sair</string>
+   </property>
+  </action>
+  <action name="actionCadastro_de_Visitantes">
+   <property name="text">
+    <string>Cadastro de Visitantes</string>
+   </property>
+  </action>
+  <action name="btnActConsultarVisitantes">
+   <property name="text">
+    <string>Consulta de Visitantes</string>
+   </property>
+  </action>
+  <action name="actionAtualizarVisitantes">
+   <property name="text">
+    <string>Atualizar Visitantes</string>
+   </property>
+  </action>
+  <action name="actionAtivar_Visitantes">
+   <property name="text">
+    <string>Ativar Visitantes</string>
+   </property>
+  </action>
+  <action name="btnActAtivarDesativarVisitantes">
+   <property name="text">
+    <string>Desativar / Ativar - Visitantes</string>
+   </property>
+  </action>
+  <action name="actionCadastrarPrestador">
+   <property name="text">
+    <string>Cadastrar Prestador </string>
+   </property>
+  </action>
+  <action name="actionCadastrarFuncionario">
+   <property name="text">
+    <string>Cadastrar Funcionário</string>
+   </property>
+  </action>
+  <action name="actionPropriet_rio_2">
+   <property name="text">
+    <string>Proprietário</string>
+   </property>
+  </action>
+  <action name="actionMorador">
+   <property name="text">
+    <string>Morador</string>
+   </property>
+  </action>
+  <action name="btnActCadastrarMoradores">
+   <property name="text">
+    <string>Cadastro de Moradores</string>
+   </property>
+  </action>
+  <action name="btnActConsultarMoradores">
+   <property name="text">
+    <string>Consulta de Moradores</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
