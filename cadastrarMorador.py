@@ -74,7 +74,7 @@ class Ui_janelaCadastrarMoradores(object):
                 self.vlrPlaca                = self.inputPlaca.text()
                 self.vlrModelo               = self.inputModeloVeiculo.text()
 
-                if self.vlrVaga != "":
+                if self.vlrVaga != "" and self.vlrNomeMorador != "" and self.vlrDataNasc != "" and self.vlrCpfMorador != "":
                 
                         if self.vlrSenha == self.vlrConfirmarSenha:
                         

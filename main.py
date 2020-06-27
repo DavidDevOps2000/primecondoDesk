@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow
+from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox
 import sys
 from principal import Ui_Principal
 from login import Ui_janelaLogin
@@ -29,8 +29,6 @@ class Home(QMainWindow):
     def abrirConsultaMoradores(self):
         self.janela = GuiaConsultarMoradores()
         self.janela.show()
-
-    
 
 
 class GuiaCadastrarMoradores(QMainWindow): #Contrui a janela aqui, e chamei a page externa pra ligar com essa
@@ -64,7 +62,7 @@ class Login (QMainWindow):
 
     def login(self):
         admin = "admin"
-        senha = "123"
+        senha = "admin"
         user = self.ui.inputLogin.text()
         passw = self.ui.inputSenha.text()
 

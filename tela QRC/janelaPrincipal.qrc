@@ -1,0 +1,20 @@
+<RCC>
+  <qresource prefix="janelaPrincipal">
+    <file>icons/2642690.jpg</file>
+    <file>icons/fun3.jpg</file>
+    <file>icons/add-visitors.png</file>
+    <file>icons/cons-visitors.png</file>
+    <file>icons/upd-visitors.png</file>
+    <file>icons/identity_card.png</file>
+    <file>icons/identity.png</file>
+    <file>icons/pass.png</file>
+    <file>icons/earth.png</file>
+    <file>icons/mapa mundi.png</file>
+    <file>icons/add-user.png</file>
+    <file>icons/cancel-user.png</file>
+    <file>icons/delete-user.png</file>
+    <file>icons/logout-account.png</file>
+    <file>icons/refresh.png</file>
+    <file>icons/refresh-user.png</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="janelaLogin">
+    <file>icons/earth.png</file>
+    <file>icons/img_center.png</file>
+    <file>icons/imgLoginCenter.png</file>
+    <file>icons/img-logo-centro-princ.png</file>
+    <file>icons/locked-padlock.png</file>
+    <file>icons/logo.png</file>
+    <file>icons/logo1.png</file>
+    <file>icons/logo2.png</file>
+    <file>icons/logo3.png</file>
+    <file>icons/password.png</file>
+    <file>icons/senha.png</file>
+    <file>icons/user.png</file>
+  </qresource>
+</RCC>

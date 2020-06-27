@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Principal</class>
+ <widget class="QMainWindow" name="Principal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>965</width>
+    <height>708</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>965</width>
+    <height>708</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>965</width>
+    <height>708</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Prime Condo</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/img_center.png</normaloff>icons/img_center.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-10</y>
+      <width>971</width>
+      <height>671</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>965</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>CONTA</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="btnActCadastro"/>
+    <addaction name="btnActSair"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>MORADORES</string>
+    </property>
+    <addaction name="btnActCadastrarMoradores"/>
+    <addaction name="btnActConsultarMoradores"/>
+    <addaction name="btnActAtualizarMoradores"/>
+    <addaction name="btnActAtivarDesativarMoradores"/>
+   </widget>
+   <widget class="QMenu" name="menuCadastro_de_Visitantes">
+    <property name="title">
+     <string>VISITANTES</string>
+    </property>
+    <addaction name="btnActNovoVisitante"/>
+    <addaction name="btnActConsultarVisitantes"/>
+    <addaction name="btnActAtivarDesativarVisitantes"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuCadastro_de_Visitantes"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="btnActCadastro">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/identity_card.png</normaloff>:/janelaPrincipal/icons/identity_card.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cadastro</string>
+   </property>
+  </action>
+  <action name="btnActAtualizarMoradores">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/refresh-user.png</normaloff>:/janelaPrincipal/icons/refresh-user.png</iconset>
+   </property>
+   <property name="text">
+    <string>Atualizar Moradores</string>
+   </property>
+  </action>
+  <action name="btnActAtivarDesativarMoradores">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/delete-user.png</normaloff>:/janelaPrincipal/icons/delete-user.png</iconset>
+   </property>
+   <property name="text">
+    <string>Desativar / Ativar - Moradores</string>
+   </property>
+   <property name="toolTip">
+    <string>Ativar / Desativar - Moradores</string>
+   </property>
+  </action>
+  <action name="btnActNovoVisitante">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/add-visitors.png</normaloff>:/janelaPrincipal/icons/add-visitors.png</iconset>
+   </property>
+   <property name="text">
+    <string>Novo Visitante</string>
+   </property>
+  </action>
+  <action name="btnActSair">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/logout-account.png</normaloff>:/janelaPrincipal/icons/logout-account.png</iconset>
+   </property>
+   <property name="text">
+    <string>Sair</string>
+   </property>
+  </action>
+  <action name="btnActConsultarVisitantes">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/cons-visitors.png</normaloff>:/janelaPrincipal/icons/cons-visitors.png</iconset>
+   </property>
+   <property name="text">
+    <string>Consultar Visitantes</string>
+   </property>
+  </action>
+  <action name="btnActAtivarDesativarVisitantes">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/upd-visitors.png</normaloff>:/janelaPrincipal/icons/upd-visitors.png</iconset>
+   </property>
+   <property name="text">
+    <string>Desativar / Ativar - Visitantes</string>
+   </property>
+  </action>
+  <action name="btnActCadastrarMoradores">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/add-user.png</normaloff>:/janelaPrincipal/icons/add-user.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cadastrar Moradores</string>
+   </property>
+   <property name="toolTip">
+    <string>Cadastrar Moradores</string>
+   </property>
+  </action>
+  <action name="btnActConsultarMoradores">
+   <property name="icon">
+    <iconset resource="janelaPrincipal.qrc">
+     <normaloff>:/janelaPrincipal/icons/cancel-user.png</normaloff>:/janelaPrincipal/icons/cancel-user.png</iconset>
+   </property>
+   <property name="text">
+    <string>Consultar Moradores</string>
+   </property>
+   <property name="toolTip">
+    <string>Consultar Moradores</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="janelaPrincipal.qrc"/>
+ </resources>
+ <connections/>
+</ui>
