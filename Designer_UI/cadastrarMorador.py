@@ -1,30 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from funcMorador import FuncoesMorador
 from tkinter import messagebox
-from tkinter import Tk
-
+from tkinter import *
+import serial
 
 class Ui_janelaCadastrarMoradores(object):
-
-    def ativaDesativarCampos(self):
-
-                if self.radioButtonOpcaoSim.isChecked():
-
-                        self.comboBoxTipoVeiculo.setEnabled(True)
-                        self.comboBoxCorVeiculo.setEnabled(True)
-                        self.inputPlaca.setEnabled(True)
-                        self.inputModeloVeiculo.setEnabled(True)
-
-                        return True
-                else:   
-                        self.comboBoxTipoVeiculo.setEnabled(False)
-                        self.comboBoxCorVeiculo.setEnabled(False)
-                        self.inputPlaca.setEnabled(False)
-                        self.inputModeloVeiculo.setEnabled(False)
-                        
-                        return False
-
-
 
     def funcSalvarMorador(self):
                 # Morador
@@ -52,9 +32,9 @@ class Ui_janelaCadastrarMoradores(object):
                 #Vericulo
                 self.vlrTipoVeiculo          = str(self.comboBoxTipoVeiculo.currentText())
                 self.vlrCorVeiculo           = str(self.comboBoxCorVeiculo.currentText())
-                self.vlrPlaca                = self.inputPlaca.text()
-                self.vlrModelo               = self.inputModeloVeiculo.text()
-                
+                self.vlrPlaca                = self.inputPlaca.text()  
+                self.vlrVagaCarro            = self.vlrVaga
+                self.vlridMoradia :int
 
                 self.cmdBanco = FuncoesMorador()
                         
@@ -66,22 +46,14 @@ class Ui_janelaCadastrarMoradores(object):
 
                         IDmorador = int(IDmorador[0][0]) # Tirando o id do valor do array e jogando na var, 
                         
-                        self.setsMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
+                       
+                        self.setMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
 
-                        self.cmdBanco.insertMoradia(self.setsMoradia)
+                        self.cmdBanco.insertMoradia(self.setMoradia)
 
-                        if(self.ativaDesativarCampos() == True): #Se os campos tiverem ativados, serão executados mais os codigos abaixo
 
-                                IDmoradia = self.cmdBanco.buscarIdMoradia(IDmorador, self.vlrBloco)
-
-                                IDmoradia = int(IDmoradia[0][0])
-
-                                print(IDmoradia)
+                        print(IDmorador)
                         
-                                self.setsVei = ("'%s','%s','%s','%s',%s" % (self.vlrCorVeiculo, self.vlrTipoVeiculo, self.vlrModelo, self.vlrPlaca, IDmoradia))
-                                self.cmdBanco.insertVeiculo(self.setsVei)
-
-
                         if not self.cmdBanco:
 
                                 self.lblResultado.setText("Não funcionou")
@@ -110,7 +82,7 @@ class Ui_janelaCadastrarMoradores(object):
         janelaCadastrarMoradores.setMaximumSize(QtCore.QSize(725, 650))
         janelaCadastrarMoradores.setBaseSize(QtCore.QSize(725, 650))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../../../wamp64/www/primecondo/assets/img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         janelaCadastrarMoradores.setWindowIcon(icon)
         janelaCadastrarMoradores.setIconSize(QtCore.QSize(30, 30))
         self.centralwidget = QtWidgets.QWidget(janelaCadastrarMoradores)
@@ -196,11 +168,6 @@ class Ui_janelaCadastrarMoradores(object):
         font.setPointSize(9)
         self.radioButtonOpcaoSim.setFont(font)
         self.radioButtonOpcaoSim.setObjectName("radioButtonOpcaoSim")
-
-        self.radioButtonOpcaoSim.toggled.connect(self.ativaDesativarCampos)
-
-        
-
         self.lblPossuiVeiculo = QtWidgets.QLabel(self.centralwidget)
         self.lblPossuiVeiculo.setGeometry(QtCore.QRect(30, 420, 91, 16))
         font = QtGui.QFont()
@@ -301,7 +268,6 @@ class Ui_janelaCadastrarMoradores(object):
         self.radioButtonOpcaoNao.setCheckable(True)
         self.radioButtonOpcaoNao.setChecked(True)
         self.radioButtonOpcaoNao.setObjectName("radioButtonOpcaoNao")
-        self.radioButtonOpcaoNao.toggled.connect(self.ativaDesativarCampos)
         self.lblTituloCadastrarMoradores = QtWidgets.QLabel(self.centralwidget)
         self.lblTituloCadastrarMoradores.setGeometry(QtCore.QRect(30, 20, 271, 16))
         font = QtGui.QFont()
@@ -388,7 +354,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.btnBuscarDigitalBiometria.setGeometry(QtCore.QRect(180, 350, 31, 28))
         self.btnBuscarDigitalBiometria.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnBuscarDigitalBiometria.setIcon(icon1)
         self.btnBuscarDigitalBiometria.setAutoDefault(False)
         self.btnBuscarDigitalBiometria.setObjectName("btnBuscarDigitalBiometria")

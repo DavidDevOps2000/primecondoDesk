@@ -358,7 +358,7 @@
    </widget>
    <widget class="QComboBox" name="comboBoxTipoVeiculo">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -392,7 +392,7 @@
    <widget class="QLabel" name="lblModeloVeiculo">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>260</x>
       <y>450</y>
       <width>55</width>
       <height>16</height>
@@ -433,7 +433,7 @@
    </widget>
    <widget class="QComboBox" name="comboBoxCorVeiculo">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -450,7 +450,22 @@
     </property>
     <item>
      <property name="text">
-      <string/>
+      <string>Outros</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Prata</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Amarelo</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Roxo</string>
      </property>
     </item>
     <item>
@@ -473,16 +488,11 @@
       <string>Branco</string>
      </property>
     </item>
-    <item>
-     <property name="text">
-      <string>Outros</string>
-     </property>
-    </item>
    </widget>
    <widget class="QLabel" name="lblPlaca">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>30</x>
       <y>520</y>
       <width>55</width>
       <height>16</height>
@@ -503,7 +513,7 @@
    <widget class="QPushButton" name="btnSalvar">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>580</x>
       <y>590</y>
       <width>131</width>
       <height>31</height>
@@ -519,9 +529,9 @@
    <widget class="QLabel" name="lblNumeroVaga">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>520</y>
-      <width>81</width>
+      <x>260</x>
+      <y>330</y>
+      <width>111</width>
       <height>16</height>
      </rect>
     </property>
@@ -531,7 +541,7 @@
      </font>
     </property>
     <property name="text">
-     <string>&amp;Nº da Vaga:</string>
+     <string>&amp;Nº da Vaga Veiculo:</string>
     </property>
     <property name="buddy">
      <cstring>inputNumeroVaga</cstring>
@@ -600,32 +610,11 @@
      <cstring>inputConfirmarSenha</cstring>
     </property>
    </widget>
-   <widget class="QLabel" name="lblRfid">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>340</y>
-      <width>161</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>9</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>&amp;RFID (Tag ou Cartão)</string>
-    </property>
-    <property name="buddy">
-     <cstring>inputRfid</cstring>
-    </property>
-   </widget>
    <widget class="QLabel" name="lblDigital">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>340</y>
+      <x>30</x>
+      <y>331</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -851,11 +840,11 @@
    </widget>
    <widget class="QLineEdit" name="inputPlaca">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>30</x>
       <y>540</y>
       <width>111</width>
       <height>26</height>
@@ -897,27 +886,11 @@
      <enum>QLineEdit::Password</enum>
     </property>
    </widget>
-   <widget class="QLineEdit" name="inputRfid">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>360</y>
-      <width>151</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="maxLength">
-     <number>20</number>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="inputDigitalBiometria">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>360</y>
+      <x>30</x>
+      <y>351</y>
       <width>151</width>
       <height>26</height>
      </rect>
@@ -931,13 +904,13 @@
    </widget>
    <widget class="QLineEdit" name="inputModeloVeiculo">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>260</x>
       <y>470</y>
-      <width>271</width>
+      <width>181</width>
       <height>26</height>
      </rect>
     </property>
@@ -951,8 +924,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>540</y>
+      <x>260</x>
+      <y>350</y>
       <width>111</width>
       <height>26</height>
      </rect>
@@ -967,31 +940,11 @@
      <number>0</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnBuscarRfid">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>359</y>
-      <width>31</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>lupa.png</normaloff>lupa.png</iconset>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btnBuscarDigitalBiometria">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>359</y>
+      <x>180</x>
+      <y>350</y>
       <width>31</width>
       <height>28</height>
      </rect>
@@ -1010,9 +963,9 @@
    <widget class="QLabel" name="lblResultado">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>375</y>
-      <width>191</width>
+      <x>470</x>
+      <y>340</y>
+      <width>241</width>
       <height>31</height>
      </rect>
     </property>
@@ -1040,14 +993,14 @@
   <tabstop>inputNomeApelido</tabstop>
   <tabstop>inputSenha</tabstop>
   <tabstop>inputConfirmarSenha</tabstop>
-  <tabstop>inputRfid</tabstop>
   <tabstop>inputDigitalBiometria</tabstop>
+  <tabstop>btnBuscarDigitalBiometria</tabstop>
+  <tabstop>inputNumeroVaga</tabstop>
   <tabstop>radioButtonOpcaoSim</tabstop>
   <tabstop>radioButtonOpcaoNao</tabstop>
   <tabstop>comboBoxTipoVeiculo</tabstop>
   <tabstop>inputModeloVeiculo</tabstop>
   <tabstop>comboBoxCorVeiculo</tabstop>
-  <tabstop>inputNumeroVaga</tabstop>
   <tabstop>inputPlaca</tabstop>
   <tabstop>btnLimpar</tabstop>
   <tabstop>btnSalvar</tabstop>
@@ -1195,22 +1148,6 @@
     <hint type="destinationlabel">
      <x>584</x>
      <y>309</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btnLimpar</sender>
-   <signal>clicked()</signal>
-   <receiver>inputRfid</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>390</x>
-     <y>590</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>139</x>
-     <y>371</y>
     </hint>
    </hints>
   </connection>

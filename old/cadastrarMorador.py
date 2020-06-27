@@ -1,30 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from funcMorador import FuncoesMorador
 from tkinter import messagebox
-from tkinter import Tk
-
+from tkinter import *
+import serial
 
 class Ui_janelaCadastrarMoradores(object):
-
-    def ativaDesativarCampos(self):
-
-                if self.radioButtonOpcaoSim.isChecked():
-
-                        self.comboBoxTipoVeiculo.setEnabled(True)
-                        self.comboBoxCorVeiculo.setEnabled(True)
-                        self.inputPlaca.setEnabled(True)
-                        self.inputModeloVeiculo.setEnabled(True)
-
-                        return True
-                else:   
-                        self.comboBoxTipoVeiculo.setEnabled(False)
-                        self.comboBoxCorVeiculo.setEnabled(False)
-                        self.inputPlaca.setEnabled(False)
-                        self.inputModeloVeiculo.setEnabled(False)
-                        
-                        return False
-
-
 
     def funcSalvarMorador(self):
                 # Morador
@@ -42,6 +22,7 @@ class Ui_janelaCadastrarMoradores(object):
                 self.vlrEmail                = self.inputEmail.text()
                 
                 #Identificadores
+                self.vlrRfid                 = self.inputRfid.text()
                 self.vlrBiometria            = self.inputDigitalBiometria.text()
                 
                 #Moradia
@@ -52,9 +33,9 @@ class Ui_janelaCadastrarMoradores(object):
                 #Vericulo
                 self.vlrTipoVeiculo          = str(self.comboBoxTipoVeiculo.currentText())
                 self.vlrCorVeiculo           = str(self.comboBoxCorVeiculo.currentText())
-                self.vlrPlaca                = self.inputPlaca.text()
-                self.vlrModelo               = self.inputModeloVeiculo.text()
-                
+                self.vlrPlaca                = self.inputPlaca.text()  
+                self.vlrVagaCarro            = self.vlrVaga
+                self.vlridMoradia :int
 
                 self.cmdBanco = FuncoesMorador()
                         
@@ -66,22 +47,14 @@ class Ui_janelaCadastrarMoradores(object):
 
                         IDmorador = int(IDmorador[0][0]) # Tirando o id do valor do array e jogando na var, 
                         
-                        self.setsMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
+                       
+                        self.setMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
 
-                        self.cmdBanco.insertMoradia(self.setsMoradia)
+                        self.cmdBanco.insertMoradia(self.setMoradia)
 
-                        if(self.ativaDesativarCampos() == True): #Se os campos tiverem ativados, serão executados mais os codigos abaixo
 
-                                IDmoradia = self.cmdBanco.buscarIdMoradia(IDmorador, self.vlrBloco)
-
-                                IDmoradia = int(IDmoradia[0][0])
-
-                                print(IDmoradia)
+                        print(IDmorador)
                         
-                                self.setsVei = ("'%s','%s','%s','%s',%s" % (self.vlrCorVeiculo, self.vlrTipoVeiculo, self.vlrModelo, self.vlrPlaca, IDmoradia))
-                                self.cmdBanco.insertVeiculo(self.setsVei)
-
-
                         if not self.cmdBanco:
 
                                 self.lblResultado.setText("Não funcionou")
@@ -102,7 +75,8 @@ class Ui_janelaCadastrarMoradores(object):
                        self.funcSalvarMorador()
 
 
-
+       
+                
     def setupUi(self, janelaCadastrarMoradores):
         janelaCadastrarMoradores.setObjectName("janelaCadastrarMoradores")
         janelaCadastrarMoradores.resize(725, 650)
@@ -196,11 +170,6 @@ class Ui_janelaCadastrarMoradores(object):
         font.setPointSize(9)
         self.radioButtonOpcaoSim.setFont(font)
         self.radioButtonOpcaoSim.setObjectName("radioButtonOpcaoSim")
-
-        self.radioButtonOpcaoSim.toggled.connect(self.ativaDesativarCampos)
-
-        
-
         self.lblPossuiVeiculo = QtWidgets.QLabel(self.centralwidget)
         self.lblPossuiVeiculo.setGeometry(QtCore.QRect(30, 420, 91, 16))
         font = QtGui.QFont()
@@ -214,7 +183,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.lblTipoVeiculo.setFont(font)
         self.lblTipoVeiculo.setObjectName("lblTipoVeiculo")
         self.comboBoxTipoVeiculo = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBoxTipoVeiculo.setEnabled(False)
+        self.comboBoxTipoVeiculo.setEnabled(True)
         self.comboBoxTipoVeiculo.setGeometry(QtCore.QRect(30, 470, 121, 26))
         font = QtGui.QFont()
         font.setPointSize(9)
@@ -224,7 +193,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.comboBoxTipoVeiculo.addItem("")
         self.comboBoxTipoVeiculo.addItem("")
         self.lblModeloVeiculo = QtWidgets.QLabel(self.centralwidget)
-        self.lblModeloVeiculo.setGeometry(QtCore.QRect(260, 450, 55, 16))
+        self.lblModeloVeiculo.setGeometry(QtCore.QRect(210, 450, 55, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblModeloVeiculo.setFont(font)
@@ -236,33 +205,32 @@ class Ui_janelaCadastrarMoradores(object):
         self.lblCorVeiculo.setFont(font)
         self.lblCorVeiculo.setObjectName("lblCorVeiculo")
         self.comboBoxCorVeiculo = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBoxCorVeiculo.setEnabled(False)
+        self.comboBoxCorVeiculo.setEnabled(True)
         self.comboBoxCorVeiculo.setGeometry(QtCore.QRect(530, 470, 181, 26))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.comboBoxCorVeiculo.setFont(font)
         self.comboBoxCorVeiculo.setObjectName("comboBoxCorVeiculo")
         self.comboBoxCorVeiculo.addItem("")
-        self.comboBoxCorVeiculo.addItem("")
-        self.comboBoxCorVeiculo.addItem("")
+        self.comboBoxCorVeiculo.setItemText(0, "")
         self.comboBoxCorVeiculo.addItem("")
         self.comboBoxCorVeiculo.addItem("")
         self.comboBoxCorVeiculo.addItem("")
         self.comboBoxCorVeiculo.addItem("")
         self.comboBoxCorVeiculo.addItem("")
         self.lblPlaca = QtWidgets.QLabel(self.centralwidget)
-        self.lblPlaca.setGeometry(QtCore.QRect(30, 520, 55, 16))
+        self.lblPlaca.setGeometry(QtCore.QRect(210, 520, 55, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblPlaca.setFont(font)
         self.lblPlaca.setObjectName("lblPlaca")
         self.btnSalvar = QtWidgets.QPushButton(self.centralwidget)
-        self.btnSalvar.setGeometry(QtCore.QRect(580, 590, 131, 31))
+        self.btnSalvar.setGeometry(QtCore.QRect(560, 590, 131, 31))
         self.btnSalvar.setAutoDefault(False)
         self.btnSalvar.setObjectName("btnSalvar")
         self.btnSalvar.clicked.connect(self.abrirMsgBox)
         self.lblNumeroVaga = QtWidgets.QLabel(self.centralwidget)
-        self.lblNumeroVaga.setGeometry(QtCore.QRect(260, 330, 111, 16))
+        self.lblNumeroVaga.setGeometry(QtCore.QRect(30, 520, 81, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblNumeroVaga.setFont(font)
@@ -285,8 +253,14 @@ class Ui_janelaCadastrarMoradores(object):
         font.setPointSize(9)
         self.lblConfirmarSenha.setFont(font)
         self.lblConfirmarSenha.setObjectName("lblConfirmarSenha")
+        self.lblRfid = QtWidgets.QLabel(self.centralwidget)
+        self.lblRfid.setGeometry(QtCore.QRect(30, 340, 161, 16))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.lblRfid.setFont(font)
+        self.lblRfid.setObjectName("lblRfid")
         self.lblDigital = QtWidgets.QLabel(self.centralwidget)
-        self.lblDigital.setGeometry(QtCore.QRect(30, 331, 101, 16))
+        self.lblDigital.setGeometry(QtCore.QRect(260, 340, 101, 16))
         font = QtGui.QFont()
         font.setPointSize(9)
         self.lblDigital.setFont(font)
@@ -301,7 +275,6 @@ class Ui_janelaCadastrarMoradores(object):
         self.radioButtonOpcaoNao.setCheckable(True)
         self.radioButtonOpcaoNao.setChecked(True)
         self.radioButtonOpcaoNao.setObjectName("radioButtonOpcaoNao")
-        self.radioButtonOpcaoNao.toggled.connect(self.ativaDesativarCampos)
         self.lblTituloCadastrarMoradores = QtWidgets.QLabel(self.centralwidget)
         self.lblTituloCadastrarMoradores.setGeometry(QtCore.QRect(30, 20, 271, 16))
         font = QtGui.QFont()
@@ -354,8 +327,8 @@ class Ui_janelaCadastrarMoradores(object):
         self.inputNomeApelido.setMaxLength(20)
         self.inputNomeApelido.setObjectName("inputNomeApelido")
         self.inputPlaca = QtWidgets.QLineEdit(self.centralwidget)
-        self.inputPlaca.setEnabled(False)
-        self.inputPlaca.setGeometry(QtCore.QRect(30, 540, 111, 26))
+        self.inputPlaca.setEnabled(True)
+        self.inputPlaca.setGeometry(QtCore.QRect(210, 540, 111, 26))
         self.inputPlaca.setMaxLength(7)
         self.inputPlaca.setObjectName("inputPlaca")
         self.inputSenha = QtWidgets.QLineEdit(self.centralwidget)
@@ -368,32 +341,43 @@ class Ui_janelaCadastrarMoradores(object):
         self.inputConfirmarSenha.setMaxLength(20)
         self.inputConfirmarSenha.setEchoMode(QtWidgets.QLineEdit.Password)
         self.inputConfirmarSenha.setObjectName("inputConfirmarSenha")
+        self.inputRfid = QtWidgets.QLineEdit(self.centralwidget)
+        self.inputRfid.setGeometry(QtCore.QRect(30, 360, 151, 26))
+        self.inputRfid.setMaxLength(20)
+        self.inputRfid.setReadOnly(True)
+        self.inputRfid.setObjectName("inputRfid")
         self.inputDigitalBiometria = QtWidgets.QLineEdit(self.centralwidget)
-        self.inputDigitalBiometria.setGeometry(QtCore.QRect(30, 351, 151, 26))
+        self.inputDigitalBiometria.setGeometry(QtCore.QRect(260, 360, 151, 26))
         self.inputDigitalBiometria.setMaxLength(100)
         self.inputDigitalBiometria.setReadOnly(True)
         self.inputDigitalBiometria.setObjectName("inputDigitalBiometria")
         self.inputModeloVeiculo = QtWidgets.QLineEdit(self.centralwidget)
-        self.inputModeloVeiculo.setEnabled(False)
-        self.inputModeloVeiculo.setGeometry(QtCore.QRect(260, 470, 181, 26))
+        self.inputModeloVeiculo.setEnabled(True)
+        self.inputModeloVeiculo.setGeometry(QtCore.QRect(210, 470, 271, 26))
         self.inputModeloVeiculo.setMaxLength(25)
         self.inputModeloVeiculo.setObjectName("inputModeloVeiculo")
         self.inputNumeroVaga = QtWidgets.QLineEdit(self.centralwidget)
         self.inputNumeroVaga.setEnabled(True)
-        self.inputNumeroVaga.setGeometry(QtCore.QRect(260, 350, 111, 26))
+        self.inputNumeroVaga.setGeometry(QtCore.QRect(30, 540, 111, 26))
         self.inputNumeroVaga.setMaxLength(4)
         self.inputNumeroVaga.setCursorPosition(0)
         self.inputNumeroVaga.setObjectName("inputNumeroVaga")
-        self.btnBuscarDigitalBiometria = QtWidgets.QPushButton(self.centralwidget)
-        self.btnBuscarDigitalBiometria.setGeometry(QtCore.QRect(180, 350, 31, 28))
-        self.btnBuscarDigitalBiometria.setText("")
+        self.btnBuscarRfid = QtWidgets.QPushButton(self.centralwidget)
+        self.btnBuscarRfid.setGeometry(QtCore.QRect(180, 359, 31, 28))
+        self.btnBuscarRfid.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("img/lupa.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btnBuscarRfid.setIcon(icon1)
+        self.btnBuscarRfid.setAutoDefault(False)
+        self.btnBuscarRfid.setObjectName("btnBuscarRfid")
+        self.btnBuscarDigitalBiometria = QtWidgets.QPushButton(self.centralwidget)
+        self.btnBuscarDigitalBiometria.setGeometry(QtCore.QRect(410, 359, 31, 28))
+        self.btnBuscarDigitalBiometria.setText("")
         self.btnBuscarDigitalBiometria.setIcon(icon1)
         self.btnBuscarDigitalBiometria.setAutoDefault(False)
         self.btnBuscarDigitalBiometria.setObjectName("btnBuscarDigitalBiometria")
         self.lblResultado = QtWidgets.QLabel(self.centralwidget)
-        self.lblResultado.setGeometry(QtCore.QRect(470, 340, 241, 31))
+        self.lblResultado.setGeometry(QtCore.QRect(480, 375, 391, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
@@ -418,6 +402,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.lblNomeApelido.setBuddy(self.inputNomeApelido)
         self.lblSenha.setBuddy(self.inputSenha)
         self.lblConfirmarSenha.setBuddy(self.inputConfirmarSenha)
+        self.lblRfid.setBuddy(self.inputRfid)
         self.lblDigital.setBuddy(self.inputDigitalBiometria)
 
         self.retranslateUi(janelaCadastrarMoradores)
@@ -430,6 +415,7 @@ class Ui_janelaCadastrarMoradores(object):
         self.btnLimpar.clicked.connect(self.inputNomeApelido.clear)
         self.btnLimpar.clicked.connect(self.inputSenha.clear)
         self.btnLimpar.clicked.connect(self.inputConfirmarSenha.clear)
+        self.btnLimpar.clicked.connect(self.inputRfid.clear)
         self.btnLimpar.clicked.connect(self.inputDigitalBiometria.clear)
         self.btnLimpar.clicked.connect(self.inputModeloVeiculo.clear)
         self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
@@ -445,15 +431,15 @@ class Ui_janelaCadastrarMoradores(object):
         janelaCadastrarMoradores.setTabOrder(self.inputEmail, self.inputNomeApelido)
         janelaCadastrarMoradores.setTabOrder(self.inputNomeApelido, self.inputSenha)
         janelaCadastrarMoradores.setTabOrder(self.inputSenha, self.inputConfirmarSenha)
-        janelaCadastrarMoradores.setTabOrder(self.inputConfirmarSenha, self.inputDigitalBiometria)
-        janelaCadastrarMoradores.setTabOrder(self.inputDigitalBiometria, self.btnBuscarDigitalBiometria)
-        janelaCadastrarMoradores.setTabOrder(self.btnBuscarDigitalBiometria, self.inputNumeroVaga)
-        janelaCadastrarMoradores.setTabOrder(self.inputNumeroVaga, self.radioButtonOpcaoSim)
+        janelaCadastrarMoradores.setTabOrder(self.inputConfirmarSenha, self.inputRfid)
+        janelaCadastrarMoradores.setTabOrder(self.inputRfid, self.inputDigitalBiometria)
+        janelaCadastrarMoradores.setTabOrder(self.inputDigitalBiometria, self.radioButtonOpcaoSim)
         janelaCadastrarMoradores.setTabOrder(self.radioButtonOpcaoSim, self.radioButtonOpcaoNao)
         janelaCadastrarMoradores.setTabOrder(self.radioButtonOpcaoNao, self.comboBoxTipoVeiculo)
         janelaCadastrarMoradores.setTabOrder(self.comboBoxTipoVeiculo, self.inputModeloVeiculo)
         janelaCadastrarMoradores.setTabOrder(self.inputModeloVeiculo, self.comboBoxCorVeiculo)
-        janelaCadastrarMoradores.setTabOrder(self.comboBoxCorVeiculo, self.inputPlaca)
+        janelaCadastrarMoradores.setTabOrder(self.comboBoxCorVeiculo, self.inputNumeroVaga)
+        janelaCadastrarMoradores.setTabOrder(self.inputNumeroVaga, self.inputPlaca)
         janelaCadastrarMoradores.setTabOrder(self.inputPlaca, self.btnLimpar)
         janelaCadastrarMoradores.setTabOrder(self.btnLimpar, self.btnSalvar)
 
@@ -483,20 +469,18 @@ class Ui_janelaCadastrarMoradores(object):
         self.comboBoxTipoVeiculo.setItemText(2, _translate("janelaCadastrarMoradores", "Outros"))
         self.lblModeloVeiculo.setText(_translate("janelaCadastrarMoradores", "&Modelo:"))
         self.lblCorVeiculo.setText(_translate("janelaCadastrarMoradores", "&Cor:"))
-        self.comboBoxCorVeiculo.setItemText(0, _translate("janelaCadastrarMoradores", "Outros"))
-        self.comboBoxCorVeiculo.setItemText(1, _translate("janelaCadastrarMoradores", "Prata"))
-        self.comboBoxCorVeiculo.setItemText(2, _translate("janelaCadastrarMoradores", "Amarelo"))
-        self.comboBoxCorVeiculo.setItemText(3, _translate("janelaCadastrarMoradores", "Roxo"))
-        self.comboBoxCorVeiculo.setItemText(4, _translate("janelaCadastrarMoradores", "Preto"))
-        self.comboBoxCorVeiculo.setItemText(5, _translate("janelaCadastrarMoradores", "Vermelho"))
-        self.comboBoxCorVeiculo.setItemText(6, _translate("janelaCadastrarMoradores", "Azul"))
-        self.comboBoxCorVeiculo.setItemText(7, _translate("janelaCadastrarMoradores", "Branco"))
+        self.comboBoxCorVeiculo.setItemText(1, _translate("janelaCadastrarMoradores", "Preto"))
+        self.comboBoxCorVeiculo.setItemText(2, _translate("janelaCadastrarMoradores", "Vermelho"))
+        self.comboBoxCorVeiculo.setItemText(3, _translate("janelaCadastrarMoradores", "Azul"))
+        self.comboBoxCorVeiculo.setItemText(4, _translate("janelaCadastrarMoradores", "Branco"))
+        self.comboBoxCorVeiculo.setItemText(5, _translate("janelaCadastrarMoradores", "Outros"))
         self.lblPlaca.setText(_translate("janelaCadastrarMoradores", "&Placa:"))
         self.btnSalvar.setText(_translate("janelaCadastrarMoradores", "SALVAR"))
-        self.lblNumeroVaga.setText(_translate("janelaCadastrarMoradores", "&Nº da Vaga Veiculo:"))
+        self.lblNumeroVaga.setText(_translate("janelaCadastrarMoradores", "&Nº da Vaga:"))
         self.lblNomeApelido.setText(_translate("janelaCadastrarMoradores", "&Nome / Apelido"))
         self.lblSenha.setText(_translate("janelaCadastrarMoradores", "&Senha:"))
         self.lblConfirmarSenha.setText(_translate("janelaCadastrarMoradores", "&Confirmar Senha:"))
+        self.lblRfid.setText(_translate("janelaCadastrarMoradores", "&RFID (Tag ou Cartão)"))
         self.lblDigital.setText(_translate("janelaCadastrarMoradores", "&Digital | Biometria"))
         self.radioButtonOpcaoNao.setText(_translate("janelaCadastrarMoradores", "Não"))
         self.lblTituloCadastrarMoradores.setText(_translate("janelaCadastrarMoradores", "Cadastro de Moradores"))
