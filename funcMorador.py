@@ -34,31 +34,31 @@ class FuncoesMorador:
         self.con.commit()
         self.con.close()
     
-    def insertVeiculo(self, setsVeiculo):
-        self.conecta()
+    def insertVeiculo(self, setsVeiculo):# sempte use a forma de sets para fazer as funções ao inves de varios campo
+        self.conecta()                  # Pois é a maneira que melhor funciona
         cursorSql = self.con.cursor()
-        queryInsertVeiculo = "INSERT INTO  tbl_veiculo (cor_vei, tipo_vei, modelo_vei, placa_vei, tbl_moradia_id_moradia)"\
-                                "VALUES("'%s'");" %  (setsVeiculo)
+        queryInsertVeiculo = "INSERT INTO tbl_veiculo (cor_vei, tipo_vei, modelo_vei, placa_vei, tbl_moradia_id_moradia)"\
+                                " VALUES("'%s'");" %  (setsVeiculo)
         print(queryInsertVeiculo)
         cursorSql.execute(queryInsertVeiculo)
         self.con.commit()
         self.con.close()
 
-    def insertContato(self, vlrTelefone, vlrEmail):
+    def insertContato(self, setsContatos):
         self.conecta()
         cursorSql = self.con.cursor()
         queryInsertContato = "INSERT INTO tbl_contato (tel, email)"\
-                                "VALUES("'%s', '%s'");" %  (vlrTelefone, vlrEmail)
+                                " VALUES("'%s'");" %  (setsContatos)
         print(queryInsertContato)
         cursorSql.execute(queryInsertContato)
         self.con.commit()
         self.con.close()
 
-    def insertContatosPessoa(self, vlrPessoa, vlrSeuTelefone): # Tabela que depedente de inserts anteriores
+    def insertContatosPessoa(self, setsContatosPessoa): # Tabela que depedente de inserts anteriores
         self.conecta()
         cursorSql = self.con.cursor()
-        queryInsertContatosPessoa = "INSERT INTO tbl_contatos_pessoa (tbl_contato_id_contato, tbl_contatos_pessoa)"\
-                                        "VALUES("'%s','%s'");" %  (vlrPessoa, vlrSeuTelefone)
+        queryInsertContatosPessoa = "INSERT INTO contatos_pessoa (tbl_contato_id_contato, tbl_pessoa_id_pessoa )"\
+                                        " VALUES("'%s'");" %  (setsContatosPessoa)
         print(queryInsertContatosPessoa)
         cursorSql.execute(queryInsertContatosPessoa)
         self.con.commit()
@@ -69,7 +69,7 @@ class FuncoesMorador:
         self.conecta()
         cursorSql = self.con.cursor()
         queryInsertBiometria = "INSERT INTO tbl_biometria (amz_img, dt_tp_reg, 	c_img )"\
-                                        "VALUES("'%s', '%s', '%s'");" %  (setsBiometria)
+                                        " VALUES("'%s', '%s', '%s'");" %  (setsBiometria)
         print(queryInsertBiometria)
         cursorSql.execute(queryInsertBiometria)
         self.con.commit()
@@ -79,7 +79,7 @@ class FuncoesMorador:
         self.conecta()
         cursorSql = self.con.cursor()
         queryInsertPessoaBiometria = "INSERT INTO pessoa_biometria	(tbl_pessoa_id_pessoa,	tbl_biometria_id_bio)"\
-                                        "VALUES("'%s', '%s'");" %  (setsPessoaBiometria)
+                                        " VALUES("'%s', '%s'");" %  (setsPessoaBiometria)
         print(queryInsertPessoaBiometria)
         cursorSql.execute(queryInsertPessoaBiometria)
         self.con.commit()
@@ -98,7 +98,7 @@ class FuncoesMorador:
         self.con.commit()
         self.con.close()
 
-#########################################################################################################################################
+######################################################################### BUSCAR IDS ##########################################################
     def buscarIdMorador(self, vlrNome, vlrCpf):
         self.conecta()
         cursorSql = self.con.cursor()
@@ -109,7 +109,6 @@ class FuncoesMorador:
         self.con.close()
         return result
 
-########################################
     def buscarIdMoradia(self, vlrIdMorador, vlrNumApt):
         self.conecta()
         cursorSql = self.con.cursor()
@@ -121,6 +120,15 @@ class FuncoesMorador:
         self.con.close()
         return result
 
+    def buscarIdContato(self, vlrTelefone, vlrEmail):
+        self.conecta()
+        cursorSql = self.con.cursor()
+        querySelectId = "SELECT id_contato FROM tbl_contato WHERE tel = '%s' AND email = '%s' ;" % (vlrTelefone, vlrEmail)
+        cursorSql.execute(querySelectId)
+        print(querySelectId)
+        result = cursorSql.fetchall()
+        self.con.close()
+        return result
 
 
 #Para inserir dados na tabela  

@@ -5,6 +5,22 @@ from tkinter import Tk
 
 
 class Ui_janelaCadastrarMoradores(object):
+   
+    def desautorizarVisiDependente(self):
+                self.vlrTipoMorador  = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
+                
+                if self.vlrTipoMorador == "Dependente":
+
+                        self.inputNomeApelido.setEnabled(False)
+                        self.inputConfirmarSenha.setEnabled(False)
+                        self.inputSenha.setEnabled(False)
+                        
+                else:   
+                        self.inputNomeApelido.setEnabled(True)
+                        self.inputConfirmarSenha.setEnabled(True)
+                        self.inputSenha.setEnabled(True)
+                      
+                    
 
     def ativaDesativarCampos(self):
 
@@ -34,6 +50,7 @@ class Ui_janelaCadastrarMoradores(object):
                 self.vlrApelido              = self.inputNomeApelido.text()
                 self.vlrTipoMorador          = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
                 self.vlrDataNasc             = self.inputDataNascimento.text()
+                self.vlrConfirmarSenha       = self.inputConfirmarSenha.text()
 
                 self.setsMorador             = ("'%s','%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeMorador, self.vlrSenha, self.vlrApelido, self.vlrTipoMorador, self.vlrDataNasc))
 
@@ -41,6 +58,8 @@ class Ui_janelaCadastrarMoradores(object):
                 self.vlrTelefone             = self.inputTelefone.text()
                 self.vlrEmail                = self.inputEmail.text()
                 
+                self.setsContatos            = ("'%s','%s'" % (self.vlrTelefone, self.vlrEmail))
+
                 #Identificadores
                 self.vlrBiometria            = self.inputDigitalBiometria.text()
                 
@@ -54,43 +73,57 @@ class Ui_janelaCadastrarMoradores(object):
                 self.vlrCorVeiculo           = str(self.comboBoxCorVeiculo.currentText())
                 self.vlrPlaca                = self.inputPlaca.text()
                 self.vlrModelo               = self.inputModeloVeiculo.text()
+
+                if self.vlrVaga != "":
                 
-
-                self.cmdBanco = FuncoesMorador()
+                        if self.vlrSenha == self.vlrConfirmarSenha:
                         
+                                self.cmdBanco = FuncoesMorador()                        
 
-                try:                                    #o try executa uma função
-                        self.cmdBanco.insertMorador(self.setsMorador)
+                                try:                                    #o try executa uma função
+                                        self.cmdBanco.insertMorador(self.setsMorador)
 
-                        IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
+                                        IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
 
-                        IDmorador = int(IDmorador[0][0]) # Tirando o id do valor do array e jogando na var, 
-                        
-                        self.setsMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
+                                        IDmorador = int(IDmorador[0][0]) # Tirando o id do valor do array e jogando na var, 
 
-                        self.cmdBanco.insertMoradia(self.setsMoradia)
+                                        self.setsMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
 
-                        if(self.ativaDesativarCampos() == True): #Se os campos tiverem ativados, serão executados mais os codigos abaixo
+                                        self.cmdBanco.insertMoradia(self.setsMoradia)
 
-                                IDmoradia = self.cmdBanco.buscarIdMoradia(IDmorador, self.vlrBloco)
+                                        self.cmdBanco.insertContato(self.setsContatos)
 
-                                IDmoradia = int(IDmoradia[0][0])
+                                        IDcontato = self.cmdBanco.buscarIdContato(self.vlrTelefone, self.vlrEmail)
 
-                                print(IDmoradia)
-                        
-                                self.setsVei = ("'%s','%s','%s','%s',%s" % (self.vlrCorVeiculo, self.vlrTipoVeiculo, self.vlrModelo, self.vlrPlaca, IDmoradia))
-                                self.cmdBanco.insertVeiculo(self.setsVei)
+                                        IDcontato = int(IDcontato[0][0])
+
+                                        setsContatosPessoa = ("%s, %s" % (IDmorador, IDcontato))
+
+                                        self.cmdBanco.insertContatosPessoa(setsContatosPessoa)
+
+                                        if(self.ativaDesativarCampos() == True): #Se os campos tiverem ativados, serão executados mais os codigos abaixo
+
+                                                IDmoradia = self.cmdBanco.buscarIdMoradia(IDmorador, self.vlrBloco)
+
+                                                IDmoradia = int(IDmoradia[0][0]) # Tirando o id do valor do array e jogando na var
+                                                print(IDmoradia)
+
+                                                self.setsVei = ("'%s','%s','%s','%s', %s" % (self.vlrCorVeiculo, self.vlrTipoVeiculo, self.vlrModelo, self.vlrPlaca, IDmoradia))
+                                                self.cmdBanco.insertVeiculo(self.setsVei)
 
 
-                        if not self.cmdBanco:
+                                        if not self.cmdBanco:
 
-                                self.lblResultado.setText("Não funcionou")
+                                                self.lblResultado.setText("Não funcionou")
+                                        else:
+                                                self.lblResultado.setText("Cadastrado(a) com Sucesso!!!")
+                                except:                       
+                                        self.lblResultado.setText("Erro. Verifique os campos !!")
                         else:
-                                self.lblResultado.setText("Cadastrado(a) com Sucesso!!!")
-                except:                       
-                        self.lblResultado.setText("Erro. Verifique os campos !!")
+                                self.lblResultado.setText("Campos de senha não conferem")
 
-        
+                else:
+                        self.lblResultado.setText("Falta preencher alguns campos")
 
     def abrirMsgBox(self):
              top = Tk()  
@@ -178,6 +211,8 @@ class Ui_janelaCadastrarMoradores(object):
         self.comboBoxTipoMorador.addItem("")
         self.comboBoxTipoMorador.addItem("")
         self.comboBoxTipoMorador.addItem("")
+
+        self.comboBoxTipoMorador.currentTextChanged.connect(self.desautorizarVisiDependente)
         self.lblTipoMorador = QtWidgets.QLabel(self.centralwidget)
         self.lblTipoMorador.setGeometry(QtCore.QRect(530, 150, 121, 16))
         font = QtGui.QFont()
