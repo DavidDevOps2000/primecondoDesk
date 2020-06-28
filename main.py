@@ -16,6 +16,7 @@ class Home(QMainWindow):
         self.ui.btnActCadastrarMoradores.triggered.connect(self.abrirCadastroMoradores) # btn Cadastrar Morador da Tela Principal
         self.ui.btnActConsultarVisitantes.triggered.connect(self.abrirConsultaVisitantes) # btn Consultar Visitantes da TelaVisitantes
         self.ui.btnActConsultarMoradores.triggered.connect(self.abrirConsultaMoradores) # btn Consultar Moradores da telaMoradores
+        self.ui.btnActSair.triggered.connect(self.sair)
 
 
     def abrirCadastroMoradores(self):
@@ -29,6 +30,14 @@ class Home(QMainWindow):
     def abrirConsultaMoradores(self):
         self.janela = GuiaConsultarMoradores()
         self.janela.show()
+
+    def sair(self):
+        self.ui = Login()
+        self.ui.show()
+
+        self.destroy()
+       
+
 
 
 class GuiaCadastrarMoradores(QMainWindow): #Contrui a janela aqui, e chamei a page externa pra ligar com essa
@@ -69,6 +78,7 @@ class Login (QMainWindow):
         if user == admin and passw == senha:
             self.janela = Home()
             self.janela.show()
+            self.destroy()
            
         else:
             QMessageBox.warning(QMessageBox(),"Login errado!", "Volte e Digite Novamente!")

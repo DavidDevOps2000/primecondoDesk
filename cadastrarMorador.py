@@ -134,7 +134,8 @@ class Ui_janelaCadastrarMoradores(object):
              if ok:                          #Se a pessoa clicar em OK ....
                        self.funcSalvarMorador()
 
-
+    def limparResul(self):
+            self.lblResultado.setText("")
 
     def setupUi(self, janelaCadastrarMoradores):
         janelaCadastrarMoradores.setObjectName("janelaCadastrarMoradores")
@@ -469,6 +470,9 @@ class Ui_janelaCadastrarMoradores(object):
         self.btnLimpar.clicked.connect(self.inputModeloVeiculo.clear)
         self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
         self.btnLimpar.clicked.connect(self.inputPlaca.clear)
+        self.btnLimpar.clicked.connect(self.limparResul)
+
+
         QtCore.QMetaObject.connectSlotsByName(janelaCadastrarMoradores)
         janelaCadastrarMoradores.setTabOrder(self.inputNomeCompleto, self.inputDataNascimento)
         janelaCadastrarMoradores.setTabOrder(self.inputDataNascimento, self.inputCpf)
