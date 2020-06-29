@@ -1,8 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox
-
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 import MySQLdb
 from login import Ui_janelaLogin
+from funcMorador import FuncoesMorador
 
 
 class Ui_janelaAtualizarMoradores(object):
@@ -22,48 +22,99 @@ class Ui_janelaAtualizarMoradores(object):
         janela = Login()
         janela.show()
 
-
-
     def buscarMorador(self):
-        vlrNomeMorador = self.inputPesquisarMorador.text()
-        vlrCpfMorador  = self.inputPesquisarCpf.text()
-
+        self.nomeMorador = self.inputPesquisarMorador.text()
+        self.cpfMorador  = self.inputPesquisarCpf.text()
         self.conecta()
-    
         self.sqlCursor = self.con.cursor()
-        
+
         consultQuery = "SELECT data_nascimento, num_ap, bloco_ap, tipo_pessoa, tel, email, nomeApelido, senha, num_vaga_vei, status_pess, tipo_vei, modelo_vei, cor_vei, placa_vei, nome_pessoa, cpf_pessoa "\
 		        "FROM tbl_pessoa LEFT JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 LEFT JOIN tbl_veiculo ON tbl_moradia.id_moradia = tbl_veiculo.tbl_moradia_id_moradia "\
 		        "LEFT JOIN contatos_pessoa ON tbl_pessoa.id_pessoa = contatos_pessoa.tbl_pessoa_id_pessoa LEFT JOIN tbl_contato ON contatos_pessoa.tbl_contato_id_contato = tbl_contato.id_contato "\
-		        "WHERE nome_pessoa ='%s' OR cpf_pessoa='%s'" % (vlrNomeMorador, vlrCpfMorador)
-                
+		        "WHERE nome_pessoa ='%s' OR cpf_pessoa='%s'" % (self.nomeMorador, self.cpfMorador)
+
         self.sqlCursor.execute(consultQuery)
         self.result = self.sqlCursor.fetchall()
 
-        print(self.result)
+        #print(self.result)
         self.inputPesquisarMorador.setText(self.result[0][14])
         self.inputPesquisarCpf.setText(self.result[0][15])
 
         self.inputDataNascimento.setText(self.result[0][0])
         self.inputNumeroApartamento.setText(str(self.result[0][1]))
 
-
         self.inputTelefone.setText(str(self.result[0][4]))
         self.inputEmail.setText(str(self.result[0][5]))
 
         self.inputNomeApelido.setText(str(self.result[0][6]))
-        self.inputSenha.setText(str(self.result[0][8]))
+        self.inputSenha.setText(str(self.result[0][7]))
         
-        self.inputNumeroVaga.setText(str(self.result[0][9]))
+        self.seuStatus = self.result[0][9] #Seu Status atuaal
+
+        self.inputNumeroVaga.setText(str(self.result[0][8]))
         self.inputPlaca.setText(str(self.result[0][11]))        
         self.inputModeloVeiculo.setText(str(self.result[0][11]))
         self.inputPlaca.setText(str(self.result[0][13]))
 
-
         self.comboBoxBloco.setCurrentText(str(self.result[0][2]))
         self.comboBoxTipoVeiculo.setCurrentText(str(self.result[0][10]))
         self.comboBoxCorVeiculo.setCurrentText(str(self.result[0][12]))
-        self.con.close()
+
+        if self.seuStatus == 1:
+            
+            self.radioOpcaoAtivo.setChecked(True)
+        else:
+            self.radioOpcaoDesativado.setChecked(True)        
+
+    def salvarUpdate(self):
+        self.conecta()
+
+        newNomeMorador          = self.inputPesquisarMorador.text()
+        newCpf                  = self.inputPesquisarCpf.text()
+        newSenha                = self.inputSenha.text()
+        newApelido              = self.inputNomeApelido.text()
+        newTipoMorador          = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
+        newDataNasc             = self.inputDataNascimento.text()
+        newConfSenha            = self.inputConfirmarSenha.text()
+    
+        #Contatos
+        newTel                  = self.inputTelefone.text()
+        newEmail                = self.inputEmail.text()
+
+        #Moradia
+        newNumApt               = self.inputNumeroApartamento.text()
+        newBloco                = str(self.comboBoxBloco.currentText())
+        newVaga                 = self.inputNumeroVaga.text()
+
+        #Veiculo
+        newTipoVei              = str(self.comboBoxTipoVeiculo.currentText())
+        newCorVei               = str(self.comboBoxCorVeiculo.currentText())
+        newPlaca                = self.inputPlaca.text()
+        newModelo               = self.inputModeloVeiculo.text()
+     
+        if self.radioOpcaoAtivo.isChecked():
+               newStatus = True
+        else:
+             newStatus = True
+
+        self.setsAtualizar = ("'%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', "\
+                              "'%s', '%s', '%s','%s', '%s', '%s','%s'"
+                             % (newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei,
+                                newModelo, newCorVei, newPlaca, newNomeMorador, newCpf, self.nomeMorador, self.cpfMorador))
+        print(self.setsAtualizar)
+        self.cmdAtualizar = FuncoesMorador()
+
+        try:
+                self.cmdAtualizar.atualizarMoradores(self.setsAtualizar)
+
+                if not self.cmdAtualizar:
+
+                    self.lblResultado.setText("Não funcionou")
+                
+                else:
+                    self.lblResultado.setText("Atualizado com Sucesso")
+        except:
+                self.lblResultado.setText("Erro no Banco")
 
 
     def setupUi(self, janelaAtualizarMoradores):
@@ -208,10 +259,12 @@ class Ui_janelaAtualizarMoradores(object):
         font.setPointSize(9)
         self.lblPlaca.setFont(font)
         self.lblPlaca.setObjectName("lblPlaca")
-        self.btnSalvar = QtWidgets.QPushButton(self.centralwidget)
-        self.btnSalvar.setGeometry(QtCore.QRect(580, 590, 131, 31))
-        self.btnSalvar.setAutoDefault(False)
-        self.btnSalvar.setObjectName("btnSalvar")
+        self.btnAtualizar = QtWidgets.QPushButton(self.centralwidget)
+        self.btnAtualizar.setGeometry(QtCore.QRect(580, 590, 131, 31))
+        self.btnAtualizar.setAutoDefault(False)
+        self.btnAtualizar.setObjectName("btnAtualizar")
+        self.btnAtualizar.clicked.connect(self.salvarUpdate)
+
         self.lblNumeroVaga = QtWidgets.QLabel(self.centralwidget)
         self.lblNumeroVaga.setGeometry(QtCore.QRect(30, 340, 111, 16))
         font = QtGui.QFont()
@@ -334,17 +387,17 @@ class Ui_janelaAtualizarMoradores(object):
         self.btnBuscarMorador.clicked.connect(self.buscarMorador)
 
 
-        self.radioButtonOpcaoDesativado = QtWidgets.QRadioButton(self.centralwidget)
-        self.radioButtonOpcaoDesativado.setGeometry(QtCore.QRect(330, 370, 81, 20))
-        self.radioButtonOpcaoDesativado.setCheckable(True)
-        self.radioButtonOpcaoDesativado.setChecked(False)
-        self.radioButtonOpcaoDesativado.setObjectName("radioButtonOpcaoDesativado")
-        self.radioButtonOpcaoAtivo = QtWidgets.QRadioButton(self.centralwidget)
-        self.radioButtonOpcaoAtivo.setGeometry(QtCore.QRect(280, 370, 51, 20))
+        self.radioOpcaoDesativado = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioOpcaoDesativado.setGeometry(QtCore.QRect(330, 370, 81, 20))
+        self.radioOpcaoDesativado.setCheckable(True)
+        self.radioOpcaoDesativado.setChecked(False)
+        self.radioOpcaoDesativado.setObjectName("radioOpcaoDesativado")
+        self.radioOpcaoAtivo = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioOpcaoAtivo.setGeometry(QtCore.QRect(280, 370, 51, 20))
         font = QtGui.QFont()
         font.setPointSize(9)
-        self.radioButtonOpcaoAtivo.setFont(font)
-        self.radioButtonOpcaoAtivo.setObjectName("radioButtonOpcaoAtivo")
+        self.radioOpcaoAtivo.setFont(font)
+        self.radioOpcaoAtivo.setObjectName("radioOpcaoAtivo")
         self.lblPossuiVeiculo_2 = QtWidgets.QLabel(self.centralwidget)
         self.lblPossuiVeiculo_2.setGeometry(QtCore.QRect(290, 340, 121, 16))
         font = QtGui.QFont()
@@ -401,7 +454,7 @@ class Ui_janelaAtualizarMoradores(object):
         janelaAtualizarMoradores.setTabOrder(self.inputModeloVeiculo, self.comboBoxCorVeiculo)
         janelaAtualizarMoradores.setTabOrder(self.comboBoxCorVeiculo, self.inputPlaca)
         janelaAtualizarMoradores.setTabOrder(self.inputPlaca, self.btnLimpar)
-        janelaAtualizarMoradores.setTabOrder(self.btnLimpar, self.btnSalvar)
+        janelaAtualizarMoradores.setTabOrder(self.btnLimpar, self.btnAtualizar)
 
     def retranslateUi(self, janelaAtualizarMoradores):
         _translate = QtCore.QCoreApplication.translate
@@ -436,7 +489,7 @@ class Ui_janelaAtualizarMoradores(object):
         self.comboBoxCorVeiculo.setItemText(6, _translate("janelaAtualizarMoradores", "Azul"))
         self.comboBoxCorVeiculo.setItemText(7, _translate("janelaAtualizarMoradores", "Branco"))
         self.lblPlaca.setText(_translate("janelaAtualizarMoradores", "&Placa:"))
-        self.btnSalvar.setText(_translate("janelaAtualizarMoradores", "SALVAR"))
+        self.btnAtualizar.setText(_translate("janelaAtualizarMoradores", "ATUALIZAR"))
         self.lblNumeroVaga.setText(_translate("janelaAtualizarMoradores", "&Nº da Vaga Veiculo:"))
         self.lblNomeApelido.setText(_translate("janelaAtualizarMoradores", "&Nome / Apelido"))
         self.lblSenha.setText(_translate("janelaAtualizarMoradores", "&Senha:"))
@@ -450,8 +503,8 @@ class Ui_janelaAtualizarMoradores(object):
         self.inputTelefone.setInputMask(_translate("janelaAtualizarMoradores", "(000) 00000-0000"))
         self.inputNumeroVaga.setInputMask(_translate("janelaAtualizarMoradores", "0000"))
         self.btnBuscarMorador.setText(_translate("janelaAtualizarMoradores", "Buscar"))
-        self.radioButtonOpcaoDesativado.setText(_translate("janelaAtualizarMoradores", "Desativado"))
-        self.radioButtonOpcaoAtivo.setText(_translate("janelaAtualizarMoradores", "Ativo"))
+        self.radioOpcaoDesativado.setText(_translate("janelaAtualizarMoradores", "Desativado"))
+        self.radioOpcaoAtivo.setText(_translate("janelaAtualizarMoradores", "Ativo"))
         self.lblPossuiVeiculo_2.setText(_translate("janelaAtualizarMoradores", "Status Pessoa"))
         self.label.setText(_translate("janelaAtualizarMoradores", "ou"))
 
