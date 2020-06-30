@@ -5,7 +5,7 @@ from login import Ui_janelaLogin
 from cadastrarMorador import Ui_janelaCadastrarMoradores
 from consultarVisitantes import Ui_janelaConsultarVisitantes
 from consultarMoradores import Ui_janelaConsultarMoradores
-
+from atualizarMoradores import Ui_janelaAtualizarMoradores
 
 class Home(QMainWindow):
 
@@ -16,6 +16,7 @@ class Home(QMainWindow):
         self.ui.btnActCadastrarMoradores.triggered.connect(self.abrirCadastroMoradores) # btn Cadastrar Morador da Tela Principal
         self.ui.btnActConsultarVisitantes.triggered.connect(self.abrirConsultaVisitantes) # btn Consultar Visitantes da TelaVisitantes
         self.ui.btnActConsultarMoradores.triggered.connect(self.abrirConsultaMoradores) # btn Consultar Moradores da telaMoradores
+        self.ui.btnActAtualizarMoradores.triggered.connect(self.abrirAtualizarMoradores)
         self.ui.btnActSair.triggered.connect(self.sair)
 
 
@@ -30,6 +31,11 @@ class Home(QMainWindow):
     def abrirConsultaMoradores(self):
         self.janela = GuiaConsultarMoradores()
         self.janela.show()
+
+    def abrirAtualizarMoradores(self):
+        self.janela = GuiaAtualizarMoradores()
+        self.janela.show()
+
 
     def sair(self):
         self.ui = Login()
@@ -60,6 +66,13 @@ class GuiaConsultarMoradores(QMainWindow): #Contrui a janela aqui, e chamei a pa
         self.telaConsultarMoradores = Ui_janelaConsultarMoradores()
         self.telaConsultarMoradores.setupUi(self)
 
+
+
+class GuiaAtualizarMoradores(QMainWindow): #Contrui a janela aqui, e chamei a page externa pra ligar com essa
+    def __init__(self,*args,**argvs):
+        super(GuiaAtualizarMoradores,self).__init__(*args,**argvs)
+        self.telaConsultarMoradores = Ui_janelaAtualizarMoradores()
+        self.telaConsultarMoradores.setupUi(self)
 
 class Login (QMainWindow):
 
