@@ -18,9 +18,6 @@ class Ui_janelaAtualizarMoradores(object):
         self.port = 3306
         self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
     
-    def abriAuthLogin():
-        janela = Login()
-        janela.show()
 
     def buscarMorador(self):
         self.cpfMorador  = self.inputPesquisarCpf.text()
@@ -48,7 +45,7 @@ class Ui_janelaAtualizarMoradores(object):
 
         self.inputNomeApelido.setText(str(self.result[0][6]))
         self.inputSenha.setText(str(self.result[0][7]))
-        
+
         self.seuStatus = self.result[0][9] #Seu Status atuaal
 
         self.inputNumeroVaga.setText(str(self.result[0][8]))
@@ -68,6 +65,9 @@ class Ui_janelaAtualizarMoradores(object):
 
     def salvarUpdate(self):
         self.conecta()
+
+        self.vlrSenha = self.inputSenha.text()
+        self.vlrConfirmarSenha =self.inputConfirmarSenha.text()
 
         newNomeMorador          = self.inputPesquisarMorador.text()
         newCpf                  = self.inputPesquisarCpf.text()
@@ -99,19 +99,20 @@ class Ui_janelaAtualizarMoradores(object):
 
         self.cmdUpdate = FuncoesMorador()
 
-        try:
-            self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
+        if self.vlrSenha == self.vlrConfirmarSenha: #Se as senhas forem as mesmas
+            try:
+                self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
 
+                if not self.cmdUpdate:
 
-            if not self.cmdUpdate:
-
-                    self.lblResultado.setText("Não funcionou")
+                            self.lblResultado.setText("Não funcionou")
                 
-            else:
-                    self.lblResultado.setText("Atualizado com Sucesso")
-        except:
-                self.lblResultado.setText("Erro no Banco")
-
+                else:
+                        self.lblResultado.setText("Atualizado com Sucesso")
+            except:
+                    self.lblResultado.setText("Erro no Banco")
+        else:
+            self.lblResultado.setText("Campos de senha não conferem")
 
     def setupUi(self, janelaAtualizarMoradores):
         janelaAtualizarMoradores.setObjectName("janelaAtualizarMoradores")
@@ -504,28 +505,6 @@ class Ui_janelaAtualizarMoradores(object):
         self.lblPossuiVeiculo_2.setText(_translate("janelaAtualizarMoradores", "Status Pessoa"))
         self.label.setText(_translate("janelaAtualizarMoradores", "ou"))
 
-
-class Login (QMainWindow):
-
-    def __init__(self,*args,**argvs):
-        super(Login,self).__init__(*args,**argvs)
-        self.ui = Ui_janelaLogin()
-        self.ui.setupUi(self)
-        self.ui.btnEntrar.clicked.connect(self.login)
-
-    def login(self):
-        admin = "admin"
-        senha = "admin"
-        user = self.ui.inputLogin.text()
-        passw = self.ui.inputSenha.text()
-
-        if user == admin and passw == senha:
-            self.janela = Home()
-            self.janela.show()
-            self.destroy()
-           
-        else:
-            QMessageBox.warning(QMessageBox(),"Senha ou Login Incorreto", "Volte e Digite Novamente!")
 
 if __name__ == "__main__":
     import sys
