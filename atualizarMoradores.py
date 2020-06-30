@@ -28,17 +28,16 @@ class Ui_janelaAtualizarMoradores(object):
         self.conecta()
         self.sqlCursor = self.con.cursor()
 
-        consultQuery = "SELECT data_nascimento, num_ap, bloco_ap, tipo_pessoa, tel, email, nomeApelido, senha, num_vaga_vei, status_pess, tipo_vei, modelo_vei, cor_vei, placa_vei, nome_pessoa, cpf_pessoa "\
+        consultQuery = "SELECT data_nascimento, num_ap, bloco_ap, tipo_pessoa, tel, email, nomeApelido, senha, num_vaga_vei, status_pess, tipo_vei, modelo_vei, cor_vei, placa_vei, nome_pessoa "\
 		        "FROM tbl_pessoa LEFT JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 LEFT JOIN tbl_veiculo ON tbl_moradia.id_moradia = tbl_veiculo.tbl_moradia_id_moradia "\
 		        "LEFT JOIN contatos_pessoa ON tbl_pessoa.id_pessoa = contatos_pessoa.tbl_pessoa_id_pessoa LEFT JOIN tbl_contato ON contatos_pessoa.tbl_contato_id_contato = tbl_contato.id_contato "\
 		        "WHERE nome_pessoa ='%s' OR cpf_pessoa='%s'" % (self.nomeMorador, self.cpfMorador)
 
+
         self.sqlCursor.execute(consultQuery)
         self.result = self.sqlCursor.fetchall()
 
-        #print(self.result)
-        self.inputPesquisarMorador.setText(self.result[0][14])
-        self.inputPesquisarCpf.setText(self.result[0][15])
+        print(self.result)
 
         self.inputDataNascimento.setText(self.result[0][0])
         self.inputNumeroApartamento.setText(str(self.result[0][1]))
@@ -93,25 +92,21 @@ class Ui_janelaAtualizarMoradores(object):
         newModelo               = self.inputModeloVeiculo.text()
      
         if self.radioOpcaoAtivo.isChecked():
-               newStatus = True
+            newStatus = True
         else:
-             newStatus = True
+            newStatus = False
 
-        self.setsAtualizar = ("'%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', "\
-                              "'%s', '%s', '%s','%s', '%s', '%s','%s'"
-                             % (newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei,
-                                newModelo, newCorVei, newPlaca, newNomeMorador, newCpf, self.nomeMorador, self.cpfMorador))
-        print(self.setsAtualizar)
-        self.cmdAtualizar = FuncoesMorador()
+        self.cmdUpdate = FuncoesMorador()
 
         try:
-                self.cmdAtualizar.atualizarMoradores(self.setsAtualizar)
+            self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, self.cpfMorador)
 
-                if not self.cmdAtualizar:
+
+            if not self.cmdUpdate:
 
                     self.lblResultado.setText("Não funcionou")
                 
-                else:
+            else:
                     self.lblResultado.setText("Atualizado com Sucesso")
         except:
                 self.lblResultado.setText("Erro no Banco")
@@ -217,7 +212,7 @@ class Ui_janelaAtualizarMoradores(object):
         self.lblTipoVeiculo.setFont(font)
         self.lblTipoVeiculo.setObjectName("lblTipoVeiculo")
         self.comboBoxTipoVeiculo = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBoxTipoVeiculo.setEnabled(False)
+        self.comboBoxTipoVeiculo.setEnabled(True)
         self.comboBoxTipoVeiculo.setGeometry(QtCore.QRect(30, 470, 121, 26))
         font = QtGui.QFont()
         font.setPointSize(9)
@@ -239,7 +234,7 @@ class Ui_janelaAtualizarMoradores(object):
         self.lblCorVeiculo.setFont(font)
         self.lblCorVeiculo.setObjectName("lblCorVeiculo")
         self.comboBoxCorVeiculo = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBoxCorVeiculo.setEnabled(False)
+        self.comboBoxCorVeiculo.setEnabled(True)
         self.comboBoxCorVeiculo.setGeometry(QtCore.QRect(530, 470, 181, 26))
         font = QtGui.QFont()
         font.setPointSize(9)
@@ -347,7 +342,7 @@ class Ui_janelaAtualizarMoradores(object):
         self.inputNomeApelido.setMaxLength(20)
         self.inputNomeApelido.setObjectName("inputNomeApelido")
         self.inputPlaca = QtWidgets.QLineEdit(self.centralwidget)
-        self.inputPlaca.setEnabled(False)
+        self.inputPlaca.setEnabled(True)
         self.inputPlaca.setGeometry(QtCore.QRect(30, 540, 111, 26))
         self.inputPlaca.setMaxLength(7)
         self.inputPlaca.setObjectName("inputPlaca")
@@ -362,7 +357,7 @@ class Ui_janelaAtualizarMoradores(object):
         self.inputConfirmarSenha.setEchoMode(QtWidgets.QLineEdit.Password)
         self.inputConfirmarSenha.setObjectName("inputConfirmarSenha")
         self.inputModeloVeiculo = QtWidgets.QLineEdit(self.centralwidget)
-        self.inputModeloVeiculo.setEnabled(False)
+        self.inputModeloVeiculo.setEnabled(True)
         self.inputModeloVeiculo.setGeometry(QtCore.QRect(260, 470, 181, 26))
         self.inputModeloVeiculo.setMaxLength(25)
         self.inputModeloVeiculo.setObjectName("inputModeloVeiculo")

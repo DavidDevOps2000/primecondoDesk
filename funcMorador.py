@@ -63,28 +63,6 @@ class FuncoesMorador:
         cursorSql.execute(queryInsertContatosPessoa)
         self.con.commit()
         self.con.close()
-
-
-    def insertBiometria(self, setsBiometria):
-        self.conecta()
-        cursorSql = self.con.cursor()
-        queryInsertBiometria = "INSERT INTO tbl_biometria (amz_img, dt_tp_reg, 	c_img )"\
-                                        " VALUES("'%s', '%s', '%s'");" %  (setsBiometria)
-        print(queryInsertBiometria)
-        cursorSql.execute(queryInsertBiometria)
-        self.con.commit()
-        self.con.close()
-
-    def insertPessoaBiometria(self, setsPessoaBiometria): # Tabela que depedente de inserts anteriores
-        self.conecta()
-        cursorSql = self.con.cursor()
-        queryInsertPessoaBiometria = "INSERT INTO pessoa_biometria	(tbl_pessoa_id_pessoa,	tbl_biometria_id_bio)"\
-                                        " VALUES("'%s', '%s'");" %  (setsPessoaBiometria)
-        print(queryInsertPessoaBiometria)
-        cursorSql.execute(queryInsertPessoaBiometria)
-        self.con.commit()
-        self.con.close()
-
    
 ##########################################################################################################################################
 
@@ -134,14 +112,15 @@ class FuncoesMorador:
 #Para inserir dados na tabela  
 
 
-    def atualizarMoradores(self, setsAtualizar):
+    def atualizarMoradores(self, newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, cpfMorador):
         self.conecta()
-        self.cursorSql = self.con.cursor()
+        cursorSql = self.con.cursor()
         queryAtualizacao = "UPDATE tbl_pessoa JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 JOIN tbl_veiculo ON tbl_moradia.id_moradia = tbl_veiculo.tbl_moradia_id_moradia "\
 		                    "JOIN contatos_pessoa ON tbl_pessoa.id_pessoa = contatos_pessoa.tbl_pessoa_id_pessoa JOIN tbl_contato ON contatos_pessoa.tbl_contato_id_contato = tbl_contato.id_contato "\
 		                    " SET data_nascimento ='%s', num_ap =%s, bloco_ap ='%s', tipo_pessoa ='%s', tel ='%s', email ='%s', nomeApelido ='%s', senha ='%s', num_vaga_vei= %s, status_pess = %s, tipo_vei ='%s', "\
-                            "modelo_vei ='%s', cor_vei ='%s', placa_vei ='%s', nome_pessoa ='%s', cpf_pessoa ='%s' WHERE nome_pessoa ='%s' OR cpf_pessoa='%s' ;" % (setsAtualizar)
+                            "modelo_vei ='%s', cor_vei ='%s', placa_vei ='%s' WHERE cpf_pessoa='%s';" % (newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, cpfMorador)
+        
         print(queryAtualizacao)
-        self.cursorSql.execute(queryAtualizacao)
+        cursorSql.execute(queryAtualizacao)
         self.con.commit()
         self.con.close()
