@@ -23,8 +23,8 @@ class Ui_janelaAtualizarMoradores(object):
         janela.show()
 
     def buscarMorador(self):
-        self.nomeMorador = self.inputPesquisarMorador.text()
         self.cpfMorador  = self.inputPesquisarCpf.text()
+        self.nomeMorador = self.inputPesquisarMorador.text()
         self.conecta()
         self.sqlCursor = self.con.cursor()
 
@@ -33,12 +33,13 @@ class Ui_janelaAtualizarMoradores(object):
 		        "LEFT JOIN contatos_pessoa ON tbl_pessoa.id_pessoa = contatos_pessoa.tbl_pessoa_id_pessoa LEFT JOIN tbl_contato ON contatos_pessoa.tbl_contato_id_contato = tbl_contato.id_contato "\
 		        "WHERE nome_pessoa ='%s' OR cpf_pessoa='%s'" % (self.nomeMorador, self.cpfMorador)
 
-
         self.sqlCursor.execute(consultQuery)
         self.result = self.sqlCursor.fetchall()
 
-        print(self.result)
+        #print(self.result)
+        self.inputPesquisarMorador.setText(str(self.result[0][14]))
 
+        self.nomeMoradorAntigo = self.inputPesquisarMorador.text()
         self.inputDataNascimento.setText(self.result[0][0])
         self.inputNumeroApartamento.setText(str(self.result[0][1]))
 
@@ -99,7 +100,7 @@ class Ui_janelaAtualizarMoradores(object):
         self.cmdUpdate = FuncoesMorador()
 
         try:
-            self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, self.cpfMorador)
+            self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
 
 
             if not self.cmdUpdate:
