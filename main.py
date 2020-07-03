@@ -42,8 +42,6 @@ class Home(QMainWindow):
         self.ui.show()
 
         self.destroy()
-       
-
 
 
 class GuiaCadastrarMoradores(QMainWindow): #Contrui a janela aqui, e chamei a page externa pra ligar com essa
