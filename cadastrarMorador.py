@@ -19,8 +19,6 @@ class Ui_janelaCadastrarMoradores(object):
                         self.inputNomeApelido.setEnabled(True)
                         self.inputConfirmarSenha.setEnabled(True)
                         self.inputSenha.setEnabled(True)
-                      
-                    
 
     def ativaDesativarCampos(self):
 
@@ -39,8 +37,6 @@ class Ui_janelaCadastrarMoradores(object):
                         self.inputModeloVeiculo.setEnabled(False)
                         
                         return False
-
-
 
     def funcSalvarMorador(self):
                 # Morador

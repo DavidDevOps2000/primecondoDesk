@@ -1,81 +1,73 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
-import MySQLdb
-from login import Ui_janelaLogin
 from funcMorador import FuncoesMorador
 
 
 class Ui_janelaAtualizarMoradores(object):
-    
-    def __init__(self):
-        self.con = ""
 
-    def conecta(self):
-        self.host = "localhost"
-        self.user = "root"
-        self.password = ""
-        self.db = "bd_cond"
-        self.port = 3306
-        self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
-    
 
     def buscarMorador(self):
+        self.conexao = FuncoesMorador()
+        self.conexao.conecta()
+
         self.cpfMorador  = self.inputPesquisarCpf.text()
         self.nomeMorador = self.inputPesquisarMorador.text()
-        self.conecta()
-        self.sqlCursor = self.con.cursor()
+        
+        self.cmdMoradorConsult = FuncoesMorador()
 
-        consultQuery = "SELECT data_nascimento, num_ap, bloco_ap, tipo_pessoa, tel, email, nomeApelido, senha, num_vaga_vei, status_pess, tipo_vei, modelo_vei, cor_vei, placa_vei, nome_pessoa "\
-		        "FROM tbl_pessoa LEFT JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 LEFT JOIN tbl_veiculo ON tbl_moradia.id_moradia = tbl_veiculo.tbl_moradia_id_moradia "\
-		        "LEFT JOIN contatos_pessoa ON tbl_pessoa.id_pessoa = contatos_pessoa.tbl_pessoa_id_pessoa LEFT JOIN tbl_contato ON contatos_pessoa.tbl_contato_id_contato = tbl_contato.id_contato "\
-		        "WHERE nome_pessoa ='%s' OR cpf_pessoa='%s'" % (self.nomeMorador, self.cpfMorador)
-
-        self.sqlCursor.execute(consultQuery)
-        self.result = self.sqlCursor.fetchall()
-
-        #print(self.result)
-        self.inputPesquisarMorador.setText(str(self.result[0][14]))
-
-        self.nomeMoradorAntigo = self.inputPesquisarMorador.text()
-        self.inputDataNascimento.setText(self.result[0][0])
-        self.inputNumeroApartamento.setText(str(self.result[0][1]))
-
-        self.inputTelefone.setText(str(self.result[0][4]))
-        self.inputEmail.setText(str(self.result[0][5]))
-
-        self.inputNomeApelido.setText(str(self.result[0][6]))
-        self.inputSenha.setText(str(self.result[0][7]))
-
-        self.seuStatus = self.result[0][9] #Seu Status atuaal
-
-        self.inputNumeroVaga.setText(str(self.result[0][8]))
-        self.inputPlaca.setText(str(self.result[0][11]))        
-        self.inputModeloVeiculo.setText(str(self.result[0][11]))
-        self.inputPlaca.setText(str(self.result[0][13]))
-
-        self.comboBoxBloco.setCurrentText(str(self.result[0][2]))
-        self.comboBoxTipoVeiculo.setCurrentText(str(self.result[0][10]))
-        self.comboBoxCorVeiculo.setCurrentText(str(self.result[0][12]))
-
-        if self.seuStatus == 1:
+        try:
+            self.result = self.cmdMoradorConsult.consulMoradorUpdate(self.nomeMorador, self.cpfMorador)
             
-            self.radioOpcaoAtivo.setChecked(True)
-        else:
-            self.radioOpcaoDesativado.setChecked(True)        
+            if not self.cmdMoradorConsult:
+                    self.lblResultado.setText("Não Encontrado")
+                    self.limparCampo()
+
+            else:
+                    self.lblResultado.setText("Encontrado")
+                    self.inputPesquisarMorador.setText(str(self.result[0][14]))
+
+                    self.nomeMoradorAntigo = self.inputPesquisarMorador.text()
+                    self.inputDataNascimento.setText(self.result[0][0])
+                    self.inputNumeroApartamento.setText(str(self.result[0][1]))
+
+                    self.inputTelefone.setText(str(self.result[0][4]))
+                    self.inputEmail.setText(str(self.result[0][5]))
+
+                    self.inputNomeApelido.setText(str(self.result[0][6]))
+                    self.inputSenha.setText(str(self.result[0][7]))
+
+                    self.seuStatus = self.result[0][9] #Seu Status atuaal
+
+                    self.inputNumeroVaga.setText(str(self.result[0][8]))
+                    self.inputPlaca.setText(str(self.result[0][11]))        
+                    self.inputModeloVeiculo.setText(str(self.result[0][11]))
+                    self.inputPlaca.setText(str(self.result[0][13]))
+
+                    self.comboBoxBloco.setCurrentText(str(self.result[0][2]))
+                    self.comboBoxTipoVeiculo.setCurrentText(str(self.result[0][10]))
+                    self.comboBoxCorVeiculo.setCurrentText(str(self.result[0][12]))
+
+                    if self.seuStatus == 1:# Converendo em True
+                        self.radioOpcaoAtivo.setChecked(True)
+                    else:
+                        self.radioOpcaoDesativado.setChecked(True)  
+        except:
+            self.lblResultado.setText("Não encontrado")
+
+              
 
     def salvarUpdate(self):
-        self.conecta()
+        self.conexao.conecta()
+        self.limparCampo()
 
         self.vlrSenha = self.inputSenha.text()
         self.vlrConfirmarSenha =self.inputConfirmarSenha.text()
 
         newNomeMorador          = self.inputPesquisarMorador.text()
-        newCpf                  = self.inputPesquisarCpf.text()
         newSenha                = self.inputSenha.text()
         newApelido              = self.inputNomeApelido.text()
         newTipoMorador          = str(self.comboBoxTipoMorador.currentText())#Pegando o valor do comboBox e convertendo em string
         newDataNasc             = self.inputDataNascimento.text()
-        newConfSenha            = self.inputConfirmarSenha.text()
     
         #Contatos
         newTel                  = self.inputTelefone.text()
@@ -101,11 +93,12 @@ class Ui_janelaAtualizarMoradores(object):
 
         if self.vlrSenha == self.vlrConfirmarSenha: #Se as senhas forem as mesmas
             try:
+                
                 self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
 
                 if not self.cmdUpdate:
-
-                            self.lblResultado.setText("Não funcionou")
+                  self.lblResultado.setText("Não foi Atualizado(a)")
+                  self.limparCampo()
                 
                 else:
                         self.lblResultado.setText("Atualizado com Sucesso")
@@ -113,7 +106,24 @@ class Ui_janelaAtualizarMoradores(object):
                     self.lblResultado.setText("Erro no Banco")
         else:
             self.lblResultado.setText("Campos de senha não conferem")
-
+    
+    def limparCampo(self):
+        self.inputPesquisarMorador.setText(" ")
+        self.nomeMoradorAntigo = self.inputPesquisarMorador.text()
+        self.inputDataNascimento.setText(" ")
+        self.inputNumeroApartamento.setText(" ")
+        self.inputTelefone.setText("")
+        self.inputEmail.setText(" ")
+        self.inputNomeApelido.setText(" ")
+        self.inputSenha.setText("")
+        self.seuStatus=0
+        self.inputNumeroVaga.setText(" ")
+        self.inputPlaca.setText(" ")
+        self.inputModeloVeiculo.setText(" ")
+        self.inputPlaca.setText(" ")
+        self.inputPesquisarMorador.setText(" ")
+        self.inputPesquisarCpf.setText(" ")
+        
     def setupUi(self, janelaAtualizarMoradores):
         janelaAtualizarMoradores.setObjectName("janelaAtualizarMoradores")
         janelaAtualizarMoradores.resize(725, 650)
@@ -422,6 +432,8 @@ class Ui_janelaAtualizarMoradores(object):
         self.lblSenha.setBuddy(self.inputSenha)
         self.lblConfirmarSenha.setBuddy(self.inputConfirmarSenha)
 
+        self.inputPesquisarMorador.setFocus()
+
         self.retranslateUi(janelaAtualizarMoradores)
         self.btnLimpar.clicked.connect(self.inputPesquisarMorador.clear)
         self.btnLimpar.clicked.connect(self.inputDataNascimento.clear)
@@ -435,10 +447,11 @@ class Ui_janelaAtualizarMoradores(object):
         self.btnLimpar.clicked.connect(self.inputTelefone.clear)
         self.btnLimpar.clicked.connect(self.inputNumeroApartamento.clear)
         self.btnLimpar.clicked.connect(self.inputEmail.clear)
+
         QtCore.QMetaObject.connectSlotsByName(janelaAtualizarMoradores)
-        janelaAtualizarMoradores.setTabOrder(self.inputPesquisarMorador, self.inputDataNascimento)
-        janelaAtualizarMoradores.setTabOrder(self.inputDataNascimento, self.inputPesquisarCpf)
-        janelaAtualizarMoradores.setTabOrder(self.inputPesquisarCpf, self.inputNumeroApartamento)
+        janelaAtualizarMoradores.setTabOrder(self.inputPesquisarMorador, self.inputPesquisarCpf)
+        janelaAtualizarMoradores.setTabOrder(self.inputPesquisarCpf, self.btnBuscarMorador)
+        janelaAtualizarMoradores.setTabOrder(self.inputDataNascimento, self.inputNumeroApartamento)
         janelaAtualizarMoradores.setTabOrder(self.inputNumeroApartamento, self.comboBoxBloco)
         janelaAtualizarMoradores.setTabOrder(self.comboBoxBloco, self.comboBoxTipoMorador)
         janelaAtualizarMoradores.setTabOrder(self.comboBoxTipoMorador, self.inputTelefone)

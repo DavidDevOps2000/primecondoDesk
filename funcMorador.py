@@ -109,6 +109,24 @@ class FuncoesMorador:
         return result
 
 
+    def consulMoradorUpdate(self, nomeMorador, cpfMorador):
+        self.conecta()
+        self.cursorSql = self.con.cursor()
+        consultMoradorQuery="SELECT data_nascimento, num_ap, bloco_ap, tipo_pessoa, tel, email, nomeApelido, "\
+                            "senha, num_vaga_vei, status_pess, tipo_vei, modelo_vei, cor_vei, placa_vei, nome_pessoa "\
+                            "FROM tbl_pessoa p LEFT JOIN tbl_moradia m ON p.id_pessoa = m.tbl_pessoa_id_pessoa1 "\
+                            "LEFT JOIN tbl_veiculo v ON m.id_moradia = v.tbl_moradia_id_moradia "\
+                            "LEFT JOIN contatos_pessoa cp ON p.id_pessoa = cp.tbl_pessoa_id_pessoa "\
+                            "LEFT JOIN tbl_contato c ON cp.tbl_contato_id_contato = c.id_contato "\
+                            "WHERE nome_pessoa ='%s' OR cpf_pessoa='%s';" % (nomeMorador, cpfMorador)
+
+        self.cursorSql.execute(consultMoradorQuery)
+        print(consultMoradorQuery)
+        result = self.cursorSql.fetchall()
+        self.con.close()
+        return result
+
+
 #Para inserir dados na tabela  
 
 
