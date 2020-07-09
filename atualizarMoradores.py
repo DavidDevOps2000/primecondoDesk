@@ -1,10 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from funcMorador import FuncoesMorador
-
+from tkinter import messagebox
+from tkinter import Tk
 
 class Ui_janelaAtualizarMoradores(object):
-
 
     def buscarMorador(self):
         self.conexao = FuncoesMorador()
@@ -20,29 +20,21 @@ class Ui_janelaAtualizarMoradores(object):
             
             if not self.cmdMoradorConsult:
                     self.lblResultado.setText("Não Encontrado")
-                    self.limparCampo()
-
             else:
                     self.lblResultado.setText("Encontrado")
                     self.inputPesquisarMorador.setText(str(self.result[0][14]))
-
                     self.nomeMoradorAntigo = self.inputPesquisarMorador.text()
                     self.inputDataNascimento.setText(self.result[0][0])
                     self.inputNumeroApartamento.setText(str(self.result[0][1]))
-
                     self.inputTelefone.setText(str(self.result[0][4]))
                     self.inputEmail.setText(str(self.result[0][5]))
-
                     self.inputNomeApelido.setText(str(self.result[0][6]))
                     self.inputSenha.setText(str(self.result[0][7]))
-
                     self.seuStatus = self.result[0][9] #Seu Status atuaal
-
                     self.inputNumeroVaga.setText(str(self.result[0][8]))
                     self.inputPlaca.setText(str(self.result[0][11]))        
                     self.inputModeloVeiculo.setText(str(self.result[0][11]))
                     self.inputPlaca.setText(str(self.result[0][13]))
-
                     self.comboBoxBloco.setCurrentText(str(self.result[0][2]))
                     self.comboBoxTipoVeiculo.setCurrentText(str(self.result[0][10]))
                     self.comboBoxCorVeiculo.setCurrentText(str(self.result[0][12]))
@@ -54,11 +46,9 @@ class Ui_janelaAtualizarMoradores(object):
         except:
             self.lblResultado.setText("Não encontrado")
 
-              
-
     def salvarUpdate(self):
+        self.conexao = FuncoesMorador()
         self.conexao.conecta()
-        self.limparCampo()
 
         self.vlrSenha = self.inputSenha.text()
         self.vlrConfirmarSenha =self.inputConfirmarSenha.text()
@@ -98,32 +88,23 @@ class Ui_janelaAtualizarMoradores(object):
 
                 if not self.cmdUpdate:
                   self.lblResultado.setText("Não foi Atualizado(a)")
-                  self.limparCampo()
-                
+
                 else:
                         self.lblResultado.setText("Atualizado com Sucesso")
             except:
-                    self.lblResultado.setText("Erro no Banco")
+                    self.lblResultado.setText("Verifique corretamente os campos")
         else:
             self.lblResultado.setText("Campos de senha não conferem")
     
-    def limparCampo(self):
-        self.inputPesquisarMorador.setText(" ")
-        self.nomeMoradorAntigo = self.inputPesquisarMorador.text()
-        self.inputDataNascimento.setText(" ")
-        self.inputNumeroApartamento.setText(" ")
-        self.inputTelefone.setText("")
-        self.inputEmail.setText(" ")
-        self.inputNomeApelido.setText(" ")
-        self.inputSenha.setText("")
-        self.seuStatus=0
-        self.inputNumeroVaga.setText(" ")
-        self.inputPlaca.setText(" ")
-        self.inputModeloVeiculo.setText(" ")
-        self.inputPlaca.setText(" ")
-        self.inputPesquisarMorador.setText(" ")
-        self.inputPesquisarCpf.setText(" ")
+    def abrirMsgBox(self):
+             top = Tk()  
+             top.geometry("0x0")
+             top.overrideredirect(True)  
+             ok = messagebox.askokcancel("Cadastrar Morador","Você tem que certeza que cadastrá-lo(a) ?") 
         
+             if ok:                      #Se a pessoa clicar em OK ....
+                    self.salvarUpdate()
+
     def setupUi(self, janelaAtualizarMoradores):
         janelaAtualizarMoradores.setObjectName("janelaAtualizarMoradores")
         janelaAtualizarMoradores.resize(725, 650)
@@ -213,10 +194,8 @@ class Ui_janelaAtualizarMoradores(object):
         self.lblTelefone.setObjectName("lblTelefone")
         font = QtGui.QFont()
         font.setPointSize(9)
-        
         font = QtGui.QFont()
         font.setPointSize(9)
-        
         self.lblTipoVeiculo = QtWidgets.QLabel(self.centralwidget)
         self.lblTipoVeiculo.setGeometry(QtCore.QRect(30, 450, 55, 16))
         font = QtGui.QFont()
@@ -270,7 +249,7 @@ class Ui_janelaAtualizarMoradores(object):
         self.btnAtualizar.setGeometry(QtCore.QRect(580, 590, 131, 31))
         self.btnAtualizar.setAutoDefault(False)
         self.btnAtualizar.setObjectName("btnAtualizar")
-        self.btnAtualizar.clicked.connect(self.salvarUpdate)
+        self.btnAtualizar.clicked.connect(self.abrirMsgBox)
 
         self.lblNumeroVaga = QtWidgets.QLabel(self.centralwidget)
         self.lblNumeroVaga.setGeometry(QtCore.QRect(30, 340, 111, 16))

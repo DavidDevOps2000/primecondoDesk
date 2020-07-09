@@ -107,7 +107,7 @@ class FuncoesMorador:
         result = cursorSql.fetchall()
         self.con.close()
         return result
-
+################################################################################################################## UPDATES ##########################################
 
     def consulMoradorUpdate(self, nomeMorador, cpfMorador):
         self.conecta()
@@ -147,3 +147,35 @@ class FuncoesMorador:
         cursorSql.execute(queryAtualizacao)
         self.con.commit()
         self.con.close()
+
+    
+    def temCpf(self, verificarCPF):
+        self.conecta()
+        cursorSql = self.con.cursor()
+        querySelectCpf = "SELECT * FROM tbl_pessoa WHERE cpf_pessoa = '%s';" % (verificarCPF)
+        cursorSql.execute(querySelectCpf)
+        print(querySelectCpf)
+        result = cursorSql.fetchall()
+        self.con.close()
+        return result
+
+
+    def temApelido(self, verificarApelido):
+        self.conecta()
+        cursorSql = self.con.cursor()
+        querySelectApelido = "SELECT * FROM tbl_pessoa WHERE nomeApelido = '%s';" % (verificarApelido)
+        cursorSql.execute(querySelectApelido)
+        print(querySelectApelido)
+        result = cursorSql.fetchall()
+        self.con.close()
+        return result
+
+    def temPlaca(self, verificarPlaca):
+        self.conecta()
+        cursorSql = self.con.cursor()
+        querySelecVei = "SELECT * FROM tbl_veiculo WHERE  placa_vei = '%s';" % (verificarPlaca)
+        cursorSql.execute(querySelecVei)
+        print(querySelecVei)
+        result = cursorSql.fetchall()
+        self.con.close()
+        return result

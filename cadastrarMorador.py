@@ -3,7 +3,6 @@ from funcMorador import FuncoesMorador
 from tkinter import messagebox
 from tkinter import Tk
 
-
 class Ui_janelaCadastrarMoradores(object):
    
     def desautorizarVisiDependente(self):
@@ -19,6 +18,20 @@ class Ui_janelaCadastrarMoradores(object):
                         self.inputNomeApelido.setEnabled(True)
                         self.inputConfirmarSenha.setEnabled(True)
                         self.inputSenha.setEnabled(True)
+
+    def desativarVeiPos(self):#Para evitar problemas desativaremos isso após o cadastro sem o carro
+
+                self.comboBoxTipoVeiculo.setEnabled(False)
+                self.comboBoxCorVeiculo.setEnabled(False)
+                self.inputPlaca.setEnabled(False)
+                self.inputModeloVeiculo.setEnabled(False)
+                self.radioButtonOpcaoSim.setEnabled(False)
+                self.radioButtonOpcaoNao.setEnabled(False)
+                self.radioButtonOpcaoNao.setChecked(True)
+
+    def ativarVeiPos(self):
+        self.radioButtonOpcaoSim.setEnabled(True)
+        self.radioButtonOpcaoNao.setEnabled(True)
 
     def ativaDesativarCampos(self):
 
@@ -48,8 +61,6 @@ class Ui_janelaCadastrarMoradores(object):
                 self.vlrDataNasc             = self.inputDataNascimento.text()
                 self.vlrConfirmarSenha       = self.inputConfirmarSenha.text()
 
-                self.setsMorador             = ("'%s','%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeMorador, self.vlrSenha, self.vlrApelido, self.vlrTipoMorador, self.vlrDataNasc))
-
                 #Contatos
                 self.vlrTelefone             = self.inputTelefone.text()
                 self.vlrEmail                = self.inputEmail.text()
@@ -67,65 +78,111 @@ class Ui_janelaCadastrarMoradores(object):
                 #Vericulo
                 self.vlrTipoVeiculo          = str(self.comboBoxTipoVeiculo.currentText())
                 self.vlrCorVeiculo           = str(self.comboBoxCorVeiculo.currentText())
+
                 self.vlrPlaca                = self.inputPlaca.text()
                 self.vlrModelo               = self.inputModeloVeiculo.text()
 
-                if self.vlrVaga != "" and self.vlrNomeMorador != "" and self.vlrDataNasc != "" and self.vlrCpfMorador != "":
-                
-                        if self.vlrSenha == self.vlrConfirmarSenha:
+                self.cmdBanco = FuncoesMorador()               
+
+                try:  #o try executa uma função
+                        self.lblResultado.setText("")
+                        self.verificarCpf = self.cmdBanco.temCpf(self.vlrCpfMorador)
+
+                        if self.vlrVaga != "" and self.vlrNomeMorador != "" and self.vlrDataNasc != "" and self.vlrCpfMorador != "":
                         
-                                self.cmdBanco = FuncoesMorador()                        
+                                if len(self.verificarCpf) == 0: # Foi colocando o Lenth pois para verifica se veio um resultado para fazer uma verificação, já que usando  null e ="" não funcionaram
+                                        self.verificaApelido = self.cmdBanco.temApelido(self.vlrApelido)
+                                
+                                        if len(self.verificaApelido) == 0: # Caso não exista nenhum nomeApelido
 
-                                try:                                    #o try executa uma função
-                                        self.cmdBanco.insertMorador(self.setsMorador)
+                                                if self.vlrSenha == self.vlrConfirmarSenha: # Verica se as senhas sao as mesmas
 
-                                        IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
+                                                        self.setsMorador = ("'%s','%s','%s','%s','%s','%s'" % (self.vlrCpfMorador, self.vlrNomeMorador, self.vlrSenha, self.vlrApelido, self.vlrTipoMorador, self.vlrDataNasc))
 
-                                        IDmorador = int(IDmorador[0][0]) # Tirando o id do valor do array e jogando na var, 
+                                                        if self.ativaDesativarCampos() == False: # Se o campos carros estiver desativado ele ira inserir
 
-                                        self.setsMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
+                                                                self.cmdBanco.insertMorador(self.setsMorador)
 
-                                        self.cmdBanco.insertMoradia(self.setsMoradia)
+                                                                if not self.cmdBanco:
 
-                                        self.cmdBanco.insertContato(self.setsContatos)
+                                                                        self.lblResultado.setText("Deu erro ao inserir dados")
+                                                                else:
+                                                                        IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
+                                                                        IDmorador = int(IDmorador[0][0])  #Tirando o id do valor do array e jogando na var, 
+                                                                        self.setsMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
+                                                                        self.cmdBanco.insertMoradia(self.setsMoradia)
+                                                                        self.cmdBanco.insertContato(self.setsContatos)
+                                                                        IDcontato = self.cmdBanco.buscarIdContato(self.vlrTelefone, self.vlrEmail)
+                                                                        IDcontato = int(IDcontato[0][0])
+                                                                        setsContatosPessoa = ("%s, %s" % (IDmorador, IDcontato))
+                                                                        self.cmdBanco.insertContatosPessoa(setsContatosPessoa)
+                                                                        self.lblResultado.setText("Cadastrado(a) com Sucesso!!!")
+                                                                        self.desativarVeiPos()
 
-                                        IDcontato = self.cmdBanco.buscarIdContato(self.vlrTelefone, self.vlrEmail)
+                                                        else:
+                                                                if self.vlrModelo != "" and self.vlrPlaca != "":
+                                                                        self.verificarPlaca = self.cmdBanco.temPlaca(self.vlrPlaca)
+                                                                        print(len(self.verificarPlaca))
 
-                                        IDcontato = int(IDcontato[0][0])
+                                                                        if len(self.verificarPlaca) == 0: #Caso não exista essa placa
 
-                                        setsContatosPessoa = ("%s, %s" % (IDmorador, IDcontato))
+                                                                                self.cmdBanco.insertMorador(self.setsMorador)
 
-                                        self.cmdBanco.insertContatosPessoa(setsContatosPessoa)
+                                                                                if not self.cmdBanco:
+    
+                                                                                        self.lblResultado.setText("Deu erro ao inserir dados")
+                                                                                else:
+                                                                                        IDmorador = self.cmdBanco.buscarIdMorador(self.vlrNomeMorador, self.vlrCpfMorador)
+                                                                                        IDmorador = int(IDmorador[0][0])  #Tirando o id do valor do array e jogando na var, 
+                                                                                        self.setsMoradia =  ("%s,'%s', %s, %s" % (self.vlrNumApt, self.vlrBloco, IDmorador, self.vlrVaga))
+                                                                                        self.cmdBanco.insertMoradia(self.setsMoradia)
+                                                                                        self.cmdBanco.insertContato(self.setsContatos)
+                                                                                        IDcontato = self.cmdBanco.buscarIdContato(self.vlrTelefone, self.vlrEmail)
+                                                                                        IDcontato = int(IDcontato[0][0])
+                                                                                        setsContatosPessoa = ("%s, %s" % (IDmorador, IDcontato))
+                                                                                        self.cmdBanco.insertContatosPessoa(setsContatosPessoa)
 
-                                        if(self.ativaDesativarCampos() == True): #Se os campos tiverem ativados, serão executados mais os codigos abaixo
+                                                                                        try: #Inserindo dados do carro
+                                                                                                if not self.cmdBanco:
+                                                                                                        self.lblResultado.setText("Erro ao inserir dados")
+                                                                                                        #inserindo dados do carros
+                                                                                                else:
+                                                                                                        IDmoradia = self.cmdBanco.buscarIdMoradia(IDmorador, self.vlrBloco)
+                                                                                                        IDmoradia = int(IDmoradia[0][0])  #Tirando o id do valor do array e jogando na var
+                                                                                                        self.setsVei = ("'%s','%s','%s','%s', %s" % (self.vlrCorVeiculo, self.vlrTipoVeiculo, self.vlrModelo, self.vlrPlaca, IDmoradia))
+                                                                                                        self.cmdBanco.insertVeiculo(self.setsVei)
 
-                                                IDmoradia = self.cmdBanco.buscarIdMoradia(IDmorador, self.vlrBloco)
-
-                                                IDmoradia = int(IDmoradia[0][0]) # Tirando o id do valor do array e jogando na var
-                                                print(IDmoradia)
-
-                                                self.setsVei = ("'%s','%s','%s','%s', %s" % (self.vlrCorVeiculo, self.vlrTipoVeiculo, self.vlrModelo, self.vlrPlaca, IDmoradia))
-                                                self.cmdBanco.insertVeiculo(self.setsVei)
-
-
-                                        if not self.cmdBanco:
-
-                                                self.lblResultado.setText("Não funcionou")
+                                                                                                        if not self.cmdBanco:
+                                                                                                            self.lblResultado.setText("Erro ao inserir dados veiculo")
+                                                                                                        
+                                                                                                        else:
+                                                                                                                self.lblResultado.setText("Cadastrado com sucesso")
+                                                                                                                self.desativarVeiPos()
+                                                                                        except:
+                                                                                                self.lblResultado.setText("Erro no banco de dados")
+                                                                        else:
+                                                                                self.lblResultado.setText("Placa já cadastrada")
+                                                                                print("Chegou aqui 2")
+                                                                else:
+                                                                        self.lblResultado.setText("Preencha dados do veiculo")
+                                                        print("Chegou aqui 1")
+                                                else:   
+                                                        self.lblResultado.setText("Campos de senha não conferem")
                                         else:
-                                                self.lblResultado.setText("Cadastrado(a) com Sucesso!!!")
-                                except:                       
-                                        self.lblResultado.setText("Erro. Verifique os campos !!")
+                                                self.lblResultado.setText("Nome Apelido já usado")
+                                else:
+                                        self.lblResultado.setText("Esse CPF já foi cadastrado")
                         else:
-                                self.lblResultado.setText("Campos de senha não conferem")
+                                self.lblResultado.setText("Falta preencher os campos")
+                except:
+                        self.lblResultado.setText("Erro de Banco")
 
-                else:
-                        self.lblResultado.setText("Falta preencher alguns campos")
 
     def abrirMsgBox(self):
              top = Tk()  
              top.geometry("0x0")
              top.overrideredirect(True)  
-             ok = messagebox.askokcancel("Cadastrar Morador","Você tem que certeza que cadastrá-lo(a) ?") 
+             ok = messagebox.askokcancel("Cadastrar Morador","Você tem certeza que quer cadastrá-lo(a) ?") 
         
              if ok:                          #Se a pessoa clicar em OK ....
                        self.funcSalvarMorador()
@@ -208,7 +265,6 @@ class Ui_janelaCadastrarMoradores(object):
         self.comboBoxTipoMorador.addItem("")
         self.comboBoxTipoMorador.addItem("")
         self.comboBoxTipoMorador.addItem("")
-
         self.comboBoxTipoMorador.currentTextChanged.connect(self.desautorizarVisiDependente)
         self.lblTipoMorador = QtWidgets.QLabel(self.centralwidget)
         self.lblTipoMorador.setGeometry(QtCore.QRect(530, 150, 121, 16))
@@ -228,10 +284,7 @@ class Ui_janelaCadastrarMoradores(object):
         font.setPointSize(9)
         self.radioButtonOpcaoSim.setFont(font)
         self.radioButtonOpcaoSim.setObjectName("radioButtonOpcaoSim")
-
         self.radioButtonOpcaoSim.toggled.connect(self.ativaDesativarCampos)
-
-        
 
         self.lblPossuiVeiculo = QtWidgets.QLabel(self.centralwidget)
         self.lblPossuiVeiculo.setGeometry(QtCore.QRect(30, 420, 91, 16))
@@ -453,6 +506,9 @@ class Ui_janelaCadastrarMoradores(object):
         self.lblDigital.setBuddy(self.inputDigitalBiometria)
 
         self.retranslateUi(janelaCadastrarMoradores)
+
+        self.btnLimpar.clicked.connect(self.ativarVeiPos) ########
+
         self.btnLimpar.clicked.connect(self.inputNomeCompleto.clear)
         self.btnLimpar.clicked.connect(self.inputDataNascimento.clear)
         self.btnLimpar.clicked.connect(self.inputCpf.clear)
@@ -467,7 +523,6 @@ class Ui_janelaCadastrarMoradores(object):
         self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
         self.btnLimpar.clicked.connect(self.inputPlaca.clear)
         self.btnLimpar.clicked.connect(self.limparResul)
-
 
         QtCore.QMetaObject.connectSlotsByName(janelaCadastrarMoradores)
         janelaCadastrarMoradores.setTabOrder(self.inputNomeCompleto, self.inputDataNascimento)

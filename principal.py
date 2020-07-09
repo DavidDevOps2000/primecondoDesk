@@ -1,6 +1,4 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-
 class Ui_Principal(object):
     def setupUi(self, Principal):
         Principal.setObjectName("Principal")
@@ -50,8 +48,8 @@ class Ui_Principal(object):
         self.btnActNovoVisitante = QtWidgets.QAction(Principal)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/janelaPrincipal/icons/add-visitors.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #self.btnActNovoVisitante.setIcon(icon4)
-        #self.btnActNovoVisitante.setObjectName("btnActNovoVisitante")
+        self.btnActNovoVisitante.setIcon(icon4)
+        self.btnActNovoVisitante.setObjectName("btnActNovoVisitante")
         self.btnActSair = QtWidgets.QAction(Principal)
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(":/janelaPrincipal/icons/logout-account.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -62,7 +60,7 @@ class Ui_Principal(object):
         icon6.addPixmap(QtGui.QPixmap(":/janelaPrincipal/icons/cons-visitors.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnActConsultarVisitantes.setIcon(icon6)
         self.btnActConsultarVisitantes.setObjectName("btnActConsultarVisitantes")
-        
+
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/janelaPrincipal/icons/upd-visitors.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         
@@ -87,7 +85,6 @@ class Ui_Principal(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuCadastro_de_Visitantes.menuAction())
-
         self.retranslateUi(Principal)
         QtCore.QMetaObject.connectSlotsByName(Principal)
 
@@ -100,7 +97,7 @@ class Ui_Principal(object):
         self.menuCadastro_de_Visitantes.setTitle(_translate("Principal", "VISITANTES"))
         self.btnActCadastro.setText(_translate("Principal", "Cadastro"))
         self.btnActAtualizarMoradores.setText(_translate("Principal", "Atualizar Moradores"))
-        #self.btnActNovoVisitante.setText(_translate("Principal", "Novo Visitante"))
+        self.btnActNovoVisitante.setText(_translate("Principal", "Novo Visitante"))
         self.btnActSair.setText(_translate("Principal", "Sair"))
         self.btnActConsultarVisitantes.setText(_translate("Principal", "Consultar Visitantes"))
         self.btnActCadastrarMoradores.setText(_translate("Principal", "Cadastrar Moradores"))
