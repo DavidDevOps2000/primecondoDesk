@@ -366,6 +366,7 @@ class Ui_janelaAtualizarMoradores(object):
         self.lblResultado.setFont(font)
         self.lblResultado.setText("")
         self.lblResultado.setObjectName("lblResultado")
+
         self.btnBuscarMorador = QtWidgets.QPushButton(self.centralwidget)
         self.btnBuscarMorador.setGeometry(QtCore.QRect(626, 90, 75, 26))
         self.btnBuscarMorador.setObjectName("btnBuscarMorador")

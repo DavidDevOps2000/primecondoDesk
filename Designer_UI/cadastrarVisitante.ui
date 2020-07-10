@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>janelaCadastrarMoradores</class>
+ <widget class="QMainWindow" name="janelaCadastrarMoradores">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>730</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>730</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>730</width>
+    <height>650</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>725</width>
+    <height>650</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>PrimeCondo</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../img/logo.png</normaloff>../img/logo.png</iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>30</width>
+    <height>30</height>
+   </size>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="lblNomeCompleto">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>80</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>9</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+    <property name="text">
+     <string>Visitar quem ? (Nome morador)</string>
+    </property>
+    <property name="buddy">
+     <cstring>inputNomeCompleto</cstring>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblCpf">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>80</y>
+      <width>55</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>&amp;CPF:</string>
+    </property>
+    <property name="buddy">
+     <cstring>inputCpf</cstring>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBoxNumDias">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>330</y>
+      <width>141</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <item>
+     <property name="text">
+      <string>Sem limite</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>5</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>6</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="lblTipoMorador">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>310</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Quantos dias de Acesso:</string>
+    </property>
+    <property name="buddy">
+     <cstring>comboBoxNumDias</cstring>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnSalvarVisi">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>510</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SALVAR</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>240</y>
+      <width>671</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblTituloCadastrarMoradores">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>271</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cadastrar Visitantes</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnLimpar">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>510</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>LIMPAR</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>50</y>
+      <width>671</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="inputNomeCompleto">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>100</y>
+      <width>381</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;
+</string>
+    </property>
+    <property name="maxLength">
+     <number>85</number>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="inputCpf">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>100</y>
+      <width>181</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>000.000.000-00</string>
+    </property>
+    <property name="maxLength">
+     <number>14</number>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Normal</enum>
+    </property>
+    <property name="cursorPosition">
+     <number>0</number>
+    </property>
+    <property name="placeholderText">
+     <string>Digite só números</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblResultado">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>400</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnAtualizarMorador">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>100</y>
+      <width>75</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Buscar</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>100</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ou</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBloco">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>150</y>
+      <width>55</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>&amp;Bloco:</string>
+    </property>
+    <property name="buddy">
+     <cstring>comboBoxBloco</cstring>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBoxBloco">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>170</y>
+      <width>71</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <item>
+     <property name="text">
+      <string>A</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>B</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>C</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>D</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="lblNumeroVaga">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>150</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>&amp;Nº da Vaga Veiculo:</string>
+    </property>
+    <property name="buddy">
+     <cstring>inputNumeroVaga</cstring>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="inputNumeroVaga">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>170</y>
+      <width>111</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>0000</string>
+    </property>
+    <property name="maxLength">
+     <number>4</number>
+    </property>
+    <property name="cursorPosition">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPossuiVeiculo_2">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>180</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Status Morador</string>
+    </property>
+    <property name="buddy">
+     <cstring>radioButtonOpcaoSim</cstring>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="inputNumeroApartamento">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>170</y>
+      <width>111</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string>0000</string>
+    </property>
+    <property name="maxLength">
+     <number>4</number>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Normal</enum>
+    </property>
+    <property name="cursorPosition">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblNumeroApartamento">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>150</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Nº apt:</string>
+    </property>
+    <property name="buddy">
+     <cstring>inputNumeroApartamento</cstring>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPossuiVeiculo_3">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>210</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Ativo/ Desativado</string>
+    </property>
+    <property name="buddy">
+     <cstring>radioButtonOpcaoSim</cstring>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="inputNomeVisitante">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>330</y>
+      <width>381</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;
+</string>
+    </property>
+    <property name="maxLength">
+     <number>85</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblNomeCompleto_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>310</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>9</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+    <property name="text">
+     <string>Nome do(a) Visitante:</string>
+    </property>
+    <property name="buddy">
+     <cstring>inputNomeCompleto</cstring>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="inputRgVisitante">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>410</y>
+      <width>141</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 9pt &quot;MS Shell Dlg 2&quot;;
+</string>
+    </property>
+    <property name="inputMask">
+     <string>00.000.000-00</string>
+    </property>
+    <property name="text">
+     <string>..-</string>
+    </property>
+    <property name="maxLength">
+     <number>13</number>
+    </property>
+    <property name="cursorPosition">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblNomeCompleto_4">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>390</y>
+      <width>151</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>9</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+    <property name="text">
+     <string>RG:(Opcional)</string>
+    </property>
+    <property name="buddy">
+     <cstring>inputNomeCompleto</cstring>
+    </property>
+   </widget>
+   <widget class="Line" name="line_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>450</y>
+      <width>671</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblTituloCadastrarMoradores_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>270</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Área do Visitante:</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>inputNomeCompleto</tabstop>
+  <tabstop>inputCpf</tabstop>
+  <tabstop>btnAtualizarMorador</tabstop>
+  <tabstop>inputNumeroApartamento</tabstop>
+  <tabstop>inputNumeroVaga</tabstop>
+  <tabstop>comboBoxBloco</tabstop>
+  <tabstop>inputNomeVisitante</tabstop>
+  <tabstop>comboBoxNumDias</tabstop>
+  <tabstop>inputRgVisitante</tabstop>
+  <tabstop>btnLimpar</tabstop>
+  <tabstop>btnSalvarVisi</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnLimpar</sender>
+   <signal>clicked()</signal>
+   <receiver>inputNomeCompleto</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>445</x>
+     <y>613</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>292</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnLimpar</sender>
+   <signal>clicked()</signal>
+   <receiver>inputCpf</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>433</x>
+     <y>602</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>440</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

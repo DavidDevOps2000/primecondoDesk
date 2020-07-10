@@ -1,1 +1,1 @@
-pyuic5 -x atualizarMoradores.ui -o atualizarMoradores.py
+pyuic5 -x cadastrarVisitante.ui -o cadastrarVisitante.py

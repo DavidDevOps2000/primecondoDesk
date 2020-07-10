@@ -13,9 +13,7 @@ class Ui_janelaConsultarMoradores(object):
         self.db = "bd_cond"
         self.port = 3306
         self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
-
-
-  
+ 
 
     def campoPesqVisi(self, suaBusca):
         

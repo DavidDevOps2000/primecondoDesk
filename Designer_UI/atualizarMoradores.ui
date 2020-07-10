@@ -1006,6 +1006,19 @@
      <string>ou</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnDeletar">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>590</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DELETAR MORADOR</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <tabstops>

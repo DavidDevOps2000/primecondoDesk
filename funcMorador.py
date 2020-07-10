@@ -179,3 +179,22 @@ class FuncoesMorador:
         result = cursorSql.fetchall()
         self.con.close()
         return result
+
+#################################################################################################################################################################
+def atualizarMoradores(self, newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, nomeMorador, cpfMorador):
+        self.conecta()
+        cursorSql = self.con.cursor() #Usei LEFT JOIN, pois para atualizar campos nulos em varias tabelas, tem que usar o Left, pois ele trás e atualiza as mesmas, e evita o erro que de 'funcionar' a query sem alterar nada
+        queryAtualizacao =  "UPDATE tbl_pessoa p LEFT JOIN tbl_moradia m ON p.id_pessoa = m.tbl_pessoa_id_pessoa1 "\
+                            "LEFT JOIN tbl_veiculo v ON m.id_moradia = v.tbl_moradia_id_moradia "\
+                            "LEFT JOIN contatos_pessoa cp ON p.id_pessoa = cp.tbl_pessoa_id_pessoa "\
+                            "LEFT JOIN tbl_contato c ON cp.tbl_contato_id_contato = c.id_contato "\
+                            "SET data_nascimento ='%s', num_ap =%s, bloco_ap ='%s', tipo_pessoa ='%s', tel ='%s', "\
+                            "email ='%s', nomeApelido ='%s', "\
+                            "senha ='%s', num_vaga_vei= %s, status_pess = %s, tipo_vei ='%s', "\
+                            "modelo_vei ='%s', cor_vei ='%s', placa_vei ='%s', nome_pessoa ='%s' "\
+                            "WHERE nome_pessoa ='%s' OR cpf_pessoa='%s';" % (newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, nomeMorador, cpfMorador)
+        
+        print(queryAtualizacao)
+        cursorSql.execute(queryAtualizacao)
+        self.con.commit()
+        self.con.close()

@@ -119,7 +119,7 @@ class Ui_janelaCadastrarMoradores(object):
                                                                         self.lblResultado.setText("Cadastrado(a) com Sucesso!!!")
                                                                         self.desativarVeiPos()
 
-                                                        else:
+                                                        else:# INSERINDO DADOS DO CARRO
                                                                 if self.vlrModelo != "" and self.vlrPlaca != "":
                                                                         self.verificarPlaca = self.cmdBanco.temPlaca(self.vlrPlaca)
                                                                         print(len(self.verificarPlaca))
