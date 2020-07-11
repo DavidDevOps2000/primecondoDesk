@@ -8,7 +8,7 @@ class Ui_janelaLogin(object):
         janelaLogin.setMinimumSize(QtCore.QSize(482, 430))
         janelaLogin.setMaximumSize(QtCore.QSize(482, 430))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icons/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         janelaLogin.setWindowIcon(icon)
         janelaLogin.setStyleSheet("")
         self.lblLogin = QtWidgets.QLabel(janelaLogin)

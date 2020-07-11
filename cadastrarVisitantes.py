@@ -7,6 +7,29 @@ from tkinter import Tk
 
 class Ui_janelaCadastrarVisitantes(object):
 
+    def blockCampo(self):
+        self.inputRgVisitante.setEnabled(False)
+        self.inputNomeVisitante.setEnabled(False)
+        self.comboBoxNumDias.setEnabled(False)
+        self.btnSalvarVisi.setEnabled(False)
+        self.btnSalvarVisi.setEnabled(False)
+
+    def limparCampos(self):
+        self.btnLimpar.clicked.connect(self.inputNomeCompleto.clear)
+        self.btnLimpar.clicked.connect(self.inputCpf.clear)
+        self.btnLimpar.clicked.connect(self.inputNomeVisitante.clear)
+        self.btnLimpar.clicked.connect(self.inputRgVisitante.clear)
+        self.btnLimpar.clicked.connect(self.inputNomeCompleto.clear)
+        self.btnLimpar.clicked.connect(self.inputCpf.clear)
+        self.btnLimpar.clicked.connect(self.inputNumeroApartamento.clear)
+        self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
+        self.lblResultadoStatus.setText("Ativo/ Desativado")
+        self.lblResultado.setText("")
+
+
+
+        self.btnLimpar.clicked.connect(self.blockCampo)
+
     def consulMorador(self):
         self.conexao = FuncoesVisitante()
         self.conexao.conecta()
@@ -16,21 +39,42 @@ class Ui_janelaCadastrarVisitantes(object):
         self.cmdBancoVisi = FuncoesVisitante()
 
         try:
-            self.result = self.cmdBancoVisi.consulMoradorToVisi(self.nomeMorador, self.cpfMorador)
             
-            if not self.cmdBancoVisi:
-                    self.lblResultado.setText("Não Encontrado")
+            self.result = self.cmdBancoVisi.consulMoradorToVisi(self.nomeMorador, self.cpfMorador)
+            self.lblResultado.setText("")
 
+            if len(self.result) > 0: #Se a condição vier TRUE(1) é pq existe esse morador vai passar, e se for False(0) vai dizer que não
+
+                    self.statusVer = str(self.result[0][2])
+                    if self.statusVer == 'ATIVO':#Se o Morador estiver ativado poderá avançar
+                                
+                                print(self.statusVer)
+
+                                if not self.cmdBancoVisi:
+                                        self.lblResultado.setText("Erro")
+
+                                else:
+                                        self.inputNomeCompleto.setText(str(self.result[0][3]))
+                                        self.inputNumeroApartamento.setText(str(self.result[0][0]))
+                                        self.comboBoxBloco.setCurrentText(str(self.result[0][1]))
+                                        self.inputNumeroVaga.setText(str(self.result[0][4]))
+                                        self.lblResultadoStatus.setText(str(self.result[0][2]))#Seu Status atuaal
+                                        self.lblResultado.setText("Encontrado")
+                                        self.inputRgVisitante.setEnabled(True)
+                                        self.inputNomeVisitante.setEnabled(True)
+                                        self.comboBoxNumDias.setEnabled(True)
+                                        self.btnSalvarVisi.setEnabled(True)
+                    else:
+                                self.lblResultado.setText("Morador Desativado")
+                                self.blockCampo()
+                                self.lblResultadoStatus.setText("Ativo/ Desativado")
             else:
-                    self.inputNomeCompleto.setText(str(self.result[0][3]))
-                    self.inputNumeroApartamento.setText(str(self.result[0][0]))
-                    self.comboBoxBloco.setCurrentText(str(self.result[0][1]))
-                    self.inputNumeroVaga.setText(str(self.result[0][4]))
-                    self.lblResultadoStatus.setText(str(self.result[0][2]))#Seu Status atuaal
-
-                    self.lblResultado.setText("Encontrado")
+                        self.lblResultado.setText("Morador não encontrado")
+                        self.blockCampo()
+                        self.lblResultadoStatus.setText("Ativo/ Desativado")
         except:
-            self.lblResultado.setText("Erro banco")
+                self.lblResultado.setText("Erro banco")
+                self.blockCampo()
 
 
     def salvarVisi(self):
@@ -41,57 +85,64 @@ class Ui_janelaCadastrarVisitantes(object):
         self.vlrDias     = self.comboBoxNumDias.currentText()
 
         try:
-            self.result = self.cmdBancoVisi.buscarIdMoradorToVisi(self.cpfMorador)
+                if self.visiNome != '' and self.rgVisi != '':
+
+                        self.result = self.cmdBancoVisi.buscarIdMoradorToVisi(self.cpfMorador)
             
-            if not self.cmdBancoVisi:
-                    self.lblResultado.setText("Não foi achado morador")
-                    print("Aqui 1")
-            else:
-                        self.idMoradorVisi = int(self.result[0][0])
-                        print(self.idMoradorVisi)
-                        self.verificarVisi = self.cmdBancoVisi.verificarVisiExiste(self.visiNome, self.idMoradorVisi)
-                        print("Aqui 2")
+                        if not self.cmdBancoVisi:
+                                self.lblResultado.setText("Não foi encontrado morador")
+                                print("Aqui 1")
+                        else:
+                                self.idMoradorVisi = int(self.result[0][0])
+                                print(self.idMoradorVisi)
+                                self.verificarVisi = self.cmdBancoVisi.verificarVisiExiste(self.idMoradorVisi, self.visiNome)
+                                print(len(self.verificarVisi))
+                                print("Aqui 2")
 
-                        if len(self.verificarVisi) == 0:
+                                if len(self.verificarVisi) == 0:
+                                        self.cmdBancoVisi.insertVisi1(self.visiNome, self.rgVisi)
+                                        print("Aqui 3")
 
-                                self.cmdBancoVisi.insertVisi1(self.visiNome, self.rgVisi)
-                                print("Aqui 3")
-
-                                if not self.cmdBancoVisi:
-
-                                        self.lblResultado.setText("Erro inserir dados")
-                                        print("Aqui 4")
-                                else:
-                                        self.idVisita = self.cmdBancoVisi.idVisi(self.visiNome, self.rgVisi)
-                                        print("Aqui 5")
-
-                                        if self.vlrDias == 'Sem limite':# Caso escolham sem data definida
-                                                print("Aqui 6")
-                                                if not self.cmdBancoVisi:
-                                                        self.lblResultado.setText("Erro ao pegar id")
-
-                                                else:
-                                                        self.idVisita = int(self.idVisita[0][0])
-                                                        self.cmdBancoVisi.insertVisi2(self.idMoradorVisi, self.idVisita)
-                                                        self.lblResultado.setText("Cadastrado com sucesso")
-                                                        print("Aqui 7")
+                                        if not self.cmdBancoVisi:
+                                                self.lblResultado.setText("Erro inserir dados")
+                                                print("Aqui 4")
                                         else:
-                                                if not self.cmdBancoVisi:
-                                                        self.lblResultado.setText("Erro ao pegar id")
-                                                        print("Aqui 8")
+                                                self.idVisita = self.cmdBancoVisi.idVisi(self.visiNome, self.rgVisi)
+                                                print("Aqui 5")
 
-                                                else:
-                                                        self.vlrDias  = int(self.comboBoxNumDias.currentText())
-                                                        self.idVisita = int(self.idVisita[0][0])
-                                                        self.cmdBancoVisi.insertVisi3(self.idMoradorVisi, self.idVisita, self.vlrDias)
-                                                        print("Aqui 9")
+                                                if self.vlrDias == 'Sem limite':# Caso escolham sem data definida
+                                                        print("Aqui 6")
 
                                                         if not self.cmdBancoVisi:
-                                                                self.lblResultado.setText("Erro ao inserir dados")
+                                                                self.lblResultado.setText("Erro ao pegar id")
+
                                                         else:
+                                                                self.idVisita = int(self.idVisita[0][0])
+                                                                self.cmdBancoVisi.insertVisi2(self.idMoradorVisi, self.idVisita)
                                                                 self.lblResultado.setText("Cadastrado com sucesso")
-                        else:
-                                 self.lblResultado.setText("Visitante já existe")
+                                                                print("Aqui 7")
+
+                                                                self.blockCampo()
+                                                else:
+                                                        if not self.cmdBancoVisi:
+                                                                self.lblResultado.setText("Erro ao pegar id")
+                                                                print("Aqui 8")
+
+                                                        else:
+                                                                self.vlrDias  = int(self.comboBoxNumDias.currentText())
+                                                                self.idVisita = int(self.idVisita[0][0])
+                                                                self.cmdBancoVisi.insertVisi3(self.idMoradorVisi, self.idVisita, self.vlrDias)
+                                                                print("Aqui 9")
+
+                                                                if not self.cmdBancoVisi:
+                                                                        self.lblResultado.setText("Erro ao inserir dados")
+                                                                else:
+                                                                        self.lblResultado.setText("Cadastrado com sucesso")
+                                                                        self.blockCampo()
+                                else:
+                                         self.lblResultado.setText("Visitante já existe")
+                else:
+                        self.lblResultado.setText("Campos Vazios")
         except:
                 self.lblResultado.setText("Erro banco")
 
@@ -277,6 +328,12 @@ class Ui_janelaCadastrarVisitantes(object):
         self.inputRgVisitante.setMaxLength(13)
         self.inputRgVisitante.setCursorPosition(0)
         self.inputRgVisitante.setObjectName("inputRgVisitante")
+
+        self.inputRgVisitante.setEnabled(False)
+        self.inputNomeVisitante.setEnabled(False)
+        self.comboBoxNumDias.setEnabled(False)
+        self.btnSalvarVisi.setEnabled(False)
+        
         self.lblNomeCompleto_4 = QtWidgets.QLabel(self.centralwidget)
         self.lblNomeCompleto_4.setGeometry(QtCore.QRect(30, 390, 151, 21))
         font = QtGui.QFont()
@@ -307,11 +364,13 @@ class Ui_janelaCadastrarVisitantes(object):
         self.lblNomeCompleto_4.setBuddy(self.inputNomeCompleto)
         self.btnBuscarVisi.clicked.connect(self.consulMorador)
 
-
         self.retranslateUi(janelaCadastrarVisitantes)
+        self.btnLimpar.clicked.connect(self.limparCampos)
 
-        self.btnLimpar.clicked.connect(self.inputNomeCompleto.clear)
-        self.btnLimpar.clicked.connect(self.inputCpf.clear)
+        self.inputNumeroApartamento.setReadOnly(True)
+        self.inputNumeroVaga.setReadOnly(True)
+        
+
         self.btnSalvarVisi.clicked.connect(self.abrirMsgBox)
         QtCore.QMetaObject.connectSlotsByName(janelaCadastrarVisitantes)
         janelaCadastrarVisitantes.setTabOrder(self.inputNomeCompleto, self.inputCpf)
@@ -358,7 +417,7 @@ class Ui_janelaCadastrarVisitantes(object):
         self.lblNumeroApartamento.setText(_translate("janelaCadastrarVisitantes", "Nº apt:"))
         self.lblResultadoStatus.setText(_translate("janelaCadastrarVisitantes", "Ativo/ Desativado"))
         self.lblNomeCompleto_3.setText(_translate("janelaCadastrarVisitantes", "Nome do(a) Visitante:"))
-        self.inputRgVisitante.setInputMask(_translate("janelaCadastrarVisitantes", "00.000.000-00"))
+        self.inputRgVisitante.setInputMask(_translate("janelaCadastrarVisitantes", "0000000000"))
         self.inputRgVisitante.setText(_translate("janelaCadastrarVisitantes", "..-"))
         self.lblNomeCompleto_4.setText(_translate("janelaCadastrarVisitantes", "RG:(Opcional)"))
         self.lblTituloCadastrarVisitantes_2.setText(_translate("janelaCadastrarVisitantes", "Área do Visitante:"))

@@ -6,16 +6,31 @@ from tkinter import Tk
 
 class Ui_janelaAtualizarMoradores(object):
 
+    def limparCampos(self):
+        self.btnLimpar.clicked.connect(self.inputPesquisarMorador.clear)
+        self.btnLimpar.clicked.connect(self.inputDataNascimento.clear)
+        self.btnLimpar.clicked.connect(self.inputPesquisarCpf.clear)
+        self.btnLimpar.clicked.connect(self.inputConfirmarSenha.clear)
+        self.btnLimpar.clicked.connect(self.inputModeloVeiculo.clear)
+        self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
+        self.btnLimpar.clicked.connect(self.inputPlaca.clear)
+        self.btnLimpar.clicked.connect(self.inputSenha.clear)
+        self.btnLimpar.clicked.connect(self.inputNomeApelido.clear)
+        self.btnLimpar.clicked.connect(self.inputTelefone.clear)
+        self.btnLimpar.clicked.connect(self.inputNumeroApartamento.clear)
+        self.btnLimpar.clicked.connect(self.inputEmail.clear)
+        self.lblResultado.setText('')
+
+
     def buscarMorador(self):
         self.conexao = FuncoesMorador()
         self.conexao.conecta()
-
         self.cpfMorador  = self.inputPesquisarCpf.text()
         self.nomeMorador = self.inputPesquisarMorador.text()
-        
         self.cmdMoradorConsult = FuncoesMorador()
 
         try:
+            self.lblResultado.setText('')
             self.result = self.cmdMoradorConsult.consulMoradorUpdate(self.nomeMorador, self.cpfMorador)
             
             if not self.cmdMoradorConsult:
@@ -415,18 +430,21 @@ class Ui_janelaAtualizarMoradores(object):
         self.inputPesquisarMorador.setFocus()
 
         self.retranslateUi(janelaAtualizarMoradores)
-        self.btnLimpar.clicked.connect(self.inputPesquisarMorador.clear)
-        self.btnLimpar.clicked.connect(self.inputDataNascimento.clear)
-        self.btnLimpar.clicked.connect(self.inputPesquisarCpf.clear)
-        self.btnLimpar.clicked.connect(self.inputConfirmarSenha.clear)
-        self.btnLimpar.clicked.connect(self.inputModeloVeiculo.clear)
-        self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
-        self.btnLimpar.clicked.connect(self.inputPlaca.clear)
-        self.btnLimpar.clicked.connect(self.inputSenha.clear)
-        self.btnLimpar.clicked.connect(self.inputNomeApelido.clear)
-        self.btnLimpar.clicked.connect(self.inputTelefone.clear)
-        self.btnLimpar.clicked.connect(self.inputNumeroApartamento.clear)
-        self.btnLimpar.clicked.connect(self.inputEmail.clear)
+        #self.btnLimpar.clicked.connect(self.inputPesquisarMorador.clear)
+        #self.btnLimpar.clicked.connect(self.inputDataNascimento.clear)
+        #self.btnLimpar.clicked.connect(self.inputPesquisarCpf.clear)
+        #self.btnLimpar.clicked.connect(self.inputConfirmarSenha.clear)
+        #self.btnLimpar.clicked.connect(self.inputModeloVeiculo.clear)
+        #self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
+        #self.btnLimpar.clicked.connect(self.inputPlaca.clear)
+        #self.btnLimpar.clicked.connect(self.inputSenha.clear)
+        #self.btnLimpar.clicked.connect(self.inputNomeApelido.clear)
+        #self.btnLimpar.clicked.connect(self.inputTelefone.clear)
+        #self.btnLimpar.clicked.connect(self.inputNumeroApartamento.clear)
+        #self.btnLimpar.clicked.connect(self.inputEmail.clear)
+
+        self.btnLimpar.clicked.connect(self.limparCampos)
+        
 
         QtCore.QMetaObject.connectSlotsByName(janelaAtualizarMoradores)
         janelaAtualizarMoradores.setTabOrder(self.inputPesquisarMorador, self.inputPesquisarCpf)

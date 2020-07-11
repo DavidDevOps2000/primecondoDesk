@@ -41,12 +41,12 @@ class FuncoesVisitante:
         self.con.close()
         return result
 
-    def verificarVisiExiste(self, nomeVisi, idMorador):
+    def verificarVisiExiste(self, idMorador, nomeVisi):
         self.conecta()
         self.cursorSql = self.con.cursor()
         query ="SELECT * FROM tbl_pessoa JOIN agen_visi ON tbl_pessoa.id_pessoa = agen_visi.tbl_pessoa_id_pessoa JOIN "\
                         "visi_apt ON agen_visi.visi_apt_id_visi = visi_apt.id_visi WHERE "\
-                        "id_pessoa='%s' and nome_visi='%s' " % (nomeVisi, idMorador)
+                        "id_pessoa='%s' and nome_visi='%s' " % (idMorador, nomeVisi)
         self.cursorSql.execute(query)
         print(query)
         result = self.cursorSql.fetchall()
@@ -63,7 +63,6 @@ class FuncoesVisitante:
         cursorSql.execute(query)
         self.con.commit()
         self.con.close()
-
 
     def idVisi(self, nomeVisi, rgVisi):
         self.conecta()
