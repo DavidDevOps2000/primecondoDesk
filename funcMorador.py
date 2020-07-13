@@ -107,6 +107,21 @@ class FuncoesMorador:
         result = cursorSql.fetchall()
         self.con.close()
         return result
+
+
+    def buscarPessoaMoradia(self, nomePessoa, dataNasc):
+        self.conecta()
+        cursorSql = self.con.cursor()
+        querySelectId = "SELECT id_pessoa, id_moradia FROM tbl_pessoa "\
+                        "LEFT JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 "\
+                        "WHERE nome_pessoa=='%s' data_nascimento='%s';" % (nomePessoa, dataNasc)
+        cursorSql.execute(querySelectId)
+        print(querySelectId)
+        result = cursorSql.fetchall()
+        self.con.close()
+        return result
+
+
 ################################################################################################################## UPDATES ##########################################
 
     def consulMoradorUpdate(self, nomeMorador, cpfMorador):
@@ -121,7 +136,7 @@ class FuncoesMorador:
                             "WHERE nome_pessoa ='%s' OR cpf_pessoa='%s';" % (nomeMorador, cpfMorador)
 
         self.cursorSql.execute(consultMoradorQuery)
-        print(consultMoradorQuery)
+       # print(consultMoradorQuery)
         result = self.cursorSql.fetchall()
         self.con.close()
         return result

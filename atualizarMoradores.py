@@ -54,6 +54,10 @@ class Ui_janelaAtualizarMoradores(object):
                     self.comboBoxTipoVeiculo.setCurrentText(str(self.result[0][10]))
                     self.comboBoxCorVeiculo.setCurrentText(str(self.result[0][12]))
 
+                    self.TemVeiculo = str(self.result[0][11])
+
+                    print(self.TemVeiculo)
+                    
                     if self.seuStatus == 1:# Converendo em True
                         self.radioOpcaoAtivo.setChecked(True)
                     else:
@@ -96,20 +100,35 @@ class Ui_janelaAtualizarMoradores(object):
 
         self.cmdUpdate = FuncoesMorador()
 
-        if self.vlrSenha == self.vlrConfirmarSenha: #Se as senhas forem as mesmas
-            try:
-                
-                self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
+        try:
+                if self.vlrSenha == self.vlrConfirmarSenha: #Se as senhas forem as mesmas
+                    print(self.TemVeiculo)
+                    if self.TemVeiculo != 'None':        
+                            self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
+                            print("Aqui 1")
+                            if not self.cmdUpdate:
+                                    self.lblResultado.setText("Não foi Atualizado(a)")
+                            else:
+                                    self.lblResultado.setText("Atualizado com Sucesso")
+                                    print("Aqui 2")
+                    else:
+                        self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
+                        print("Aqui 2.0")
+                        result = self.cmdUpdate.buscarPessoaMoradia(newNomeMorador, newDataNasc)# Erro aqui
+                        print("Aqui 3")
+                        if not self.cmdUpdate:
+                            self.lblResultado.setText("Não foi Atualizado(a)")
 
-                if not self.cmdUpdate:
-                  self.lblResultado.setText("Não foi Atualizado(a)")
-
+                        else:
+                            print("Aqui 4")
+                            IDmoradia = int(result[0][1])
+                            self.setsVei = ("'%s','%s','%s','%s', %s" % (newTipoVei, newModelo, newCorVei, newPlaca, IDmoradia))
+                            self.lblResultado.setText("Atualizado com Sucesso")
                 else:
-                        self.lblResultado.setText("Atualizado com Sucesso")
-            except:
-                    self.lblResultado.setText("Verifique corretamente os campos")
-        else:
-            self.lblResultado.setText("Campos de senha não conferem")
+                    self.lblResultado.setText("Senhas não conferem")
+                
+        except:
+                self.lblResultado.setText("Erro de Banco")
     
     def abrirMsgBox(self):
              top = Tk()  
@@ -466,7 +485,7 @@ class Ui_janelaAtualizarMoradores(object):
 
     def retranslateUi(self, janelaAtualizarMoradores):
         _translate = QtCore.QCoreApplication.translate
-        janelaAtualizarMoradores.setWindowTitle(_translate("janelaAtualizarMoradores", "PrimeCondo"))
+        janelaAtualizarMoradores.setWindowTitle(_translate("janelaAtualizarMoradores", "Prime Condo"))
         self.lblNomeCompleto.setText(_translate("janelaAtualizarMoradores", "&Nome Completo:"))
         self.lblCpf.setText(_translate("janelaAtualizarMoradores", "&CPF:"))
         self.lblEmail.setText(_translate("janelaAtualizarMoradores", "&E-mail:"))

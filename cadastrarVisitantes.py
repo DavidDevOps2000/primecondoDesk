@@ -25,9 +25,6 @@ class Ui_janelaCadastrarVisitantes(object):
         self.btnLimpar.clicked.connect(self.inputNumeroVaga.clear)
         self.lblResultadoStatus.setText("Ativo/ Desativado")
         self.lblResultado.setText("")
-
-
-
         self.btnLimpar.clicked.connect(self.blockCampo)
 
     def consulMorador(self):
@@ -85,7 +82,7 @@ class Ui_janelaCadastrarVisitantes(object):
         self.vlrDias     = self.comboBoxNumDias.currentText()
 
         try:
-                if self.visiNome != '' and self.rgVisi != '':
+                if self.visiNome != '':
 
                         self.result = self.cmdBancoVisi.buscarIdMoradorToVisi(self.cpfMorador)
             
@@ -387,7 +384,7 @@ class Ui_janelaCadastrarVisitantes(object):
 
     def retranslateUi(self, janelaCadastrarVisitantes):
         _translate = QtCore.QCoreApplication.translate
-        janelaCadastrarVisitantes.setWindowTitle(_translate("janelaCadastrarVisitantes", "PrimeCondo"))
+        janelaCadastrarVisitantes.setWindowTitle(_translate("janelaCadastrarVisitantes", "Prime Condo"))
         self.lblNomeCompleto.setText(_translate("janelaCadastrarVisitantes", "Visitar quem ? (Nome morador)"))
         self.lblCpf.setText(_translate("janelaCadastrarVisitantes", "&CPF:"))
         self.comboBoxNumDias.setItemText(0, _translate("janelaCadastrarVisitantes", "Sem limite"))

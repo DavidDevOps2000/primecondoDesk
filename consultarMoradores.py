@@ -13,12 +13,19 @@ class Ui_janelaConsultarMoradores(object):
         self.db = "bd_cond"
         self.port = 3306
         self.con = MySQLdb.connect(self.host, self.user, self.password, self.db, self.port)
- 
+
+    def mudarTipoCampo(self):
+        self.inputConsultarMoradores.setInputMask("000.000.000-00")
+        suaEscolhaTipo = self.campoPesqVisi(self.comboBoxConsultarMoradores.currentText())
+
+        if suaEscolhaTipo == "CPF (com pontos e hífen)":
+            self.inputConsultarMoradores.setInputMask("000.000.000-00")
+
+        else:
+            self.inputConsultarMoradores.setInputMask("")
 
     def campoPesqVisi(self, suaBusca):
-        
         if suaBusca == "Nome do Morador":
-
             suaBusca="nome_pessoa"
             return suaBusca
 
@@ -26,7 +33,6 @@ class Ui_janelaConsultarMoradores(object):
             suaBusca="cpf_pessoa"
             return suaBusca
             
-
     def funCarregarMorador(self):
 
         suaEscolha = self.campoPesqVisi(self.comboBoxConsultarMoradores.currentText())
@@ -51,7 +57,6 @@ class Ui_janelaConsultarMoradores(object):
                             self.tblConsultarMoradores.setItem(linhas_numeros, numero_coluna, QtWidgets.QTableWidgetItem(str(data)))
 
         self.con.close()
-
 
     def setupUi(self, janelaConsultarMoradores):
         janelaConsultarMoradores.setObjectName("janelaConsultarMoradores")
@@ -195,6 +200,9 @@ class Ui_janelaConsultarMoradores(object):
         self.retranslateUi(janelaConsultarMoradores)
         self.btnLimpar.clicked.connect(self.tblConsultarMoradores.clearContents)
         self.btnLimpar.clicked.connect(self.inputConsultarMoradores.clear)
+
+        #self.comboBoxConsultarMoradores.activated['CPF (com pontos e hífen)'].connect(self.mudarTipoCampo)
+
         QtCore.QMetaObject.connectSlotsByName(janelaConsultarMoradores)
         janelaConsultarMoradores.setTabOrder(self.comboBoxConsultarMoradores, self.inputConsultarMoradores)
         janelaConsultarMoradores.setTabOrder(self.inputConsultarMoradores, self.tblConsultarMoradores)
@@ -205,7 +213,7 @@ class Ui_janelaConsultarMoradores(object):
         janelaConsultarMoradores.setWindowTitle(_translate("janelaConsultarMoradores", "Prime Condo"))
         self.comboBoxConsultarMoradores.setItemText(0, _translate("janelaConsultarMoradores", "Nome do Morador"))
         self.comboBoxConsultarMoradores.setItemText(1, _translate("janelaConsultarMoradores", "CPF (com pontos e hífen)"))
-        self.label.setText(_translate("janelaConsultarMoradores", "Digite o nome da morador(a) ou os dados referente à pesquisa:"))
+        self.label.setText(_translate("janelaConsultarMoradores", "Digite o nome completo do(a) morador(a) ou os dados referente à pesquisa: "))
         self.lblTituloConsultarVisitantes.setText(_translate("janelaConsultarMoradores", "Consultar Moradores"))
         self.btnLimpar.setText(_translate("janelaConsultarMoradores", "LIMPAR"))
         self.tblConsultarMoradores.setSortingEnabled(False)

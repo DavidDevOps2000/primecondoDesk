@@ -22,7 +22,7 @@ class Ui_janelaConsultarVisitantes(object):
             suaBusca="nome_pessoa"
             return suaBusca
 
-        elif suaBusca == "RG da Visita":
+        elif suaBusca == "RG Visita (Só Numeros)":
 
             suaBusca="rg_visi"
             return suaBusca
@@ -39,7 +39,7 @@ class Ui_janelaConsultarVisitantes(object):
         self.conecta()
         self.sqlCursor = self.con.cursor()
         query = "SELECT nome_visi, CASE autorizado WHEN FALSE THEN 'NÃO' ELSE 'SIM' END autorizado,"\
-                "num_ap, bloco_ap, CASE data_fim_visi WHEN !NULL THEN data_fim_visi ELSE 'Sem limite' END data_fim_visi, rg_visi, dt_registro_visi FROM visi_apt JOIN agen_visi ON visi_apt.id_visi"\
+                "num_ap, bloco_ap, CASE WHEN data_fim_visi IS NULL THEN 'Sem limite' ELSE data_fim_visi END data_fim_visi, rg_visi, dt_registro_visi FROM visi_apt JOIN agen_visi ON visi_apt.id_visi"\
                 "= agen_visi.visi_apt_id_visi JOIN tbl_pessoa ON agen_visi.tbl_pessoa_id_pessoa = tbl_pessoa.id_pessoa "\
                 "JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 "\
                 "WHERE %s = '%s';" % (suaEscolha, vlrPesquisa)
@@ -214,13 +214,15 @@ class Ui_janelaConsultarVisitantes(object):
     def retranslateUi(self, janelaConsultarVisitantes):
         _translate = QtCore.QCoreApplication.translate
         janelaConsultarVisitantes.setWindowTitle(_translate("janelaConsultarVisitantes", "Prime Condo"))
-        self.comboBoxConsultarVisitantes.setItemText(0, _translate("janelaConsultarVisitantes", "Nome do Morador"))
-        self.comboBoxConsultarVisitantes.setItemText(1, _translate("janelaConsultarVisitantes", "RG Visita (Só Numeros)"))
-        self.comboBoxConsultarVisitantes.setItemText(2, _translate("janelaConsultarVisitantes", "Nome da Visita"))
+        self.comboBoxConsultarVisitantes.setItemText(0, _translate("janelaConsultarVisitantes", "Nome da Visita"))
+        self.comboBoxConsultarVisitantes.setItemText(1, _translate("janelaConsultarVisitantes", "Nome do Morador"))
+        self.comboBoxConsultarVisitantes.setItemText(2, _translate("janelaConsultarVisitantes", "RG Visita (Só Numeros)"))
+        #self.comboBoxConsultarVisitantes.setItemText(2, _translate("janelaConsultarVisitantes", "Nome da Visita"))
         self.label.setText(_translate("janelaConsultarVisitantes", "Escolha uma opção de consulta e digite o nome:"))
         self.lblTituloConsultarVisitantes.setText(_translate("janelaConsultarVisitantes", "Consultar Visitantes"))
         self.btnLimpar.setText(_translate("janelaConsultarVisitantes", "LIMPAR"))
         self.tblConsultarVisitantes.setSortingEnabled(False)
+
         item = self.tblConsultarVisitantes.verticalHeaderItem(0)
         item.setText(_translate("janelaConsultarVisitantes", "1"))
         item = self.tblConsultarVisitantes.verticalHeaderItem(1)
