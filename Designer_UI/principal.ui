@@ -52,6 +52,31 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>50</y>
+      <width>621</width>
+      <height>481</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::RichText</enum>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../../../../wamp64/www/primecondo/assets/img/imgLoginCenter.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -59,7 +84,7 @@
      <x>0</x>
      <y>0</y>
      <width>965</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -94,7 +119,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="btnActCadastro">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/identity_card.png</normaloff>:/janelaPrincipal/icons/identity_card.png</iconset>
    </property>
    <property name="text">
@@ -103,7 +128,7 @@
   </action>
   <action name="btnActAtualizarMoradores">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/refresh-user.png</normaloff>:/janelaPrincipal/icons/refresh-user.png</iconset>
    </property>
    <property name="text">
@@ -112,7 +137,7 @@
   </action>
   <action name="btnActAtivarDesativarMoradores">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/delete-user.png</normaloff>:/janelaPrincipal/icons/delete-user.png</iconset>
    </property>
    <property name="text">
@@ -124,7 +149,7 @@
   </action>
   <action name="btnActNovoVisitante">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/add-visitors.png</normaloff>:/janelaPrincipal/icons/add-visitors.png</iconset>
    </property>
    <property name="text">
@@ -133,7 +158,7 @@
   </action>
   <action name="btnActSair">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/logout-account.png</normaloff>:/janelaPrincipal/icons/logout-account.png</iconset>
    </property>
    <property name="text">
@@ -142,7 +167,7 @@
   </action>
   <action name="btnActConsultarVisitantes">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/cons-visitors.png</normaloff>:/janelaPrincipal/icons/cons-visitors.png</iconset>
    </property>
    <property name="text">
@@ -151,7 +176,7 @@
   </action>
   <action name="btnActAtivarDesativarVisitantes">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/upd-visitors.png</normaloff>:/janelaPrincipal/icons/upd-visitors.png</iconset>
    </property>
    <property name="text">
@@ -160,7 +185,7 @@
   </action>
   <action name="btnActCadastrarMoradores">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/add-user.png</normaloff>:/janelaPrincipal/icons/add-user.png</iconset>
    </property>
    <property name="text">
@@ -172,7 +197,7 @@
   </action>
   <action name="btnActConsultarMoradores">
    <property name="icon">
-    <iconset resource="janelaPrincipal.qrc">
+    <iconset>
      <normaloff>:/janelaPrincipal/icons/cancel-user.png</normaloff>:/janelaPrincipal/icons/cancel-user.png</iconset>
    </property>
    <property name="text">
@@ -183,8 +208,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="janelaPrincipal.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

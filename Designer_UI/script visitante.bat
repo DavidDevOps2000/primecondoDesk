@@ -1,1 +1,1 @@
-pyuic5 -x cadastrarVisitante.ui -o cadastrarVisitante.py
+pyuic5 -x principal.ui -o aqui.py

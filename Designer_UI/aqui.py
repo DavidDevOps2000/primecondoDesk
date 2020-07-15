@@ -1,4 +1,15 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'principal.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.0
+#
+# WARNING! All changes made in this file will be lost!
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+
 class Ui_Principal(object):
     def setupUi(self, Principal):
         Principal.setObjectName("Principal")
@@ -6,7 +17,7 @@ class Ui_Principal(object):
         Principal.setMinimumSize(QtCore.QSize(965, 708))
         Principal.setMaximumSize(QtCore.QSize(965, 708))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("img/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons/img_center.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Principal.setWindowIcon(icon)
         Principal.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(Principal)
@@ -16,24 +27,22 @@ class Ui_Principal(object):
         self.label.setGeometry(QtCore.QRect(0, -10, 971, 671))
         self.label.setStyleSheet("")
         self.label.setObjectName("label")
-        Principal.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(Principal)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 965, 26))
-        self.menubar.setObjectName("menubar")
-        self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
-        self.menuEdit = QtWidgets.QMenu(self.menubar)
-        self.menuEdit.setObjectName("menuEdit")
-
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(190, 50, 621, 481))
         self.label_2.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label_2.setText("")
         self.label_2.setTextFormat(QtCore.Qt.RichText)
-        self.label_2.setPixmap(QtGui.QPixmap("img/imgLoginCenter.png"))
+        self.label_2.setPixmap(QtGui.QPixmap("../../../../../wamp64/www/primecondo/assets/img/imgLoginCenter.png"))
         self.label_2.setScaledContents(True)
         self.label_2.setObjectName("label_2")
-        
+        Principal.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(Principal)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 965, 21))
+        self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+        self.menuEdit = QtWidgets.QMenu(self.menubar)
+        self.menuEdit.setObjectName("menuEdit")
         self.menuCadastro_de_Visitantes = QtWidgets.QMenu(self.menubar)
         self.menuCadastro_de_Visitantes.setObjectName("menuCadastro_de_Visitantes")
         Principal.setMenuBar(self.menubar)
@@ -70,10 +79,11 @@ class Ui_Principal(object):
         icon6.addPixmap(QtGui.QPixmap(":/janelaPrincipal/icons/cons-visitors.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnActConsultarVisitantes.setIcon(icon6)
         self.btnActConsultarVisitantes.setObjectName("btnActConsultarVisitantes")
-
+        self.btnActAtivarDesativarVisitantes = QtWidgets.QAction(Principal)
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/janelaPrincipal/icons/upd-visitors.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        
+        self.btnActAtivarDesativarVisitantes.setIcon(icon7)
+        self.btnActAtivarDesativarVisitantes.setObjectName("btnActAtivarDesativarVisitantes")
         self.btnActCadastrarMoradores = QtWidgets.QAction(Principal)
         icon8 = QtGui.QIcon()
         icon8.addPixmap(QtGui.QPixmap(":/janelaPrincipal/icons/add-user.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -90,11 +100,14 @@ class Ui_Principal(object):
         self.menuEdit.addAction(self.btnActCadastrarMoradores)
         self.menuEdit.addAction(self.btnActConsultarMoradores)
         self.menuEdit.addAction(self.btnActAtualizarMoradores)
+        self.menuEdit.addAction(self.btnActAtivarDesativarMoradores)
         self.menuCadastro_de_Visitantes.addAction(self.btnActNovoVisitante)
         self.menuCadastro_de_Visitantes.addAction(self.btnActConsultarVisitantes)
+        self.menuCadastro_de_Visitantes.addAction(self.btnActAtivarDesativarVisitantes)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuCadastro_de_Visitantes.menuAction())
+
         self.retranslateUi(Principal)
         QtCore.QMetaObject.connectSlotsByName(Principal)
 
@@ -107,14 +120,16 @@ class Ui_Principal(object):
         self.menuCadastro_de_Visitantes.setTitle(_translate("Principal", "VISITANTES"))
         self.btnActCadastro.setText(_translate("Principal", "Cadastro"))
         self.btnActAtualizarMoradores.setText(_translate("Principal", "Atualizar Moradores"))
+        self.btnActAtivarDesativarMoradores.setText(_translate("Principal", "Desativar / Ativar - Moradores"))
+        self.btnActAtivarDesativarMoradores.setToolTip(_translate("Principal", "Ativar / Desativar - Moradores"))
         self.btnActNovoVisitante.setText(_translate("Principal", "Novo Visitante"))
         self.btnActSair.setText(_translate("Principal", "Sair"))
         self.btnActConsultarVisitantes.setText(_translate("Principal", "Consultar Visitantes"))
+        self.btnActAtivarDesativarVisitantes.setText(_translate("Principal", "Desativar / Ativar - Visitantes"))
         self.btnActCadastrarMoradores.setText(_translate("Principal", "Cadastrar Moradores"))
         self.btnActCadastrarMoradores.setToolTip(_translate("Principal", "Cadastrar Moradores"))
         self.btnActConsultarMoradores.setText(_translate("Principal", "Consultar Moradores"))
         self.btnActConsultarMoradores.setToolTip(_translate("Principal", "Consultar Moradores"))
-import janelaPrincipal
 
 
 if __name__ == "__main__":

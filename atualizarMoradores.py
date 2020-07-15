@@ -105,25 +105,29 @@ class Ui_janelaAtualizarMoradores(object):
                     print(self.TemVeiculo)
                     if self.TemVeiculo != 'None':        
                             self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
-                            print("Aqui 1")
+                            
                             if not self.cmdUpdate:
                                     self.lblResultado.setText("Não foi Atualizado(a)")
                             else:
                                     self.lblResultado.setText("Atualizado com Sucesso")
-                                    print("Aqui 2")
                     else:
                         self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
-                        print("Aqui 2.0")
-                        result = self.cmdUpdate.buscarPessoaMoradia(newNomeMorador, newDataNasc)# Erro aqui
-                        print("Aqui 3")
+
+                        result = self.cmdUpdate.buscarPessoaMoradia(self.nomeMoradorAntigo, self.cpfMorador)# Erro aqui
+
                         if not self.cmdUpdate:
                             self.lblResultado.setText("Não foi Atualizado(a)")
 
                         else:
-                            print("Aqui 4")
                             IDmoradia = int(result[0][1])
-                            self.setsVei = ("'%s','%s','%s','%s', %s" % (newTipoVei, newModelo, newCorVei, newPlaca, IDmoradia))
-                            self.lblResultado.setText("Atualizado com Sucesso")
+                            self.setsVei = ("'%s','%s','%s','%s', %s" % (newCorVei, newTipoVei, newModelo, newPlaca, IDmoradia))
+                            self.cmdUpdate.insertVeiculo(self.setsVei)
+
+                            if not self.cmdUpdate:
+                               self.lblResultado.setText("Erro ao colocar veiculo")
+                            
+                            else:
+                                self.lblResultado.setText("Atualizado com Sucesso")
                 else:
                     self.lblResultado.setText("Senhas não conferem")
                 

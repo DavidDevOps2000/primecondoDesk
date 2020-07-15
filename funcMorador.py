@@ -109,12 +109,12 @@ class FuncoesMorador:
         return result
 
 
-    def buscarPessoaMoradia(self, nomePessoa, dataNasc):
+    def buscarPessoaMoradia(self, nomePessoa, cpfMorador): # Aqui 
         self.conecta()
         cursorSql = self.con.cursor()
         querySelectId = "SELECT id_pessoa, id_moradia FROM tbl_pessoa "\
                         "LEFT JOIN tbl_moradia ON tbl_pessoa.id_pessoa = tbl_moradia.tbl_pessoa_id_pessoa1 "\
-                        "WHERE nome_pessoa=='%s' data_nascimento='%s';" % (nomePessoa, dataNasc)
+                        "WHERE nome_pessoa='%s' AND cpf_pessoa='%s';" % (nomePessoa, cpfMorador)
         cursorSql.execute(querySelectId)
         print(querySelectId)
         result = cursorSql.fetchall()
