@@ -103,7 +103,8 @@ class Ui_janelaAtualizarMoradores(object):
         try:
                 if self.vlrSenha == self.vlrConfirmarSenha: #Se as senhas forem as mesmas
                     print(self.TemVeiculo)
-                    if self.TemVeiculo != 'None':        
+                    if self.TemVeiculo != 'None':
+
                             self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
                             
                             if not self.cmdUpdate:
@@ -112,7 +113,7 @@ class Ui_janelaAtualizarMoradores(object):
                                     self.lblResultado.setText("Atualizado com Sucesso")
                     else:
                         self.cmdUpdate.atualizarMoradores(newDataNasc, newNumApt, newBloco, newTipoMorador, newTel, newEmail, newApelido, newSenha, newVaga, newStatus, newTipoVei, newModelo, newCorVei, newPlaca, newNomeMorador, self.nomeMoradorAntigo, self.cpfMorador)
-
+                        print(self.TemVeiculo)
                         result = self.cmdUpdate.buscarPessoaMoradia(self.nomeMoradorAntigo, self.cpfMorador)# Erro aqui
 
                         if not self.cmdUpdate:
